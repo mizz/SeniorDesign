@@ -65,7 +65,7 @@ public class ListingActivity extends BaseActivity{
     Gson gson;
     private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
     private TextView rTitle, rReviewer, rComment, oName;
-    private Button readMore,startChat;
+    private Button readMore,startChat,ownerReviewB;
     private RatingBar itemRating, ownerRating;
     //private ProgressDialog progress;
     private Handler mHandler = new Handler();
@@ -123,9 +123,11 @@ public class ListingActivity extends BaseActivity{
         rComment = (TextView)findViewById(R.id.rComment);
         readMore = (Button)findViewById(R.id.readMoreButton);
         startChat = (Button) findViewById(R.id.contact_button);
+        ownerReviewB = (Button) findViewById(R.id.ownerReview);
         itemRating = (RatingBar) findViewById(R.id.rRating);
         ownerRating = (RatingBar) findViewById(R.id.ownerRating);
         myPhoto = (ImageView) findViewById(R.id.photo);
+
 
         //progress = ProgressDialog.show(this, "dialog title","dialog message", true);
 
@@ -241,6 +243,16 @@ public class ListingActivity extends BaseActivity{
                 //myFancyMethod(v);
                 Intent myIntent = new Intent(ListingActivity.this, ShowItemReviewsActivity.class);
                 myIntent.putExtra("ITEM_ID", rList.getItem());
+                ListingActivity.this.startActivity(myIntent);
+            }
+        });
+
+        ownerReviewB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(ListingActivity.this, ShowOwnerReviewsActivity.class);
+                myIntent.putExtra("OWNER_ID", rList.getOwner());
                 ListingActivity.this.startActivity(myIntent);
             }
         });

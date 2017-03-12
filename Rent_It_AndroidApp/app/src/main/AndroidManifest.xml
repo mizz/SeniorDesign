@@ -28,6 +28,7 @@
         <activity android:name=".ListingActivity"></activity>
         <activity android:name=".EditItemActivity"></activity>
         <activity android:name=".ShowItemReviewsActivity"></activity>
+        <activity android:name=".ShowOwnerReviewsActivity"></activity>
         <activity android:name=".testing.NotificationActivity">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

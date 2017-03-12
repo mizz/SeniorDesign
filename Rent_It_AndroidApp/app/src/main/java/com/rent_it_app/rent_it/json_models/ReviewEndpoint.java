@@ -28,6 +28,10 @@ public interface ReviewEndpoint {
     @GET("api/reviews/item/{item}")
     Call<ArrayList<Review>> getReviewsByItemId(@Path("item") String item);
 
+    @GET("api/reviews/owner/{owner}")
+    Call<ArrayList<Review>> getReviewsByOwnerId(@Path("owner") String owner);
+
+
     @POST("api/reviews")
     Call<Review> addReview(@Body Review review);
 

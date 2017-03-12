@@ -189,6 +189,16 @@ app.get('/api/reviews/item/:item',function(req,res){
 	})
 });
 
+//get review by owner id
+app.get('/api/reviews/owner/:owner',function(req,res){
+	Review.getReviewsByOwnerId(req.params.owner,function(err,reviews){
+		if(err){
+			throw err;
+		}
+		res.json(reviews);
+	})
+});
+
 app.listen(process.env.PORT_NO);
 console.log('Running on port 3000...');
 

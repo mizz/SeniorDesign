@@ -26,6 +26,9 @@ public interface ItemEndpoint {
     @GET("api/items/category/{category}")
     Call<ArrayList<Item>> getItemsByCategory(@Path("category") String category);
 
+    @GET("api/items/user/{uid}")
+    Call<ArrayList<Item>> getItemsByUid(@Path("uid") String uid);
+
     /*@GET("group/{id}/users")
     Call<List<User>> groupList(@Path("id") int groupId, @Query("sort") String sort);*/
 

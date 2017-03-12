@@ -1,6 +1,8 @@
 package com.rent_it_app.rent_it;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -9,10 +11,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.util.StringUtils;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
@@ -20,6 +32,8 @@ import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
 import com.rent_it_app.rent_it.views.AvailabeItemFragment;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +56,14 @@ public class EditItemActivity extends BaseActivity{
     private EditText txtTitle, txtDescription, txtCondition, txtZipcode;
     private EditText txtTags, txtValue, txtRate, txtCity;
     private Spinner spnCategory;
+    private ImageView preview;
     private List<String> arrayTags;
+
+    private CognitoCachingCredentialsProvider credentialsProvider;
+    private CognitoSyncManager syncClient;
+    private AmazonS3 s3;
+    private TransferUtility transferUtility;
+    private File imageFile;
     //private String[] arrayTag;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +76,21 @@ public class EditItemActivity extends BaseActivity{
 
         myItem = (Item) getIntent().getSerializableExtra(Config.EXTRA_DATA);
 
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),  // getApplicationContext(),
+                Constants.COGNITO_POOL_ID, // Identity Pool ID
+                Regions.US_WEST_2 // Region
+        );
+
+        // Initialize the Cognito Sync client
+        syncClient = new CognitoSyncManager(
+                getApplicationContext(),
+                Regions.US_WEST_2, // Region
+                credentialsProvider);
+
+        s3 = new AmazonS3Client(credentialsProvider);
+        transferUtility = new TransferUtility(s3, getApplicationContext());
+
         //Define
         spnCategory = (Spinner)findViewById(R.id.spinner1);
         txtTitle = (EditText)findViewById(R.id.title);
@@ -65,6 +101,7 @@ public class EditItemActivity extends BaseActivity{
         txtTags = (EditText)findViewById(R.id.tags);
         txtRate = (EditText)findViewById(R.id.rate);
         txtValue = (EditText)findViewById(R.id.value);
+        preview = (ImageView)findViewById(R.id.preview);
 
         //populate fields
         txtTitle.setText(myItem.getTitle());
@@ -93,6 +130,34 @@ public class EditItemActivity extends BaseActivity{
         if (!compareValue.equals(null)) {
             int spinnerPosition = adapter.getPosition(compareValue);
             spnCategory.setSelection(spinnerPosition);
+        }
+
+        File outputDir = getApplicationContext().getCacheDir(); // context being the Activity pointer
+        try {
+            imageFile = File.createTempFile(myItem.getImage(), "", outputDir);
+            imageFile.deleteOnExit();
+            TransferObserver transferObserver =
+                    transferUtility.download(Constants.BUCKET_NAME, myItem.getImage(), imageFile);
+            transferObserver.setTransferListener(new TransferListener() {
+                @Override
+                public void onStateChanged(int id, TransferState state) {
+                    if(state == TransferState.COMPLETED) {
+                        //myPhoto.setImageResource(R.drawable.bg);
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                        preview.setImageBitmap(Bitmap.createScaledBitmap(myBitmap, 900, 600, false));
+                    }
+                }
+
+                public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                    // Do something in the callback.
+                }
+
+                public void onError(int id, Exception e) {
+                    // Do something in the callback.
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         //for updating data
