@@ -248,7 +248,7 @@
                     android:layout_weight=".80">
 
                     <TextView
-                        android:id="@+id/label12"
+                        android:id="@+id/ownerName"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -262,7 +262,7 @@
                         android:layout_width="match_parent">
 
                         <RatingBar
-                            android:id="@+id/ratingBar"
+                            android:id="@+id/ownerRating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:numStars="5"

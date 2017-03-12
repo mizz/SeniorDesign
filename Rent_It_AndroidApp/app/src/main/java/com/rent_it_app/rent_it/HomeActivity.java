@@ -155,6 +155,27 @@ public class HomeActivity extends BaseActivity
             startActivity(new Intent(this, SignInActivity.class));
         }
 
+        if(getIntent().hasExtra("fragment_name")){
+            Class fragmentClass = null;
+            Fragment fragment = null;
+
+            switch(getIntent().getStringExtra("fragment_name")){
+                case "ChatListFragment":
+                    fragmentClass = ChatListFragment.class;
+                    break;
+                default:
+                    break;
+            }
+
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_home, fragment).commit();
+        }
+
 
         /*mFirebaseInstance = FirebaseDatabase.getInstance();
         // get reference to 'users' node

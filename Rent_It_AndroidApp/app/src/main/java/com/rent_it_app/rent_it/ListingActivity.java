@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -63,10 +64,10 @@ public class ListingActivity extends BaseActivity{
     private Review rList;
     Gson gson;
     private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
-    private TextView rTitle, rReviewer, rComment;
+    private TextView rTitle, rReviewer, rComment, oName;
     private Button readMore,startChat;
-    private RatingBar itemRating;
-    private ProgressDialog progress;
+    private RatingBar itemRating, ownerRating;
+    //private ProgressDialog progress;
     private Handler mHandler = new Handler();
     private ImageView myPhoto;
 
@@ -118,11 +119,14 @@ public class ListingActivity extends BaseActivity{
         txtRate = (TextView)findViewById(R.id.rate);
         rTitle = (TextView)findViewById(R.id.rTitle);
         rReviewer = (TextView)findViewById(R.id.rReviewer);
+        oName = (TextView)findViewById(R.id.ownerName);
         rComment = (TextView)findViewById(R.id.rComment);
         readMore = (Button)findViewById(R.id.readMoreButton);
         startChat = (Button) findViewById(R.id.contact_button);
         itemRating = (RatingBar) findViewById(R.id.rRating);
+        ownerRating = (RatingBar) findViewById(R.id.ownerRating);
         myPhoto = (ImageView) findViewById(R.id.photo);
+
         //progress = ProgressDialog.show(this, "dialog title","dialog message", true);
 
         //progress.show();
@@ -131,6 +135,8 @@ public class ListingActivity extends BaseActivity{
         txtDescription.setText(myItem.getDescription());
         txtCity.setText("Location : " + myItem.getCity());
         txtCondition.setText("Condition : " + myItem.getCondition());
+        //oName.setText(myItem.getUid());
+        oName.setText("James L");
         txtRate.setText("$" + myItem.getRate() + " /day");
         //txtRate.setText("$" + String.format("%.2f", myItem.getRate()));
         File outputDir = getApplicationContext().getCacheDir(); // context being the Activity pointer
@@ -192,6 +198,7 @@ public class ListingActivity extends BaseActivity{
                 //Log.d("nullCheck",rList.toString());
                     rTitle.setText(rList.getTitle());
                     itemRating.setRating(rList.getItemRating());
+                    ownerRating.setRating(rList.getOwnerRating());
                     Log.d("getItemRating() ","" + rList.getItemRating());
                     //rReviewer.setText("by " + rList.getReviewer());
                     //till we create user model
@@ -249,8 +256,9 @@ public class ListingActivity extends BaseActivity{
                 defaultFirstMsg.setSender(myUser.getUid());
                 defaultFirstMsg.setReceiver(myItem.getUid());
                 defaultFirstMsg.setStatus(Chat.STATUS_SENDING);
-                String defaultMsg = "Hi " + myItem.getUid() + ","
-                                  + "I'm interested in renting your "
+                String defaultMsg = "Hi James L" +
+                        /*myItem.getUid()+ */
+                         ", I'm interested in renting your "
                                   + myItem.getTitle() + ".";
                 defaultFirstMsg.setMsg(defaultMsg);
 
