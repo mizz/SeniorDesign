@@ -89,12 +89,12 @@ app.get('/api/items',function(req,res){
 	});
 });
 //get item by id
-app.get('/api/items/:_id',function(req,res){
-	Item.getItemById(req.params._id,function(err,items){
+app.get('/api/item/:_id',function(req,res){
+	Item.getItemById(req.params._id,function(err,item){
 		if(err){
 			throw err;
 		}
-		res.json(items);
+		res.json(item);
 	})
 });
 //get item by category
@@ -125,6 +125,56 @@ app.post('/api/items',function(req,res){
 		res.json(item);
 	});
 });
+
+//update item
+/*app.put('/api/item/:_id',function(req,res){
+	var id = req.params._id;
+	var item = req.body;
+	Item.updateItem(id, item, {}, function(err,item){
+		if(err){
+			throw err;
+		}
+	});
+});*/
+
+/*app.put('/api/item/:_id',function(req,res){
+	var id = req.param.id;
+	Item.findOne({_id:id}, function(err,foundItem) {
+		if(err) {
+			console.log(err);
+			res.status(500).send();
+		} else {
+			if(!foundItem) {
+				res.status(404).send();
+			} else {
+				if(req.body.value) {
+					foundItem.value = req.body.value;
+				}
+
+				foundItem.save(function(err, updatedItem){
+					if(err) {
+						console.log(err);
+						res.status(500).send();
+					} else {
+						res.send(updatedItem);
+					}
+				});
+			}
+		}
+	});
+});*/
+app.put('/api/item/:_id',function(req,res){
+	var id = req.params._id;
+	var item = req.body;
+	Item.updateItem(id, item, {}, function(err,item){
+		if(err){
+			throw err;
+		}
+		res.json(item);
+	});
+});
+
+
 /*
 app.put('/api/books/:_id',function(req,res){
 	var id = req.params._id;

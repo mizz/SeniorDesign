@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -65,6 +66,7 @@ public class BrowseActivity extends BaseActivity{
     private CognitoCachingCredentialsProvider credentialsProvider;
     private CognitoSyncManager syncClient;
     private AmazonS3 s3;
+    private Handler mHandler = new Handler();
     private TransferUtility transferUtility;
     private File imageFile;
     private HashMap<Integer, Integer> percentageHash;
@@ -77,7 +79,7 @@ public class BrowseActivity extends BaseActivity{
         setContentView(R.layout.activity_browse);
 
         photoList = new ArrayList<>();
-        //final ProgressDialog dia = ProgressDialog.show(this, null, "Loading...");
+        final ProgressDialog dia = ProgressDialog.show(this, null, "Loading...");
 
         percentageHash = new HashMap<>();
         fileHash = new HashMap<>();
@@ -186,13 +188,21 @@ public class BrowseActivity extends BaseActivity{
                 });
 
                 Log.d("retrofit.call.enqueue", ""+statusCode);
-                //dia.dismiss();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        dia.dismiss();
+                    }
+                }, 1000);
             }
 
             @Override
             public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
                 Log.d("retrofit.call.enqueue", "failed");
-                //dia.dismiss();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        dia.dismiss();
+                    }
+                }, 1000);
             }
         });
     }

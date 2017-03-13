@@ -66,7 +66,7 @@ public class ListingActivity extends BaseActivity{
     private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
     private TextView rTitle, rReviewer, rComment, oName;
     private Button readMore,startChat,ownerReviewB;
-    private RatingBar itemRating, ownerRating;
+    private RatingBar itemRating, ownerRating, overallRating;
     //private ProgressDialog progress;
     private Handler mHandler = new Handler();
     private ImageView myPhoto;
@@ -125,6 +125,7 @@ public class ListingActivity extends BaseActivity{
         startChat = (Button) findViewById(R.id.contact_button);
         ownerReviewB = (Button) findViewById(R.id.ownerReview);
         itemRating = (RatingBar) findViewById(R.id.rRating);
+        overallRating = (RatingBar) findViewById(R.id.overallRating);
         ownerRating = (RatingBar) findViewById(R.id.ownerRating);
         myPhoto = (ImageView) findViewById(R.id.photo);
 
@@ -139,6 +140,7 @@ public class ListingActivity extends BaseActivity{
         txtCondition.setText("Condition : " + myItem.getCondition());
         //oName.setText(myItem.getUid());
         oName.setText("James L");
+        overallRating.setRating(5);
         txtRate.setText("$" + myItem.getRate() + " /day");
         //txtRate.setText("$" + String.format("%.2f", myItem.getRate()));
         File outputDir = getApplicationContext().getCacheDir(); // context being the Activity pointer
@@ -199,12 +201,14 @@ public class ListingActivity extends BaseActivity{
 
                 //Log.d("nullCheck",rList.toString());
                     rTitle.setText(rList.getTitle());
+                Log.d("getItemRating() ","" + rList.getItemRating());
+                Log.d("getOwnerRating() ","" + rList.getOwnerRating());
                     itemRating.setRating(rList.getItemRating());
                     ownerRating.setRating(rList.getOwnerRating());
-                    Log.d("getItemRating() ","" + rList.getItemRating());
+
                     //rReviewer.setText("by " + rList.getReviewer());
                     //till we create user model
-                    rReviewer.setText("by James L");
+                    rReviewer.setText("by Bonnie L");
                     String s = rList.getItemComment();
                     if (s.length() > 100) {
                         s = s.substring(0, 100) + "...";

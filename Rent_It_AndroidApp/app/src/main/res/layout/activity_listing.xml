@@ -54,7 +54,7 @@
                 android:layout_width="match_parent">
 
                 <RatingBar
-                    android:id="@+id/ratingBar6"
+                    android:id="@+id/overallRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
@@ -62,14 +62,14 @@
                     style="?android:attr/ratingBarStyleSmall"
                     android:stepSize="1.0"
                     android:isIndicator="true"
-                    android:rating="2.0" />
+                    android:rating="0" />
 
                 <TextView
                     android:id="@+id/label17"
                     android:textColor="@color/colorLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(3)"
+                    android:text="(2)"
                     android:textSize="13sp"
                     android:layout_marginLeft="10dp"/>
 
@@ -277,7 +277,7 @@
                             android:textColor="@color/colorLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="(3)"
+                            android:text="(2)"
                             android:textSize="13sp"
                             android:layout_marginLeft="10dp"/>
 

@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -28,6 +29,9 @@ public interface ItemEndpoint {
 
     @GET("api/items/user/{uid}")
     Call<ArrayList<Item>> getItemsByUid(@Path("uid") String uid);
+
+    @PUT("api/item/{id}")
+    Call<Item> updateItem(@Path("id") String id, @Body Item item);
 
     /*@GET("group/{id}/users")
     Call<List<User>> groupList(@Path("id") int groupId, @Query("sort") String sort);*/

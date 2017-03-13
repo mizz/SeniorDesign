@@ -84,6 +84,45 @@ module.exports.getItemsByUid = function(uid, callback){
 module.exports.addItem = function(item, callback){
 	Item.create(item, callback);
 }
+
+
+//Update Item
+/*module.exports.updateItem = function(id, item, options, callback){
+	var query = {_id: id};
+	// var update = {
+	// 	title: item.title,
+	// 	description: item.description,
+	// 	condition: item.condition,
+	// 	category: item.category,
+	// 	city: item.city,
+	// 	zipcode:item.zipcode,
+	// 	tags: item.tags,
+	// 	value: item.value,
+	// 	image: item.image,
+	// 	visible: item.visible
+	// }
+
+	Item.findOneAndUpdate(query, item, options, callback);
+}*/
+//Update Item
+module.exports.updateItem = function(id, item, options, callback){
+	var query = {_id: id};
+	var update = {
+		//category: item.category,
+		city:item.city,
+		condition:item.condition,
+		description:item.description,
+		//image:item.image,
+		title: item.title,
+		value: item.value,
+		zipcode:item.zipcode,
+		tags: item.tags,
+		visible: item.visible,
+		rate:item.rate
+	}
+	Item.findOneAndUpdate(query, update, options, callback);
+}
+
 /*
 //Update Book
 module.exports.updateBook = function(id, book, options, callback){
