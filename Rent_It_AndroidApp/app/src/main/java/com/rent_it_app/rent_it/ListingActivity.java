@@ -182,38 +182,34 @@ public class ListingActivity extends BaseActivity{
                 .build();
 
         reviewEndpoint = retrofit.create(ReviewEndpoint.class);
-        //rList = new ArrayList<Review>();
-
 
         Call<Review> call = reviewEndpoint.getLatestReviewByItemId(itemId);
-        //Call<ArrayList<Review>> call = reviewEndpoint.getLatestReviewByItemId(itemId);
+
         call.enqueue(new Callback<Review>() {
             @Override
             public void onResponse(Call<Review> call, Response<Review> response) {
+
                 int statusCode = response.code();
                 rList = response.body();
 
-                    Log.d("response ",""+response);
+                Log.d("response ",""+response);
                 Log.d("response.body() ",""+response.body());
                 Log.d("rList ",""+rList);
                 Log.d("response.raw()",""+response.raw());
                 Log.d("response.toString() ",""+response);
 
-                //Log.d("nullCheck",rList.toString());
-                    rTitle.setText(rList.getTitle());
+
+                rTitle.setText(rList.getTitle());
                 Log.d("getItemRating() ","" + rList.getItemRating());
                 Log.d("getOwnerRating() ","" + rList.getOwnerRating());
-                    itemRating.setRating(rList.getItemRating());
-                    ownerRating.setRating(rList.getOwnerRating());
-
-                    //rReviewer.setText("by " + rList.getReviewer());
-                    //till we create user model
-                    rReviewer.setText("by Bonnie L");
-                    String s = rList.getItemComment();
-                    if (s.length() > 100) {
-                        s = s.substring(0, 100) + "...";
-                    }
-                    rComment.setText(s);
+                itemRating.setRating(rList.getItemRating());
+                ownerRating.setRating(rList.getOwnerRating());
+                rReviewer.setText("by Bonnie L");
+                String s = rList.getItemComment();
+                if (s.length() > 100) {
+                    s = s.substring(0, 100) + "...";
+                }
+                rComment.setText(s);
                 Log.d("retrofit.call.enqueue", ""+statusCode);
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
@@ -224,6 +220,7 @@ public class ListingActivity extends BaseActivity{
 
             @Override
             public void onFailure(Call<Review> call, Throwable t) {
+
                 rComment.setText("No review available");
                 readMore.setVisibility(View.GONE);
                 rTitle.setVisibility(View.GONE);
