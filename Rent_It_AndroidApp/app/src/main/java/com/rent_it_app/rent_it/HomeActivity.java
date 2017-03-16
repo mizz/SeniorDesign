@@ -32,6 +32,7 @@ import com.rent_it_app.rent_it.json_models.Category;
 import com.rent_it_app.rent_it.json_models.CategoryEndpoint;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 import com.rent_it_app.rent_it.views.AvailabeItemFragment;
+import com.rent_it_app.rent_it.views.FileClaimFragment;
 import com.rent_it_app.rent_it.views.ListItemFragment;
 
 import java.util.ArrayList;
@@ -343,7 +344,7 @@ public class HomeActivity extends BaseActivity
             } else if (id == R.id.nav_account) {
                 //fragmentClass = ListItemFragment.class;
             } else if (id == R.id.nav_claim) {
-                //fragmentClass = ListItemFragment.class;
+                fragmentClass = FileClaimFragment.class;
             }
 
             try {
