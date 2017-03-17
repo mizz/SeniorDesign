@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 Category = require('./models/category');
 Item = require('./models/item');
 Review = require('./models/review');
+Claim = require('./models/claim');
 
 //Connect to Mongoose
 var connection_options = {
@@ -198,6 +199,27 @@ app.put('/api/books/:_id',function(req,res){
 		res.json(item);
 	});
 });*/
+//get all claims
+app.get('/api/claims',function(req,res){
+	console.log("reached the server");
+	Claim.getClaims(function(err, claims){
+		if(err){
+			throw err;
+		}
+		res.json(claims);
+	});
+});
+
+//add new claim
+app.post('/api/claims',function(req,res){
+	var claim = req.body;
+	Claim.addClaim(claim,function(err,claim){
+		if(err){
+			throw err;
+		}
+		res.json(claim);
+	});
+});
 
 //get all reviews
 app.get('/api/reviews',function(req,res){

@@ -3,6 +3,7 @@ package com.rent_it_app.rent_it.views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,8 +26,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +48,8 @@ import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.HomeActivity;
 import com.rent_it_app.rent_it.R;
+import com.rent_it_app.rent_it.json_models.Claim;
+import com.rent_it_app.rent_it.json_models.ClaimEndpoint;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
 import com.rent_it_app.rent_it.utils.Utility;
@@ -53,8 +59,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -68,23 +78,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class FileClaimFragment extends Fragment {
 
-    private Spinner spinner1;
+    private Spinner spinner1,spinner2;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
     private ImageView ivImage;
     private static final String TAG = HomeActivity.class.getName();
 
     Retrofit retrofit;
-    ItemEndpoint itemEndpoint;
-    private EditText txtTitle, txtDescription, txtCondition, txtZipcode;
-    private EditText txtTags, txtValue, txtRate, txtCity;
-    private String myTitle, myDescription, myCondition, myCategory, myZipcode, myTags, myValue, myRate, myCity;
+    ClaimEndpoint claimEndpoint;
+    private EditText txtIssue;
+    private EditText txtDate;
+    private String myIssue, myItem, myReason, mRole, myRental, mDate;
     private TextView myStatusText;
     private FirebaseAuth mAuth;
+    private RadioGroup rg;
     private String userId;
+    private int mYear, mMonth, mDay, mHour, mMinute, myRole;
+    Button btnDatePicker;
     Gson gson;
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
+    Calendar myCalendar = Calendar.getInstance();
 
     File photo_destination;
     String imgS3Name;
@@ -98,30 +112,23 @@ public class FileClaimFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_list_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_file_claim, container, false);
         //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("FILE CLAIM");
 
-        /*retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.REST_API_BASE_URL))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();*/
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.REST_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        itemEndpoint = retrofit.create(ItemEndpoint.class);
+        claimEndpoint = retrofit.create(ClaimEndpoint.class);
 
         gson = new Gson();
 
         // Initialize the Amazon Cognito credentials provider
-        /*credentialsProvider = new CognitoCachingCredentialsProvider(
-                getContext(),  // getApplicationContext(),
-                getString(R.string.COGNITO_POOL_ID), // Identity Pool ID
-                Regions.US_WEST_2 // Region
-        );*/
+
         credentialsProvider = new CognitoCachingCredentialsProvider(
                 getContext(),  // getApplicationContext(),
                 Constants.COGNITO_POOL_ID, // Identity Pool ID
@@ -136,226 +143,113 @@ public class FileClaimFragment extends Fragment {
 
         //Define
         spinner1 = (Spinner) view.findViewById(R.id.spinner1);
-        txtTitle = (EditText)view.findViewById(R.id.title);
-        txtDescription = (EditText)view.findViewById(R.id.description);
-        txtCondition = (EditText)view.findViewById(R.id.condition);
-        txtZipcode = (EditText)view.findViewById(R.id.zipcode);
-        txtCity = (EditText)view.findViewById(R.id.city);
-        txtTags = (EditText)view.findViewById(R.id.tags);
-        txtValue = (EditText)view.findViewById(R.id.value);
-        //edit.setFilters(new InputFilter[] { filter });
-        txtValue.setFilters(new InputFilter[] {
-                //https://gist.github.com/gaara87/3607765
-                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
-                    int beforeDecimal = 5, afterDecimal = 2;
+        spinner2 = (Spinner) view.findViewById(R.id.spinner2);
+        txtIssue = (EditText)view.findViewById(R.id.issue);
 
-                    @Override
-                    public CharSequence filter(CharSequence source, int start, int end,
-                                               Spanned dest, int dstart, int dend) {
-                        String temp = txtValue.getText() + source.toString();
+        txtDate = (EditText)view.findViewById(R.id.in_date);
+        btnDatePicker=(Button)view.findViewById(R.id.btn_date);
+        rg = (RadioGroup)view.findViewById(R.id.radio_item);
 
-                        if (temp.equals(".")) {
-                            return "0.";
-                        }
-                        else if (temp.toString().indexOf(".") == -1) {
-                            // no decimal point placed yet
-                            if (temp.length() > beforeDecimal) {
-                                return "";
+        btnDatePicker.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
                             }
-                        } else {
-                            temp = temp.substring(temp.indexOf(".") + 1);
-                            if (temp.length() > afterDecimal) {
-                                return "";
-                            }
-                        }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
 
-                        return super.filter(source, start, end, dest, dstart, dend);
-                    }
-
-                }
+            }
         });
 
-        txtRate = (EditText)view.findViewById(R.id.rate);
-        //txtRate.addTextChangedListener(new NumberTextWatcher(txtRate, "#,###"));
-        txtRate.setFilters(new InputFilter[] {
-                //https://gist.github.com/gaara87/3607765
-                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
-                    int beforeDecimal = 5, afterDecimal = 2;
-
-                    @Override
-                    public CharSequence filter(CharSequence source, int start, int end,
-                                               Spanned dest, int dstart, int dend) {
-                        String temp = txtRate.getText() + source.toString();
-
-                        if (temp.equals(".")) {
-                            return "0.";
-                        }
-                        else if (temp.toString().indexOf(".") == -1) {
-                            // no decimal point placed yet
-                            if (temp.length() > beforeDecimal) {
-                                return "";
-                            }
-                        } else {
-                            temp = temp.substring(temp.indexOf(".") + 1);
-                            if (temp.length() > afterDecimal) {
-                                return "";
-                            }
-                        }
-
-                        return super.filter(source, start, end, dest, dstart, dend);
-                    }
-
-                }
-
-        });
-
-
-
-        final Button listButton = (Button) view.findViewById(R.id.list_button);
-        //Spinner
+        final Button submitButton = (Button) view.findViewById(R.id.submit_button);
+        //Spinner - Item
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(), R.array.category_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
-        //spinner1.setPrompt("Choose a Category");
-
+        spinner2.setAdapter(adapter);
 
         //getuid
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid().toString();
         //Button - List
-        listButton.setOnClickListener(new OnClickListener()
+        submitButton.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                Log.d("radio",""+rg.getCheckedRadioButtonId());
                 //Define
-                myTitle = txtTitle.getText().toString();
-                myDescription = txtDescription.getText().toString();
-                myCondition = txtCondition.getText().toString();
-                myCategory = spinner1.getSelectedItem().toString();
-                myCity = txtCity.getText().toString();
-                myZipcode = txtZipcode.getText().toString();
-                myTags = txtTags.getText().toString();
-                myValue = txtValue.getText().toString();
-                myRate= txtRate.getText().toString();
+                myIssue = txtIssue.getText().toString();
+                mDate = txtDate.getText().toString();
+                myRental = "temp_rental_id";
+                myItem = spinner1.getSelectedItem().toString();
+                myReason = spinner2.getSelectedItem().toString();
 
-
+                switch (rg.getCheckedRadioButtonId()){
+                    case 2131755235:
+                        mRole = "Owner";
+                        break;
+                    case 2131755236:
+                        mRole = "Renter";
+                        break;
+                }
+                //String radioValue = ((RadioButton)view.findViewById(rg.getCheckedRadioButtonId())).getText().toString();
 
                 //Log.d("Category","category is: "+myCategory);
-                if (myTitle.trim().equals("")) {
-                    txtTitle.requestFocus();
-                    txtTitle.setError("Title is required!");
+                if (myIssue.trim().equals("")) {
+                    txtIssue.requestFocus();
+                    txtIssue.setError("Title is required!");
 
-                }else if (myDescription.trim().equals("")) {
-                    txtDescription.requestFocus();
-                    txtDescription.setError("Description is required!");
-
-                }else if (myCondition.trim().equals("")) {
-                    txtCondition.requestFocus();
-                    txtCondition.setError("Condition is required!");
-
-                }else if (myCity.trim().equals("")) {
-                    txtCity.requestFocus();
-                    txtCity.setError("City is required!");
-
-                }else if (myZipcode.trim().equals("")) {
-                    txtZipcode.requestFocus();
-                    txtZipcode.setError("Zipcode is required!");
-
-                }else if (myTags.trim().equals("")) {
-                    txtTags.requestFocus();
-                    txtTags.setError("Tag is required!");
-
-                }else if (myValue.trim().equals("")) {
-                    txtValue.requestFocus();
-                    txtValue.setError("Value is required!");
-
-                }else if (myRate.trim().equals("")) {
-                    txtRate.requestFocus();
-                    txtRate.setError("Rate is required!");
 
                 }else {
                     //Toast.makeText(getActivity(), spinner1.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
                     //post Item
                     imgS3Name = UUID.randomUUID().toString() + ".jpg";
 
-                    //category name to category id
-                    switch (myCategory) {
-                        case "Vehicles and Equipment":
-                            myCategory = "58bd9baca8f8e676ea599e78";
-                            break;
-                        case "Sports":
-                            myCategory = "58bd9dbba8f8e676ea599f1c";
-                            break;
-                        case "Outdoor Gear":
-                            myCategory = "58bd9e1fa8f8e676ea599f3c";
-                            break;
-                        case "Party Supplies":
-                            myCategory = "58bda523a8f8e676ea59a0b1";
-                            break;
-                        case "Garden":
-                            myCategory = "58bda53aa8f8e676ea59a0bc";
-                            break;
-                        case "Tools":
-                            myCategory = "58bda560a8f8e676ea59a0d2";
-                            break;
-                        case "Clothes":
-                            myCategory = "58bda5a6a8f8e676ea59a0ec";
-                            break;
-                        case "Electronics":
-                            myCategory = "58bda5c8a8f8e676ea59a0f9";
-                            break;
-                        case "Books":
-                            myCategory = "58bda5e5a8f8e676ea59a103";
-                            break;
-                        case "Miscellaneous":
-                            myCategory = "58bda65ba8f8e676ea59a128";
-                            break;
-                        case "Choose a Category":
-                            //Miscellaneous
-                            myCategory = "58bda65ba8f8e676ea59a128";
-                            break;
+                    if(mRole.equals("Owner")){
+                        myRole = 1;
+                    }else if(mRole.equals("Renter")){
+                        myRole = 2;
+                    }else{
+                        myRole = 0;
                     }
 
-                    Item listing_item = new Item();
-                    listing_item.setUid(userId);
-                    listing_item.setTitle(myTitle);
-                    listing_item.setDescription(myDescription);
-                    listing_item.setCondition(myCondition);
-                    listing_item.setCategory(myCategory);
-                    listing_item.setCity(myCity);
-                    listing_item.setZipcode(Integer.parseInt(myZipcode));
-                    List<String> tags = Arrays.asList(myTags.split("\\s*,\\s*"));
-                    listing_item.setTags(tags);
-                    listing_item.setValue(Double.parseDouble(myValue));
-                    listing_item.setRate(Double.parseDouble(myRate));
-                    listing_item.setVisible(true);
+                    Claim new_claim = new Claim();
+                    new_claim.setSubmittedBy(userId);
+                    new_claim.setIssue(myIssue);
+                    new_claim.setRole(myRole);
+                    new_claim.setItem(myItem);
+                    new_claim.setReason(myReason);
+                    new_claim.setMeetingDate(mDate);
+                    new_claim.setStatus(1);
+                    new_claim.setRentalId(myRental);
 
                     if (photo_destination != null) {
-                        listing_item.setImage(imgS3Name);
+                        new_claim.setImage(imgS3Name);
                     }
 
-                        /*if(listing_item != null)
-                        {
-                            Log.d("item.getUid:", listing_item.getUid());
-                            Log.d("item.getTitle:", listing_item.getTitle());
-                            Log.d("item.tags null?", "" + (listing_item.getTags() == null));
-                            Log.d("item.tags empty?", "" + listing_item.getTags().isEmpty());
-                            for(String t: listing_item.getTags())
-                            {
-                                Log.d("item.tag null?", "" + (t == null));
-                                Log.d("item.tag is: ", t);
-                            }
-                            String itemString = gson.toJson(listing_item);
-                            Log.d("gson'ed Item: ", itemString);
-                        }*/
 
-                    Call<Item> call = itemEndpoint.addItem(listing_item);
-                    call.enqueue(new Callback<Item>() {
+                    Call<Claim> call = claimEndpoint.addClaim(new_claim);
+                    call.enqueue(new Callback<Claim>() {
                         @Override
-                        public void onResponse(Call<Item> call, Response<Item> response) {
+                        public void onResponse(Call<Claim> call, Response<Claim> response) {
                             int statusCode = response.code();
 
                             Log.d("retrofit.call.enqueue", "" + statusCode);
@@ -365,22 +259,18 @@ public class FileClaimFragment extends Fragment {
                                 Log.d("photo_destination!=null", "" + (photo_destination != null));
                                 AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
                                 TransferUtility transferUtility = new TransferUtility(s3, getContext());
-                                    /*TransferObserver observer = transferUtility.upload(
-                                            getString(R.string.BUCKET_NAME),
-                                            imgS3Name,
-                                            photo_destination
-                                    );*/
+
                                 TransferObserver observer = transferUtility.upload(
                                         Constants.BUCKET_NAME,
                                         imgS3Name,
                                         photo_destination
                                 );
                             }
-                            Toast.makeText(getActivity(), "Sucessfully Created New Listing", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Sucessfully Submitted Claim", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
-                        public void onFailure(Call<Item> call, Throwable t) {
+                        public void onFailure(Call<Claim> call, Throwable t) {
                             Log.d("retrofit.call.enqueue", t.toString());
                         }
 
@@ -402,6 +292,8 @@ public class FileClaimFragment extends Fragment {
         ivImage = (ImageView) view.findViewById(R.id.preview);
         return view;
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
