@@ -89,6 +89,30 @@ app.get('/api/items',function(req,res){
 		res.json(items);
 	});
 });
+//get tags
+app.get('/api/item/tags', function(req, res) {
+    var array = [];
+	Item.getTags(function(err, items){
+		if(err){
+			throw err;
+		}
+		//console.log(items);
+		for(var i = 0, len = items.length; i < len; i++){
+			console.log(items[i]);
+		}
+		res.json(items);
+	});
+});
+//get item by tag
+app.get('/api/items/tag/:tag',function(req,res){
+	Item.getItemsByTag(req.params.tag,function(err,items){
+		if(err){
+			throw err;
+		}
+		res.json(items);
+	})
+});
+
 //get item by id
 app.get('/api/item/:_id',function(req,res){
 	Item.getItemById(req.params._id,function(err,item){
@@ -174,6 +198,8 @@ app.put('/api/item/:_id',function(req,res){
 		res.json(item);
 	});
 });
+
+
 
 
 /*

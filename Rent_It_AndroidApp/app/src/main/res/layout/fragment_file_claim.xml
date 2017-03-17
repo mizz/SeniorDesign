@@ -15,6 +15,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/tab_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="New"
+                android:background="@drawable/buttonshape1"
+                android:minHeight="30dp"
+                android:textColor="#FFFFFF"
+                android:layout_weight="1" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="History"
+                android:minHeight="30dp"
+                android:background="@drawable/buttonshape2"
+                android:textColor="#616161"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_question"
             android:textColor="@color/colorLabel"

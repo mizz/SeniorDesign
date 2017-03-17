@@ -59,6 +59,21 @@ module.exports.getItems = function(callback, limit){
 	Item.find(callback).limit(limit);
 }
 
+//get tags
+module.exports.getTags = function(callback, limit){
+	Item.find()
+		.limit(limit)
+		.select({ tags: 1, _id:0})
+		.exec(callback);
+		//.select({ tags: 1});
+}
+
+//get item by tag
+module.exports.getItemsByTag = function(tag, callback){
+	Item.find({tags: tag})
+		.exec(callback);
+}
+
 //Get Item by Id
 module.exports.getItemById = function(id, callback){
 	Item.findById(id, callback);
@@ -84,6 +99,7 @@ module.exports.getItemsByUid = function(uid, callback){
 module.exports.addItem = function(item, callback){
 	Item.create(item, callback);
 }
+
 
 
 //Update Item
