@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -46,8 +47,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
+import com.rent_it_app.rent_it.EditItemActivity;
 import com.rent_it_app.rent_it.HomeActivity;
 import com.rent_it_app.rent_it.R;
+import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Claim;
 import com.rent_it_app.rent_it.json_models.ClaimEndpoint;
 import com.rent_it_app.rent_it.json_models.Item;
@@ -61,6 +64,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -83,9 +87,10 @@ public class FileClaimFragment extends Fragment {
     private String userChoosenTask;
     private ImageView ivImage;
     private static final String TAG = HomeActivity.class.getName();
-
+    private ArrayList<Item> iList;
     Retrofit retrofit;
     ClaimEndpoint claimEndpoint;
+    ItemEndpoint itemEndpoint;
     private EditText txtIssue;
     private EditText txtDate;
     private String myIssue, myItem, myReason, mRole, myRental, mDate;
@@ -124,6 +129,7 @@ public class FileClaimFragment extends Fragment {
                 .build();
 
         claimEndpoint = retrofit.create(ClaimEndpoint.class);
+        itemEndpoint = retrofit.create(ItemEndpoint.class);
 
         gson = new Gson();
 
@@ -188,6 +194,23 @@ public class FileClaimFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid().toString();
+
+        Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(userId);
+        call.enqueue(new Callback<ArrayList<Item>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
+                int statusCode = response.code();
+                //List<Item> items = response.body();
+                iList = response.body();
+
+                Log.d("retrofit.call.enqueue", ""+statusCode);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+                Log.d("retrofit.call.enqueue", "failed");
+            }
+        });
         //Button - List
         submitButton.setOnClickListener(new OnClickListener()
         {

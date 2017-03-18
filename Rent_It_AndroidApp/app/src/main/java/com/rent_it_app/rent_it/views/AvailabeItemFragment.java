@@ -120,10 +120,7 @@ public class AvailabeItemFragment extends Fragment {
                 int statusCode = response.code();
                 //List<Item> items = response.body();
                 iList = response.body();
-                /*StringBuilder sb = new StringBuilder();
-                for (Item i: items){
-                    sb.append(i.getTitle() + ",");
-                }*/
+
 
                 //tv1.setText(sb.toString());
                 list.setAdapter(new ItemListAdapter());

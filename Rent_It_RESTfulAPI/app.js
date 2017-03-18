@@ -14,6 +14,7 @@ Category = require('./models/category');
 Item = require('./models/item');
 Review = require('./models/review');
 Claim = require('./models/claim');
+Tag = require('./models/tag');
 
 //Connect to Mongoose
 var connection_options = {
@@ -30,7 +31,7 @@ var db = mongoose.connection;
 	res.send('Hello World! Please user /api/books or /api/genres');
 });*/
 
-//get all
+//get all categories
 app.get('/api/categories',function(req,res){
 	console.log("reached the server");
 	Category.getCategories(function(err,categories){
@@ -41,6 +42,15 @@ app.get('/api/categories',function(req,res){
 	});
 });
 
+//get all tags
+app.get('/api/tags',function(req,res){
+	Tag.getTags(function(err,tags){
+		if(err){
+			throw err;
+		}
+		res.json(tags);
+	});
+});
 
 /*app.post('/api/categories',function(req,res){
 	var genre = req.body;

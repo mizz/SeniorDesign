@@ -36,6 +36,7 @@ import com.rent_it_app.rent_it.json_models.CategoryEndpoint;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 import com.rent_it_app.rent_it.views.AvailabeItemFragment;
 import com.rent_it_app.rent_it.views.FileClaimFragment;
+import com.rent_it_app.rent_it.views.KeywordsFragment;
 import com.rent_it_app.rent_it.views.ListItemFragment;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class HomeActivity extends BaseActivity
     Gson gson;
     public static int bgresource;
 
-
+    Fragment searchFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,34 +180,6 @@ public class HomeActivity extends BaseActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_home, fragment).commit();
         }
-
-
-        /*mFirebaseInstance = FirebaseDatabase.getInstance();
-        // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("Users");
-        // User data change listener
-        mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-
-                // Check for null
-                if (user == null) {
-                    Log.e(TAG, "User data is null!");
-                    return;
-                }
-
-                myStatusText.setText("Hello " + user.displayname
-                        + "your user id is" + userId);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read user", error.toException());
-            }
-        });*/
     }
 
     private class CategoryListAdapter extends BaseAdapter
@@ -302,7 +275,69 @@ public class HomeActivity extends BaseActivity
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
+        MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.action_search), new MenuItemCompat.OnActionExpandListener(){
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Log.d("OnActionExpandListener:", "Expand");
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Go back to previous activity / fragment here
+                if(searchFragment != null) {
+                    startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                    searchFragment = null;
+                }
+                Log.d("OnActionExpandListener:", "Collapse");
+                return true;
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty()){
+                    //Log.d("getActiveFragment:", getActiveFragment().getTag());
+
+
+                    Class fragmentClass = KeywordsFragment.class;
+
+                    Bundle searchBundle = new Bundle();
+                    searchBundle.putString("searchText", newText);
+                    try {
+                        searchFragment = (Fragment) fragmentClass.newInstance();
+                        searchFragment.setArguments(searchBundle);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    FragmentManager manager = getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.content_home, searchFragment, "KeywordsFragment").commit();
+
+                    // either start an activity / fragment or somehow
+                    // show a list
+                    Log.d("queryText: ", newText);
+                }
+
+                return false;
+            }
+        });
+
         return true;
+    }
+
+    public Fragment getActiveFragment() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+        String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return getSupportFragmentManager().findFragmentByTag(tag);
     }
 
     @Override
@@ -338,30 +373,50 @@ public class HomeActivity extends BaseActivity
             Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
         }else {
-
+            FragmentManager manager = getSupportFragmentManager();
             if (id == R.id.nav_list) {
                 fragmentClass = ListItemFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "ListItemFragment").commit();
             } else if (id == R.id.nav_trade) {
                 //fragmentClass = ListItemFragment.class;
             } else if (id == R.id.nav_rental) {
                 //fragmentClass = ListItemFragment.class;
             } else if (id == R.id.nav_inventory) {
                 fragmentClass = AvailabeItemFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "AvailableItemFragment").commit();
             } else if (id == R.id.nav_inbox) {
                 fragmentClass = ChatListFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "ChatListFragment").commit();
             } else if (id == R.id.nav_account) {
                 //fragmentClass = ListItemFragment.class;
             } else if (id == R.id.nav_claim) {
                 fragmentClass = FileClaimFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "FileClaimFragment").commit();
             }
 
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_home, fragment).commit();
+
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

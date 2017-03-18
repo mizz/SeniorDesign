@@ -39,10 +39,15 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/MyMaterialTheme">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            <intent-filter >
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
 
         <service
