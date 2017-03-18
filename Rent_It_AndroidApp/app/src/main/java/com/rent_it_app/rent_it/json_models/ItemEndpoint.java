@@ -24,7 +24,7 @@ public interface ItemEndpoint {
     Call<ArrayList<Item>> getItems(/*@Path("uid") String uid*/);
 
     @GET("api/items/tag/{tag}")
-    Call<List<Item>> getItemsByTag(@Path("tag") String tag);
+    Call<ArrayList<Item>> getItemsByTag(@Path("tag") String tag);
 
     @GET("api/items/category/{category}")
     Call<ArrayList<Item>> getItemsByCategory(@Path("category") String category);

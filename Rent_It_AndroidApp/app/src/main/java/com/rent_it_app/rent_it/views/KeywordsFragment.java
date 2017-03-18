@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rent_it_app.rent_it.ChatActivity;
 import com.rent_it_app.rent_it.R;
+import com.rent_it_app.rent_it.SearchActivity;
 import com.rent_it_app.rent_it.SignInActivity;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.ChatUser;
@@ -54,10 +55,12 @@ public class KeywordsFragment extends Fragment {
         //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("CHAT LIST");
 
         keywordList = new ArrayList<>();
-        keywordList.add("Baby Stroller");
-        keywordList.add("Basketball");
-        keywordList.add("Badminton");
-        keywordList.add("Bass Guitar");
+        keywordList.add("bed");
+        keywordList.add("jumper");
+        keywordList.add("toy");
+        keywordList.add("bike");
+        keywordList.add("golf");
+        keywordList.add("ski");
 
         Log.d("KeywordsFragment: ", "onCreateView");
 
@@ -74,7 +77,11 @@ public class KeywordsFragment extends Fragment {
             public void onItemClick(AdapterView<?> arg0,
                                     View arg1, int pos, long arg3) {
                 // Perform query here to database for matching items...
-
+                /*Intent myIntent = new Intent(HomeActivity.this, SearchActivity.class);
+                myIntent.putExtra(Config.EXTRA_DATA, list.get(pos));
+                HomeActivity.this.startActivity(myIntent);*/
+                startActivity(new Intent(getActivity(), SearchActivity.class)
+                        .putExtra(Config.EXTRA_DATA, keywordList.get(pos)));
             }
         });
 
@@ -136,7 +143,7 @@ public class KeywordsFragment extends Fragment {
         public View getView(int pos, View v, ViewGroup arg2)
         {
             if (v == null)
-                v = getActivity().getLayoutInflater().inflate(R.layout.chat_item, arg2, false);
+                v = getActivity().getLayoutInflater().inflate(R.layout.keyword_item, arg2, false);
 
             String keyword = getItem(pos);
 

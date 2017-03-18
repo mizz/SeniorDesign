@@ -8,7 +8,7 @@ var tagSchema = mongoose.Schema({
 
 var Tag = module.exports = mongoose.model('Tag',tagSchema);
 
-//Get Category
+//Get Tag
 module.exports.getTags = function(callback, limit){
 	Tag.find(callback).limit(limit);
 }

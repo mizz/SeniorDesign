@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:divider="#9E9E9E"
         android:dividerHeight="1dp"
-        tools:listitem="@layout/chat_item" >
+        tools:listitem="@layout/keyword_item" >
     </ListView>
 
 </LinearLayout>

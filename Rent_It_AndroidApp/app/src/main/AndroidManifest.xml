@@ -25,6 +25,7 @@
         <activity android:name=".ResetPasswordActivity"></activity>
         <activity android:name=".ChatActivity"></activity>
         <activity android:name=".BrowseActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
         <activity android:name=".ListingActivity"></activity>
         <activity android:name=".EditItemActivity"></activity>
         <activity android:name=".ShowItemReviewsActivity"></activity>

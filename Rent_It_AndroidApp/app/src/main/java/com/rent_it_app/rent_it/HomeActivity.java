@@ -81,7 +81,7 @@ public class HomeActivity extends BaseActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("HOME");
+        getSupportActionBar().setTitle("FIND ITEM");
 
         browseList = (ListView) findViewById(R.id.category_list);
         //((TextView) findViewById(R.id.toolbar_title)).setText("Title!");
@@ -265,7 +265,7 @@ public class HomeActivity extends BaseActivity
             super.onBackPressed();
         }
     }
-
+    //Search
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
