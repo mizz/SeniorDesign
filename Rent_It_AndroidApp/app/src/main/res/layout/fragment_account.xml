@@ -127,6 +127,12 @@
 
             android:id="@+id/ic_email" />
 
+        <Button
+            android:id="@+id/braintree_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BrainTree"/>
+
 
     </LinearLayout>
 </FrameLayout>

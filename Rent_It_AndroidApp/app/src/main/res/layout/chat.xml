@@ -40,12 +40,12 @@
         android:padding="5dp"
         tools:context=".MainActivity" >
 
-        <!--<Button
+        <Button
             android:id="@+id/btnBook"
             style="@style/btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_book" />-->
+            android:background="@drawable/ic_book" />
 
 
         <EditText
