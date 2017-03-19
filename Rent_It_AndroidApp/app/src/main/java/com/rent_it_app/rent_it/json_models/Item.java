@@ -230,5 +230,7 @@ public class Item implements Serializable {
         this.visible = visible;
     }
 
-
+    public String toString(){
+        return getTitle();
+    }
 }

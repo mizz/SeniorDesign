@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class KeywordsFragment extends Fragment {
 
     private ArrayList<String> keywordList;
 
+    private ArrayAdapter<String> keywordAdapter;
+
     public ListView list;
 
     public KeywordsFragment() {
@@ -62,6 +65,8 @@ public class KeywordsFragment extends Fragment {
         keywordList.add("golf");
         keywordList.add("ski");
 
+        keywordAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, keywordList);
+
         Log.d("KeywordsFragment: ", "onCreateView");
 
         String searchText = getArguments().getString("searchText");
@@ -70,89 +75,24 @@ public class KeywordsFragment extends Fragment {
         list = (ListView) view.findViewById(R.id.list);
 
         //ListView list = (ListView) view.findViewById(R.id.list);
-        list.setAdapter(new KeywordListAdapter());
+        //kla = new KeywordListAdapter();
+        list.setAdapter(keywordAdapter);
         list.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0,
                                     View arg1, int pos, long arg3) {
                 // Perform query here to database for matching items...
-                /*Intent myIntent = new Intent(HomeActivity.this, SearchActivity.class);
-                myIntent.putExtra(Config.EXTRA_DATA, list.get(pos));
-                HomeActivity.this.startActivity(myIntent);*/
                 startActivity(new Intent(getActivity(), SearchActivity.class)
                         .putExtra(Config.EXTRA_DATA, keywordList.get(pos)));
             }
         });
 
+        if(!searchText.isEmpty()){
+            keywordAdapter.getFilter().filter(searchText);
+        }
+
         return view;
-    }
-
-    /* (non-Javadoc)
-	 * @see android.support.v4.app.FragmentActivity#onDestroy()
-	 */
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-    }
-
-    /* (non-Javadoc)
-     * @see android.support.v4.app.FragmentActivity#onResume()
-     */
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-    }
-
-    private class KeywordListAdapter extends BaseAdapter
-    {
-
-        /* (non-Javadoc)
-         * @see android.widget.Adapter#getCount()
-         */
-        @Override
-        //public int getCount() { return uList.size(); }
-        public int getCount() { return keywordList.size(); }
-
-        /* (non-Javadoc)
-         * @see android.widget.Adapter#getItem(int)
-         */
-        @Override
-        //public ChatUser getItem(int arg0){return uList.get(arg0);}
-        public String getItem(int arg0)
-        {
-            return keywordList.get(arg0);
-        }
-
-        /* (non-Javadoc)
-         * @see android.widget.Adapter#getItem_id(int)
-         */
-        @Override
-        public long getItemId(int arg0)
-        {
-            return arg0;
-        }
-
-        /* (non-Javadoc)
-         * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
-         */
-        @Override
-        public View getView(int pos, View v, ViewGroup arg2)
-        {
-            if (v == null)
-                v = getActivity().getLayoutInflater().inflate(R.layout.keyword_item, arg2, false);
-
-            String keyword = getItem(pos);
-
-            TextView lbl = (TextView) v;
-            lbl.setText(keyword);
-
-            return v;
-        }
-
     }
 
 }

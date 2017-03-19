@@ -303,9 +303,13 @@ public class HomeActivity extends BaseActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!newText.isEmpty()){
-                    //Log.d("getActiveFragment:", getActiveFragment().getTag());
+                // if the KeywordsFragment is already open,
+                // we want to start the fragment and pass in even empty string
 
+                // however, if the KeywordsFragment is not open yet,
+                // only trigger when the newText is not empty
+                if( searchFragment != null ||
+                        (searchFragment == null && !newText.isEmpty()) ) {
 
                     Class fragmentClass = KeywordsFragment.class;
 
@@ -324,7 +328,6 @@ public class HomeActivity extends BaseActivity
                     // show a list
                     Log.d("queryText: ", newText);
                 }
-
                 return false;
             }
         });

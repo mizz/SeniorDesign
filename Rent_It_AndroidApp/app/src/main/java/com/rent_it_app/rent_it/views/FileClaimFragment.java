@@ -93,10 +93,12 @@ public class FileClaimFragment extends Fragment {
     ItemEndpoint itemEndpoint;
     private EditText txtIssue;
     private EditText txtDate;
-    private String myIssue, myItem, myReason, mRole, myRental, mDate;
+    private String myIssue, myItem, myReason, myRental, mDate;
+    private String mRole = "Owner";
     private TextView myStatusText;
     private FirebaseAuth mAuth;
     private RadioGroup rg;
+    private RadioButton owner, renter;
     private String userId;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
     Button btnDatePicker;
@@ -104,6 +106,7 @@ public class FileClaimFragment extends Fragment {
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
     Calendar myCalendar = Calendar.getInstance();
+    public String[] nameArray;
 
     File photo_destination;
     String imgS3Name;
@@ -156,6 +159,29 @@ public class FileClaimFragment extends Fragment {
         btnDatePicker=(Button)view.findViewById(R.id.btn_date);
         rg = (RadioGroup)view.findViewById(R.id.radio_item);
 
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+
+                switch(checkedId) {
+                    case R.id.owner:
+                        // switch to fragment 1
+                        Log.d("radio","owner selected");
+                        mRole="Owner";
+                        break;
+                    case R.id.renter:
+                        // Fragment 2
+                        Log.d("radio","renter selected");
+                        mRole="Renter";
+                        break;
+                }
+            }
+        });
+
+        owner = (RadioButton)view.findViewById(R.id.owner);
+        renter = (RadioButton)view.findViewById(R.id.renter);
+
         btnDatePicker.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,17 +209,13 @@ public class FileClaimFragment extends Fragment {
         });
 
         final Button submitButton = (Button) view.findViewById(R.id.submit_button);
-        //Spinner - Item
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(), R.array.category_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter);
-        spinner2.setAdapter(adapter);
+
 
         //getuid
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid().toString();
+
 
         Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(userId);
         call.enqueue(new Callback<ArrayList<Item>>() {
@@ -201,7 +223,14 @@ public class FileClaimFragment extends Fragment {
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
                 int statusCode = response.code();
                 //List<Item> items = response.body();
+                ArrayList<String> nameArray = new ArrayList<String>();
                 iList = response.body();
+
+                //Log.d("claim",""+nameArray);
+                ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(getActivity(),
+                        android.R.layout.simple_spinner_item, iList);
+                itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner1.setAdapter(itemAdapter);
 
                 Log.d("retrofit.call.enqueue", ""+statusCode);
             }
@@ -211,6 +240,15 @@ public class FileClaimFragment extends Fragment {
                 Log.d("retrofit.call.enqueue", "failed");
             }
         });
+
+        //Spinner - Item
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getActivity(), R.array.category_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner2.setAdapter(adapter);
+
         //Button - List
         submitButton.setOnClickListener(new OnClickListener()
         {
@@ -233,14 +271,19 @@ public class FileClaimFragment extends Fragment {
                         mRole = "Renter";
                         break;
                 }
-                //String radioValue = ((RadioButton)view.findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+
+                /*int selectedId = rg .getCheckedRadioButtonId();
+                RadioButton radioButton = (RadioButton) v.findViewById(selectedId);*/
+
+
+
+                //radioValue
+                //String mRole = ((RadioButton)view.findViewById(rg.getCheckedRadioButtonId())).getText().toString();
 
                 //Log.d("Category","category is: "+myCategory);
                 if (myIssue.trim().equals("")) {
                     txtIssue.requestFocus();
                     txtIssue.setError("Title is required!");
-
-
                 }else {
                     //Toast.makeText(getActivity(), spinner1.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
                     //post Item
