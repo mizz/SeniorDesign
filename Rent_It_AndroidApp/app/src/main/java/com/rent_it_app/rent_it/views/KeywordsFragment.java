@@ -50,6 +50,12 @@ public class KeywordsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public void setSearchText(String searchText){
+        //if(!searchText.isEmpty()){
+            keywordAdapter.getFilter().filter(searchText);
+        //}
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,10 +78,12 @@ public class KeywordsFragment extends Fragment {
         String searchText = getArguments().getString("searchText");
         Log.d("KeywordsFragment: ", "searchText: " + searchText);
 
+        if(!searchText.isEmpty()){
+            keywordAdapter.getFilter().filter(searchText);
+        }
+
         list = (ListView) view.findViewById(R.id.list);
 
-        //ListView list = (ListView) view.findViewById(R.id.list);
-        //kla = new KeywordListAdapter();
         list.setAdapter(keywordAdapter);
         list.setOnItemClickListener(new OnItemClickListener() {
 
@@ -88,9 +96,7 @@ public class KeywordsFragment extends Fragment {
             }
         });
 
-        if(!searchText.isEmpty()){
-            keywordAdapter.getFilter().filter(searchText);
-        }
+
 
         return view;
     }

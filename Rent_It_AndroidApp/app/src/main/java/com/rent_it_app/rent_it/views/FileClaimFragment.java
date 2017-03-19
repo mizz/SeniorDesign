@@ -244,7 +244,7 @@ public class FileClaimFragment extends Fragment {
         //Spinner - Item
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(), R.array.category_array, android.R.layout.simple_spinner_item);
+                getActivity(), R.array.owner_reason_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner2.setAdapter(adapter);
@@ -260,17 +260,18 @@ public class FileClaimFragment extends Fragment {
                 myIssue = txtIssue.getText().toString();
                 mDate = txtDate.getText().toString();
                 myRental = "temp_rental_id";
-                myItem = spinner1.getSelectedItem().toString();
+                myItem = ((Item)spinner1.getSelectedItem()).getId();
+                Log.d("myRental:getID():", myItem);
                 myReason = spinner2.getSelectedItem().toString();
 
-                switch (rg.getCheckedRadioButtonId()){
+                /*switch (rg.getCheckedRadioButtonId()){
                     case 2131755235:
                         mRole = "Owner";
                         break;
                     case 2131755236:
                         mRole = "Renter";
                         break;
-                }
+                }*/
 
                 /*int selectedId = rg .getCheckedRadioButtonId();
                 RadioButton radioButton = (RadioButton) v.findViewById(selectedId);*/

@@ -308,8 +308,11 @@ public class HomeActivity extends BaseActivity
 
                 // however, if the KeywordsFragment is not open yet,
                 // only trigger when the newText is not empty
-                if( searchFragment != null ||
-                        (searchFragment == null && !newText.isEmpty()) ) {
+                if( searchFragment != null )
+                {
+                    ((KeywordsFragment) searchFragment).setSearchText(newText);
+                }
+                if (searchFragment == null && !newText.isEmpty()) {
 
                     Class fragmentClass = KeywordsFragment.class;
 
