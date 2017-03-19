@@ -70,16 +70,9 @@
 
     <string-array name="owner_reason_array">
         <item>Choose a Reason</item>
-        <item>Vehicles and Equipment</item>
-        <item>Sports</item>
-        <item>Outdoor Gear</item>
-        <item>Party Supplies</item>
-        <item>Garden</item>
-        <item>Tools</item>
-        <item>Clothes</item>
-        <item>Electronics</item>
-        <item>Books</item>
-        <item>Miscellaneous</item>
+        <item>Item Damaged</item>
+        <item>Renter not returning item</item>
+        <item>Renter not responding</item>
     </string-array>
 
 </resources>
