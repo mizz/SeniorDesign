@@ -1,4 +1,12 @@
 require('dotenv').config();
+var braintree = require("braintree");
+
+var gateway = braintree.connect({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY
+});
 
 // Module dependencies
 var express = require('express');
@@ -15,6 +23,7 @@ Item = require('./models/item');
 Review = require('./models/review');
 Claim = require('./models/claim');
 Tag = require('./models/tag');
+User = require('./models/user')
 
 //Connect to Mongoose
 var connection_options = {
@@ -42,7 +51,7 @@ app.get('/api/categories',function(req,res){
 	});
 });
 
-//get all tags
+//get all tags -no
 app.get('/api/tags',function(req,res){
 	Tag.getTags(function(err,tags){
 		if(err){
@@ -305,6 +314,38 @@ app.get('/api/reviews/owner/:owner',function(req,res){
 		}
 		res.json(reviews);
 	})
+});
+
+//create a new user
+app.post('/api/user', function(req,res){
+	var user = req.body;
+	User.createUser(user,function(err,user){
+		if(err){
+			throw err;
+		}
+		res.json(user);
+	});
+});
+
+//retrieve client token if given a customer id
+
+//retrieve client token
+app.get('/api/bt/client_token/:user_id', function(req,res){
+	//find the user based on user_id
+	User.getUserbyUID(req.params.user_id, function(err,user){
+		if(err){
+			throw err;
+		}
+		//if they have a customer_id, use it
+		//generate client token and return it
+		gateway.clientToken.generate({
+			customerId: user.customer_id
+		}, function (err, response) {
+  		var clientToken = response.clientToken
+  			res.send(response.clientToken);
+		});
+
+	});
 });
 
 app.listen(process.env.PORT_NO);

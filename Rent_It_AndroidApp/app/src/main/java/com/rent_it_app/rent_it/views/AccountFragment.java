@@ -4,6 +4,7 @@ package com.rent_it_app.rent_it.views;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,21 @@ import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.braintreepayments.api.dropin.utils.PaymentMethodType;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+//import com.loopj.android.http.AsyncHttpClient;
+//import com.loopj.android.http.TextHttpResponseHandler;
+import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.R;
+import com.rent_it_app.rent_it.json_models.BrainTreeEndpoint;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+//import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +41,12 @@ public class AccountFragment extends Fragment {
 
     private static final int REQUEST_CODE = Menu.FIRST;
     private static final String CLIENT_TOKEN_TESTING = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJiMjBmZTk5YjY0MTFmNTU4YmEwYzRjYzU3ZWE2OTBjNDYyOGI5MDIxNzNiODdkYzFhOTdkMDM5YWFhMDUxY2Q3fGNyZWF0ZWRfYXQ9MjAxNy0wMy0xOVQyMTowMTowMi41NjYzMjQ3MjArMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
+
+    //private AsyncHttpClient client = new AsyncHttpClient();
+    private String clientToken;
+    public static FirebaseUser myUser;
+    Retrofit retrofit;
+    BrainTreeEndpoint braintreeEndpoint;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -37,6 +58,38 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+
+        myUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        //getToken();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .build();
+
+        braintreeEndpoint = retrofit.create(BrainTreeEndpoint.class);
+
+        Call<ResponseBody> call = braintreeEndpoint.getToken(myUser.getUid());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,Response<ResponseBody> response) {
+                int statusCode = response.code();
+                //List<Item> items = response.body();
+                clientToken = response.body().toString();
+               Log.d("myToken ",clientToken);
+
+
+                Log.d("retrofit.call.enqueue", "success");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call,Throwable t) {
+                Log.d("retrofit.call.enqueue", "failed");
+            }
+        });
+
+
+        //Log.d("Client Token:", this.clientToken);
+        Log.d("Client Token:", ""+clientToken);
 
         DropInResult.fetchDropInResult(getActivity(), CLIENT_TOKEN_TESTING, new DropInResult.DropInResultListener() {
             @Override
@@ -105,6 +158,19 @@ public class AccountFragment extends Fragment {
             }
         }
     }
+
+    /*private void getToken() {
+        client.get(Constants.REST_API_BASE_URL + "/api/bt/client_token/" + myUser.getUid(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                clientToken = responseString;
+            }
+        });
+    }*/
 
 
 

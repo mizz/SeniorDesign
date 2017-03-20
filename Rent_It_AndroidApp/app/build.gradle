@@ -6,6 +6,7 @@ android {
     defaultConfig {
         applicationId "com.rent_it_app.rent_it"
         minSdkVersion 16
+        //multiDexEnabled true
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -83,5 +84,6 @@ dependencies {
 
     // Braintree SDK integration
     compile 'com.braintreepayments.api:drop-in:3.+'
+    //compile 'com.loopj.android:android-async-http:1.4.9'
 }
 apply plugin: 'com.google.gms.google-services'

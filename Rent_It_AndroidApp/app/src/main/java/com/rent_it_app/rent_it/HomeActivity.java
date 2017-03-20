@@ -39,6 +39,7 @@ import com.rent_it_app.rent_it.views.AvailabeItemFragment;
 import com.rent_it_app.rent_it.views.FileClaimFragment;
 import com.rent_it_app.rent_it.views.KeywordsFragment;
 import com.rent_it_app.rent_it.views.ListItemFragment;
+import com.rent_it_app.rent_it.views.StartRentalFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -390,7 +391,13 @@ public class HomeActivity extends BaseActivity
                 }
                 manager.beginTransaction().replace(R.id.content_home, fragment, "ListItemFragment").commit();
             } else if (id == R.id.nav_trade) {
-                //fragmentClass = ListItemFragment.class;
+                fragmentClass = StartRentalFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "StartRentalFragment").commit();
             } else if (id == R.id.nav_rental) {
                 //fragmentClass = ListItemFragment.class;
             } else if (id == R.id.nav_inventory) {
