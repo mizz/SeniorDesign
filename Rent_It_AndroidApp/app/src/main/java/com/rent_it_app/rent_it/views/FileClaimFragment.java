@@ -137,7 +137,6 @@ public class FileClaimFragment extends Fragment {
         gson = new Gson();
 
         // Initialize the Amazon Cognito credentials provider
-
         credentialsProvider = new CognitoCachingCredentialsProvider(
                 getContext(),  // getApplicationContext(),
                 Constants.COGNITO_POOL_ID, // Identity Pool ID
