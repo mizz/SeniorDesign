@@ -28,7 +28,8 @@
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".ListingActivity"></activity>
         <activity android:name=".EditItemActivity"></activity>
-        <activity android:name=".SendRequestActivity"></activity>
+        <activity android:name=".SendRequestActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".PickDatesActivity">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
