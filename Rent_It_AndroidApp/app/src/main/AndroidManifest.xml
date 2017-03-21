@@ -28,7 +28,13 @@
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".ListingActivity"></activity>
         <activity android:name=".EditItemActivity"></activity>
-        <activity android:name=".PickDatesActivity"></activity>
+        <activity android:name=".SendRequestActivity"></activity>
+        <activity android:name=".PickDatesActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
         <activity android:name=".ShowItemReviewsActivity"></activity>
         <activity android:name=".ShowOwnerReviewsActivity"></activity>
         <activity android:name=".testing.NotificationActivity">
