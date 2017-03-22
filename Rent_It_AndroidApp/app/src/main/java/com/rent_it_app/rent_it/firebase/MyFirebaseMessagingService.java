@@ -1,7 +1,13 @@
 package com.rent_it_app.rent_it.firebase;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +18,7 @@ import org.json.JSONObject;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import com.rent_it_app.rent_it.HomeActivity;
 import com.rent_it_app.rent_it.firebase.NotificationUtils;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
 import com.rent_it_app.rent_it.R;
@@ -53,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void handleNotification(String message) {
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+        ///if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             // app is in foreground, broadcast the push message
             Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
             pushNotification.putExtra("message", message);
@@ -62,9 +69,39 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
-        }else{
+
+
+            // Notifications are shown here
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+            mBuilder.setSmallIcon(R.drawable.chat_bubble_green);
+            mBuilder.setContentTitle("Alert!");
+            mBuilder.setContentText(message);
+            mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+            mBuilder.setSound(alarmSound);
+
+            Intent resultIntent = new Intent(this, HomeActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(HomeActivity.class);
+
+            // Adds the Intent that starts the Activity to the top of the stack
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
+
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            int notificationID = 100;
+
+            // notificationID allows you to update the notification later on.
+            mNotificationManager.notify(notificationID, mBuilder.build());
+
+        //}else{
             // If the app is in background, firebase itself handles the notification
-        }
+        //}
     }
 
     private void handleDataMessage(JSONObject json) {
@@ -88,7 +125,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "timestamp: " + timestamp);
 
 
-            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            //if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                 // app is in foreground, broadcast the push message
                 Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
                 pushNotification.putExtra("message", message);
@@ -97,7 +134,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // play notification sound
                 NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
                 notificationUtils.playNotificationSound();
-            } else {
+            /*} else {
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
                 resultIntent.putExtra("message", message);
@@ -109,7 +146,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     // image is present, show notification with image
                     showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
                 }
-            }
+            }*/
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {
