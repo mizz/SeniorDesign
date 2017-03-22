@@ -36,6 +36,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     /**
+     * Send the token from here, along with the user ID to the NodeJS server
+     *
      * Persist token to third-party servers.
      *
      * Modify this method to associate the user's FCM InstanceID token with any server-side account

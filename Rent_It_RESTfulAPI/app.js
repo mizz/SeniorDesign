@@ -315,9 +315,18 @@ app.get('/api/reviews/owner/:owner',function(req,res){
 		res.json(reviews);
 	})
 });
-
+//User Model
+//get all reviews
+app.get('/api/users',function(req,res){
+	User.getUsers(function(err, users){
+		if(err){
+			throw err;
+		}
+		res.json(users);
+	});
+});
 //create a new user
-app.post('/api/user', function(req,res){
+app.post('/api/users', function(req,res){
 	var user = req.body;
 	User.createUser(user,function(err,user){
 		if(err){
@@ -325,6 +334,15 @@ app.post('/api/user', function(req,res){
 		}
 		res.json(user);
 	});
+});
+//get user by uid
+app.get('/api/user/:uid',function(req,res){
+	User.getUserByUid(req.params.uid,function(err,user){
+		if(err){
+			throw err;
+		}
+		res.json(user);
+	})
 });
 
 //retrieve client token if given a customer id
