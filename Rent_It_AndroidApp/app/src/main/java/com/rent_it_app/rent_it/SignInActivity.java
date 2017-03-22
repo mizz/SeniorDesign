@@ -4,7 +4,9 @@ package com.rent_it_app.rent_it;
  * Created by Mizz on 1/10/17.
  */
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,9 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.rent_it_app.rent_it.json_models.ChatUser;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SignInActivity extends BaseActivity {
@@ -89,6 +93,8 @@ public class SignInActivity extends BaseActivity {
                     /*ChatListFragment.user = new ChatUser(user.getUid(), user.getDisplayName(),
                             user.getEmail(),true,defaultRoom);*/
 
+                    signInRefreshFCMToken();
+
                     Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }
@@ -150,6 +156,51 @@ public class SignInActivity extends BaseActivity {
                     }
                 });
 
+    }
+
+    private void signInRefreshFCMToken()
+    {
+        try
+        {
+            // Check for current token
+            String originalToken = getTokenFromPrefs();
+            Log.d(TAG, "Token before deletion: " + originalToken);
+
+            // Resets Instance ID and revokes all tokens.
+            FirebaseInstanceId.getInstance().deleteInstanceId();
+
+            // Clear current saved token
+            saveTokenToPrefs("");
+
+            // Check for success of empty token
+            String tokenCheck = getTokenFromPrefs();
+            Log.d(TAG, "Token deleted. Proof: " + tokenCheck);
+
+            // Now manually call onTokenRefresh()
+            Log.d(TAG, "Getting new token");
+            FirebaseInstanceId.getInstance().getToken();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveTokenToPrefs(String _token)
+    {
+        // Access Shared Preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // Save to SharedPreferences
+        editor.putString("registration_id", _token);
+        editor.apply();
+    }
+
+    private String getTokenFromPrefs()
+    {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("registration_id", null);
     }
 
 
