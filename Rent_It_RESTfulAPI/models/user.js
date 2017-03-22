@@ -44,3 +44,17 @@ module.exports.getUserByUid = function(uid, callback){
 		.where('uid').equals(uid)
 		.exec(callback);
 }
+
+//Update User
+module.exports.updateUser = function(uid, user, options, callback){
+	var query = {uid: uid};
+	var update = {
+		//email: user.email,
+		//first_name:user.first_name,
+		//last_name: user.last_name,
+		//braintree_customer_id: user.braintree_customer_id,
+		//display_name:user.display_name,
+		fcm_token:user.fcm_token
+	}
+	User.findOneAndUpdate(query, update, options, callback);
+}

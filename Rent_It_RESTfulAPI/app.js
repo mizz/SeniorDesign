@@ -219,8 +219,6 @@ app.put('/api/item/:_id',function(req,res){
 });
 
 
-
-
 /*
 app.put('/api/books/:_id',function(req,res){
 	var id = req.params._id;
@@ -343,6 +341,18 @@ app.get('/api/user/:uid',function(req,res){
 		}
 		res.json(user);
 	})
+});
+
+//update user
+app.put('/api/user/:uid',function(req,res){
+	var uid = req.params.uid;
+	var user = req.body;
+	User.updateUser(uid, user, {}, function(err,user){
+		if(err){
+			throw err;
+		}
+		res.json(user);
+	});
 });
 
 //retrieve client token if given a customer id

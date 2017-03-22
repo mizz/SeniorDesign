@@ -19,13 +19,13 @@ public interface UserEndpoint {
     // Callback for the parsed response is the last parameter
 
 
-    @GET("api/items/user/{uid}")
-    Call<ArrayList<Item>> getItemsByUid(@Path("uid") String uid);
+    @GET("api//user/{uid}")
+    Call<User> getUserByUid(@Path("uid") String uid);
 
-    @PUT("api/item/{id}")
-    Call<Item> updateItem(@Path("id") String id, @Body Item item);
+    @PUT("api/user/{uid}")
+    Call<User> updateUser(@Path("uid") String uid, @Body User user);
 
     @POST("api/users")
-    Call<Item> addItem(@Body Item item);
+    Call<User> addUser(@Body User user);
 
 }
