@@ -269,8 +269,8 @@ public class ListingActivity extends BaseActivity{
                 defaultFirstMsg.setSender(myUser.getUid());
                 defaultFirstMsg.setReceiver(myItem.getUid());
                 defaultFirstMsg.setStatus(Chat.STATUS_SENDING);
-                String defaultMsg = "Hi James L" +
-                        /*myItem.getUid()+ */
+                String defaultMsg = "Hi " +
+                        myItem.getUid()+
                          ", I'm interested in renting your "
                                   + myItem.getTitle() + ".";
                 defaultFirstMsg.setMsg(defaultMsg);

@@ -367,7 +367,7 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 		//if they have a customer_id, use it
 		//generate client token and return it
 		gateway.clientToken.generate({
-			customerId: user.customer_id
+			customerId: user.braintree_ccustomer_id
 		}, function (err, response) {
   		var clientToken = response.clientToken
   			res.send(response.clientToken);
