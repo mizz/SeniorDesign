@@ -65,6 +65,13 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(final String token) {
+
+        // Guard and only allow sending token to the server if a user is signed in
+        myUid = FirebaseAuth.getInstance().getCurrentUser();
+        if(myUid == null){
+            return;
+        }
+
         // sending gcm token to server
         Log.e(TAG, "sendRegistrationToServer: " + token);
         gson = new Gson();
@@ -76,7 +83,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         userEndpoint = retrofit.create(UserEndpoint.class);
 
-        myUid = FirebaseAuth.getInstance().getCurrentUser();
+
 
         User updatedUser = new User();
         updatedUser.setFcmToken(token);
