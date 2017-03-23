@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.R;
 import com.rent_it_app.rent_it.json_models.BrainTreeEndpoint;
+import com.rent_it_app.rent_it.testing.NotificationActivity;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -132,6 +133,17 @@ public class AccountFragment extends Fragment {
             }
 
         });
+
+        Button fcmButton = (Button) view.findViewById(R.id.FCM_button);
+        fcmButton.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view)
+            {
+                startActivity(new Intent(getActivity(), NotificationActivity.class));
+            }
+
+        });
+
         // Inflate the layout for this fragment
         return view;
     }

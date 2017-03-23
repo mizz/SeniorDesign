@@ -360,7 +360,7 @@ app.put('/api/user/:uid',function(req,res){
 //retrieve client token
 app.get('/api/bt/client_token/:user_id', function(req,res){
 	//find the user based on user_id
-	User.getUserbyUID(req.params.user_id, function(err,user){
+	User.getUserByUid(req.params.user_id, function(err,user){
 		if(err){
 			throw err;
 		}

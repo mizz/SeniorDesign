@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/item_title"
                 android:textSize="22sp"
+                android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp" />
 
@@ -142,6 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Reviews"
+                android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"/>
@@ -210,6 +212,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimaryDark" />
 
@@ -220,6 +223,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Owner"
+                android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginLeft="10dp"/>
 

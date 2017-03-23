@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
+import com.rent_it_app.rent_it.testing.NotificationActivity;
 import com.rent_it_app.rent_it.utils.Utility;
 
 import java.io.ByteArrayOutputStream;
@@ -71,7 +72,7 @@ public class SendRequestActivity extends BaseActivity{
 
     private EditText txtDate;
     private TextView numDays,rate,estimateTotal,fee,taxAmount;
-    private Button btnDatePicker;
+    private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
     private ImageView preview;
@@ -99,6 +100,7 @@ public class SendRequestActivity extends BaseActivity{
 
         txtDate = (EditText)findViewById(R.id.in_date);
         btnDatePicker=(Button)findViewById(R.id.btn_date);
+        btnRequest=(Button) findViewById(R.id.request_button);
         numDays = (TextView)findViewById(R.id.days);
         rate = (TextView)findViewById(R.id.dailyRate);
         estimateTotal =(TextView)findViewById(R.id.total);
@@ -159,6 +161,16 @@ public class SendRequestActivity extends BaseActivity{
 
 
             }
+        });
+
+
+        btnRequest.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view)
+            {
+                startActivity(new Intent(SendRequestActivity.this, NotificationActivity.class));
+            }
+
         });
 
         // Initialize the Amazon Cognito credentials provider
