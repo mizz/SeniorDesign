@@ -24,6 +24,7 @@ Review = require('./models/review');
 Claim = require('./models/claim');
 Tag = require('./models/tag');
 User = require('./models/user')
+Rental = require('./models/rental');
 
 //Connect to Mongoose
 var connection_options = {
@@ -355,8 +356,28 @@ app.put('/api/user/:uid',function(req,res){
 	});
 });
 
-//retrieve client token if given a customer id
+//Rental Model
+//get all rentals
+app.get('/api/rentals',function(req,res){
+	Rental.getRentals(function(err, rentals){
+		if(err){
+			throw err;
+		}
+		res.json(rentals);
+	});
+});
+//create a new rental
+app.post('/api/rentals', function(req,res){
+	var rental = req.body;
+	Rental.addRental(rental,function(err,rental){
+		if(err){
+			throw err;
+		}
+		res.json(rental);
+	});
+});
 
+//retrieve client token if given a customer id
 //retrieve client token
 app.get('/api/bt/client_token/:user_id', function(req,res){
 	//find the user based on user_id
