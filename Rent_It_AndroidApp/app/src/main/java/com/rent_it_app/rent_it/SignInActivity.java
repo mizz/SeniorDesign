@@ -23,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.rent_it_app.rent_it.firebase.DeleteTokenService;
 import com.rent_it_app.rent_it.json_models.ChatUser;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 
@@ -93,7 +94,9 @@ public class SignInActivity extends BaseActivity {
                     /*ChatListFragment.user = new ChatUser(user.getUid(), user.getDisplayName(),
                             user.getEmail(),true,defaultRoom);*/
 
-                    signInRefreshFCMToken();
+                    Intent deleteTokenIntent = new Intent(SignInActivity.this, DeleteTokenService.class);
+                    //msgIntent.putExtra(DeleteTokenService.PARAM_IN_MSG, strInputMsg);
+                    startService(deleteTokenIntent);
 
                     Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                     startActivity(intent);
@@ -157,52 +160,6 @@ public class SignInActivity extends BaseActivity {
                 });
 
     }
-
-    private void signInRefreshFCMToken()
-    {
-        try
-        {
-            // Check for current token
-            String originalToken = getTokenFromPrefs();
-            Log.d(TAG, "Token before deletion: " + originalToken);
-
-            // Resets Instance ID and revokes all tokens.
-            FirebaseInstanceId.getInstance().deleteInstanceId();
-
-            // Clear current saved token
-            saveTokenToPrefs("");
-
-            // Check for success of empty token
-            String tokenCheck = getTokenFromPrefs();
-            Log.d(TAG, "Token deleted. Proof: " + tokenCheck);
-
-            // Now manually call onTokenRefresh()
-            Log.d(TAG, "Getting new token");
-            FirebaseInstanceId.getInstance().getToken();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveTokenToPrefs(String _token)
-    {
-        // Access Shared Preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        // Save to SharedPreferences
-        editor.putString("registration_id", _token);
-        editor.apply();
-    }
-
-    private String getTokenFromPrefs()
-    {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getString("registration_id", null);
-    }
-
 
     private boolean validateForm() {
         boolean valid = true;

@@ -19,6 +19,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import com.rent_it_app.rent_it.HomeActivity;
+import com.rent_it_app.rent_it.SignInActivity;
 import com.rent_it_app.rent_it.firebase.NotificationUtils;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
 import com.rent_it_app.rent_it.R;
@@ -83,9 +84,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
             mBuilder.setSound(alarmSound);
 
-            Intent resultIntent = new Intent(this, HomeActivity.class);
+            Intent resultIntent = new Intent(this, SignInActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addParentStack(HomeActivity.class);
+            stackBuilder.addParentStack(SignInActivity.class);
 
             // Adds the Intent that starts the Activity to the top of the stack
             stackBuilder.addNextIntent(resultIntent);

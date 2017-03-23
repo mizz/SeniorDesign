@@ -17,10 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
         <activity android:name=".SignInActivity">
-            <!--<intent-filter>
+            <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".ResetPasswordActivity"></activity>
@@ -40,10 +40,10 @@
         <activity android:name=".ShowItemReviewsActivity"></activity>
         <activity android:name=".ShowOwnerReviewsActivity"></activity>
         <activity android:name=".testing.NotificationActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".HomeActivity"
@@ -60,6 +60,10 @@
                 android:resource="@xml/searchable" />
         </activity>
 
+        <!-- Declaring Service in Manifest -->
+        <service
+            android:name=".firebase.DeleteTokenService"
+            android:exported="false" />
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true"
