@@ -36,6 +36,7 @@ import com.rent_it_app.rent_it.json_models.Chat;
 import com.rent_it_app.rent_it.json_models.Conversation;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.Rental;
+import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 import com.rent_it_app.rent_it.json_models.Review;
 import com.rent_it_app.rent_it.json_models.ReviewEndpoint;
 
@@ -62,6 +63,7 @@ public class ListingActivity extends BaseActivity{
     Item myItem;
     Retrofit retrofit;
     ReviewEndpoint reviewEndpoint;
+    RentalEndpoint rentalEndpoint;
     private Review rList;
     Gson gson;
     private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
@@ -183,6 +185,7 @@ public class ListingActivity extends BaseActivity{
                 .build();
 
         reviewEndpoint = retrofit.create(ReviewEndpoint.class);
+        rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
         Call<Review> call = reviewEndpoint.getLatestReviewByItemId(itemId);
 
@@ -315,7 +318,28 @@ public class ListingActivity extends BaseActivity{
 
 
                 Rental newRental = new Rental();
+                newRental.setRentalId(rental_id);
+                newRental.setRenter(myUser.getUid());
+                newRental.setOwner(myItem.getUid());
+                newRental.setItem(myItem.getId());
+                newRental.setRentalStatus(1);//1 means contacted but not rented. 2 is rented and 3 is returned.0 means remove from trade list
 
+                Call<Rental> call = rentalEndpoint.addRental(newRental);
+                call.enqueue(new Callback<Rental>() {
+                    @Override
+                    public void onResponse(Call<Rental> call, Response<Rental> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Rental> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                    }
+
+                });
 
                 Intent myIntent = new Intent(ListingActivity.this, ChatActivity.class);
                 myIntent.putExtra(Config.EXTRA_DATA, convo);

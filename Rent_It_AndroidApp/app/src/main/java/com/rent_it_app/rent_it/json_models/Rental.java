@@ -28,7 +28,7 @@ public class Rental implements Serializable
     private String item;
     @SerializedName("rental_status")
     @Expose
-    private String rentalStatus;
+    private Integer rentalStatus;
     @SerializedName("booked_start_date")
     @Expose
     private String bookedStartDate;
@@ -99,7 +99,7 @@ public class Rental implements Serializable
      * @param rentalEndDate
      * @param estimatedTotal
      */
-    public Rental(String id, String rentalId, String renter, String owner, String item, String rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedTotal, String image, String rentalStartedDate, String rentalEndDate, Long paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
+    public Rental(String id, String rentalId, String renter, String owner, String item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedTotal, String image, String rentalStartedDate, String rentalEndDate, Long paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
         super();
         this.id = id;
         this.rentalId = rentalId;
@@ -162,11 +162,11 @@ public class Rental implements Serializable
         this.item = item;
     }
 
-    public String getRentalStatus() {
+    public Integer getRentalStatus() {
         return rentalStatus;
     }
 
-    public void setRentalStatus(String rentalStatus) {
+    public void setRentalStatus(Integer rentalStatus) {
         this.rentalStatus = rentalStatus;
     }
 

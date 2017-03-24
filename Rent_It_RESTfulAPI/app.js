@@ -400,10 +400,10 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 	});
 });
 
-function sendFCM(/*Maybe the item id, renter ids? we can get the lender from the item id?*/){
-	var lenderID = 'onBNW00rlNg9S1CmBWDHTOu0j3Z2';	// gotten from a DB call via item
+function sendFCM(lenderUID){
+	//var lenderID = 'onBNW00rlNg9S1CmBWDHTOu0j3Z2';	// gotten from a DB call via item
 
-	User.getUserByUid(lenderID, function(err, lender){
+	User.getUserByUid(lenderUID, function(err, lender){
 		if(err){
 			console.log(err);
 		} else{
@@ -457,7 +457,7 @@ function sendFCM(/*Maybe the item id, renter ids? we can get the lender from the
 	
 }
 
-sendFCM();
+sendFCM('onBNW00rlNg9S1CmBWDHTOu0j3Z2');
 
 app.listen(process.env.PORT_NO);
 console.log('Running on port 3000...');
