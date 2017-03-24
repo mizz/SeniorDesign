@@ -1,5 +1,6 @@
 require('dotenv').config();
 var braintree = require("braintree");
+var gcm = require('node-gcm');
 
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
@@ -356,6 +357,8 @@ app.put('/api/user/:uid',function(req,res){
 	});
 });
 
+
+
 //Rental Model
 //get all rentals
 app.get('/api/rentals',function(req,res){
@@ -388,7 +391,7 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 		//if they have a customer_id, use it
 		//generate client token and return it
 		gateway.clientToken.generate({
-			customerId: user.braintree_ccustomer_id
+			customerId: user.braintree_customer_id
 		}, function (err, response) {
   		var clientToken = response.clientToken
   			res.send(response.clientToken);
@@ -396,6 +399,65 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 
 	});
 });
+
+function sendFCM(/*Maybe the item id, renter ids? we can get the lender from the item id?*/){
+	var lenderID = 'onBNW00rlNg9S1CmBWDHTOu0j3Z2';	// gotten from a DB call via item
+
+	User.getUserByUid(lenderID, function(err, lender){
+		if(err){
+			console.log(err);
+		} else{
+			console.log(lender);
+
+			var renter = 'Fred';	// replace this with either a DB lookup here
+									// or the parameter of renter name should be
+									// passed into the function
+			var item = 'Speedboat';	// replace this with either a DB lookup here
+									// or the parameter of renter name should be
+									// passed into the function
+			var rental_request = 	renter +
+									' would like to rent your ' +
+									item +
+									'!';
+
+			var message = new gcm.Message({
+			    collapseKey: 'demo',
+			    priority: 'high',
+			    contentAvailable: true,
+			    // data: {
+			    //     key1: 'message1',
+			    //     key2: 'message2'
+			    // },
+			    notification: {
+			        title: 'Rental Request!',
+			        icon: 'ic_launcher',
+			        body: rental_request
+			    }
+			});
+
+			console.log(lender.uid);
+			console.log(lender.fcm_token);
+
+			// Set up the sender with you API key, prepare your recipients' registration tokens. 
+			var sender = new gcm.Sender(process.env.FCM_API_KEY);
+			var regTokens = [lender.fcm_token];
+			 
+			sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+			    if(err) {
+			    	console.error(err);
+			    }else {
+			    	console.log(response);
+			    }
+			});
+		}
+
+		
+	});
+
+	
+}
+
+sendFCM();
 
 app.listen(process.env.PORT_NO);
 console.log('Running on port 3000...');

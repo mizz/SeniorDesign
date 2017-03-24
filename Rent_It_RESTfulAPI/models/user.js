@@ -40,8 +40,7 @@ module.exports.createUser = function(user, callback){
 
 //Get User by UID
 module.exports.getUserByUid = function(uid, callback){
-	User.find()
-		.where('uid').equals(uid)
+	User.findOne({ 'uid' : uid })
 		.exec(callback);
 }
 

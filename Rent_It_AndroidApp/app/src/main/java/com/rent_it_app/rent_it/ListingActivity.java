@@ -35,6 +35,7 @@ import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Chat;
 import com.rent_it_app.rent_it.json_models.Conversation;
 import com.rent_it_app.rent_it.json_models.Item;
+import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.Review;
 import com.rent_it_app.rent_it.json_models.ReviewEndpoint;
 
@@ -311,6 +312,10 @@ public class ListingActivity extends BaseActivity{
                                                    }
                                                }
                         );
+
+
+                Rental newRental = new Rental();
+
 
                 Intent myIntent = new Intent(ListingActivity.this, ChatActivity.class);
                 myIntent.putExtra(Config.EXTRA_DATA, convo);
