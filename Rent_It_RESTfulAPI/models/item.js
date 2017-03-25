@@ -53,6 +53,12 @@ var itemSchema = mongoose.Schema({
 
 var Item =  module.exports = mongoose.model('Item',itemSchema);
 
+module.exports.getItemsByItemIDs = function(itemIDs, callback){
+	Item.find()
+		.where('_id')
+		.in(itemIDs)
+		.exec(callback);
+}
 
 //Get All Item
 module.exports.getItems = function(callback, limit){
@@ -94,6 +100,8 @@ module.exports.getItemsByUid = function(uid, callback){
 	//Item.findOne({'uid': uid}, callback);
 	//Item.where('uid', uid).findOne(callback);
 }
+
+
 
 //Add Item
 module.exports.addItem = function(item, callback){

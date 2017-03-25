@@ -369,6 +369,7 @@ app.get('/api/rentals',function(req,res){
 		res.json(rentals);
 	});
 });
+
 //create a new rental
 app.post('/api/rentals', function(req,res){
 	var rental = req.body;
@@ -378,6 +379,31 @@ app.post('/api/rentals', function(req,res){
 		}
 		res.json(rental);
 	});
+});
+
+//get contacted rentals by renter
+app.get('/api/rentals/renter/:renter',function(req,res){
+	Rental.getContactedRentalsItems(req.params.renter, function(err,rentalsItems){
+		if(err){
+			throw err;
+		}else{
+			res.json(rentalsItems);
+		}
+	});
+	/*Rental.getContactedRentalsItemIDs(req.params.renter,function(err,itemIDs){
+		if(err){
+			throw err;
+		}else{
+			Item.getItemsByItemIDs(itemIDs, function(err, items){
+				if(err){
+					throw err;
+				}else{
+					res.json(items);
+				}
+			});
+		}
+		//res.json(rentals);
+	})*/
 });
 
 //retrieve client token if given a customer id
@@ -457,7 +483,7 @@ function sendFCM(lenderUID){
 	
 }
 
-sendFCM('onBNW00rlNg9S1CmBWDHTOu0j3Z2');
+//sendFCM('onBNW00rlNg9S1CmBWDHTOu0j3Z2');
 
 app.listen(process.env.PORT_NO);
 console.log('Running on port 3000...');

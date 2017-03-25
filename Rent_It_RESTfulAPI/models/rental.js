@@ -12,7 +12,9 @@ var rentalSchema = mongoose.Schema({
 		type:String
 	},
 	item:{
-		type:String
+		//type:String
+		type:String,
+		ref: 'Item'
 	},
 	rental_status:{
 		type:Number
@@ -55,6 +57,10 @@ var rentalSchema = mongoose.Schema({
 	},
 	total:{
 		type:Number
+	},
+	created_date:{
+		type: Date,
+		default: Date.now
 	}
 });
 
@@ -66,13 +72,34 @@ module.exports.getRentals = function(callback, limit){
 	Rental.find(callback).limit(limit);
 }
 
-//Get Item by Category Name
-/*module.exports.getItemsByCategoryId = function(category, callback){
-	Item.find()
-		.where('category').equals(category)
-		.exec(callback);
-}*/
+//Get item IDs of rentals for trade list
+module.exports.getContactedRentalsItemIDs = function(renter, callback){
+	var query = {renter:renter,rental_status: 1};
+	Rental.find(query)
+		.sort({created_date:-1})
+		.select('-_id item')
+		.exec(function(err, items){
+			if(err){
+				throw err;
+			}else{
+				// extract the item ids from the items
+				var itemIDs=[];
+				for(var i=0;i<items.length;i++){
+				   itemIDs.push(items[i].item);
+				}
+				callback(err, itemIDs);
+			}
+			
+		});
+}
 
+module.exports.getContactedRentalsItems = function(renter, callback){
+	var query = {renter:renter,rental_status: 1};
+	Rental.find(query)
+		  .sort({created_date:-1})
+		  .populate('item')
+		  .exec(callback);
+}
 
 //Add Rental
 module.exports.addRental = function(rental, callback){
