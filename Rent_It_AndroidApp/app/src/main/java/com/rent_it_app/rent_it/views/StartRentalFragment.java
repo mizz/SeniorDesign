@@ -26,6 +26,8 @@ import com.rent_it_app.rent_it.SendRequestActivity;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
+import com.rent_it_app.rent_it.json_models.Rental;
+import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 
 import java.util.ArrayList;
 
@@ -46,10 +48,12 @@ public class StartRentalFragment extends Fragment {
     }
 
     Retrofit retrofit;
-    ItemEndpoint itemEndpoint;
+    //ItemEndpoint itemEndpoint;
+    RentalEndpoint rentalEndpoint;
     TextView tv1;
     Gson gson;
-    private ArrayList<Item> iList;
+    //private ArrayList<Item> iList;
+    private ArrayList<Rental> iList;
     private ListView list;
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
@@ -70,7 +74,8 @@ public class StartRentalFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        itemEndpoint = retrofit.create(ItemEndpoint.class);
+        //itemEndpoint = retrofit.create(ItemEndpoint.class);
+        rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
         /*credentialsProvider = new CognitoCachingCredentialsProvider(
                 getContext(),  // getApplicationContext(),
@@ -107,12 +112,39 @@ public class StartRentalFragment extends Fragment {
     }
     private void loadItemList() {
 
-        iList = new ArrayList<Item>();
+        //iList = new ArrayList<Item>();
+        iList = new ArrayList<Rental>();
         FirebaseUser myUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        Call<ArrayList<Rental>> call = rentalEndpoint.getContactedRentalsItems(myUser.getUid());
+        call.enqueue(new Callback<ArrayList<Rental>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Rental>> call, Response<ArrayList<Rental>> response) {
+                int statusCode = response.code();
+                //List<Item> items = response.body();
+                iList = response.body();
+                //tv1.setText(sb.toString());
+                list.setAdapter(new ItemListAdapter());
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0,
+                                            View arg1, int pos, long arg3) {
+                        startActivity(new Intent(getActivity(), SendRequestActivity.class)
+                                .putExtra(Config.EXTRA_DATA, iList.get(pos)));
+                    }
+                });
 
-        Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(myUser.getUid());
+                Log.d("retrofit.call.enqueue", ""+statusCode);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Rental>> call, Throwable t) {
+                Log.d("retrofit.call.enqueue", "failed");
+            }
+        });
+
+        /*Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(myUser.getUid());
         call.enqueue(new Callback<ArrayList<Item>>() {
             @Override
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
@@ -140,7 +172,8 @@ public class StartRentalFragment extends Fragment {
             public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
                 Log.d("retrofit.call.enqueue", "failed");
             }
-        });
+        });*/
+
 
     }
     private class ItemListAdapter extends BaseAdapter
@@ -156,7 +189,11 @@ public class StartRentalFragment extends Fragment {
          * @see android.widget.Adapter#getItem(int)
          */
         @Override
-        public Item getItem(int arg0)
+        /*public Item getItem(int arg0)
+        {
+            return iList.get(arg0);
+        }*/
+        public Rental getItem(int arg0)
         {
             return iList.get(arg0);
         }
@@ -179,10 +216,11 @@ public class StartRentalFragment extends Fragment {
             if (v == null)
                 v = getActivity().getLayoutInflater().inflate(R.layout.inventory_item, arg2, false);
 
-            Item c = getItem(pos);
+            //Item c = getItem(pos);
+            Rental c = getItem(pos);
 
             TextView lbl = (TextView) v;
-            lbl.setText(c.getTitle());
+            lbl.setText(c.getItem().getTitle());
 
             /*lbl.setCompoundDrawablesWithIntrinsicBounds(
                     c.isOnline() ? R.drawable.ic_online

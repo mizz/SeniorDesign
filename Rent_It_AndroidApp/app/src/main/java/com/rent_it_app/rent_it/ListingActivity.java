@@ -321,7 +321,7 @@ public class ListingActivity extends BaseActivity{
                 newRental.setRentalId(rental_id);
                 newRental.setRenter(myUser.getUid());
                 newRental.setOwner(myItem.getUid());
-                newRental.setItem(myItem.getId());
+                newRental.setItem(myItem);
                 newRental.setRentalStatus(1);//1 means contacted but not rented. 2 is rented and 3 is returned.0 means remove from trade list
 
                 Call<Rental> call = rentalEndpoint.addRental(newRental);
