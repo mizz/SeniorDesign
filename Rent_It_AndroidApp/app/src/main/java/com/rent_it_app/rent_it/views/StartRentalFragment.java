@@ -131,7 +131,7 @@ public class StartRentalFragment extends Fragment {
                     public void onItemClick(AdapterView<?> arg0,
                                             View arg1, int pos, long arg3) {
                         startActivity(new Intent(getActivity(), SendRequestActivity.class)
-                                .putExtra(Config.EXTRA_DATA, iList.get(pos)));
+                                .putExtra(Config.THIS_RENTAL, iList.get(pos)));
                     }
                 });
 

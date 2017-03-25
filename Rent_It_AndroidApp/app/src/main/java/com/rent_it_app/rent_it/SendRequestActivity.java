@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
+import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
 import com.rent_it_app.rent_it.utils.Utility;
 
@@ -69,7 +70,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SendRequestActivity extends BaseActivity{
 
 
-
+    Rental thisRental;
     private EditText txtDate;
     private TextView numDays,rate,estimateTotal,fee,taxAmount;
     private Button btnDatePicker, btnRequest;
@@ -106,9 +107,11 @@ public class SendRequestActivity extends BaseActivity{
         estimateTotal =(TextView)findViewById(R.id.total);
         fee = (TextView)findViewById(R.id.searviceCharge);
         taxAmount = (TextView)findViewById(R.id.tax);
-        dailyRate = 3.50;//temp
+        /*dailyRate = 3.50;//temp
+        rate.setText("$ "+dailyRate);*/
+        thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
+        dailyRate = thisRental.getItem().getRate();
         rate.setText("$ "+dailyRate);
-
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
