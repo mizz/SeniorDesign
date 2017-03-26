@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +27,8 @@ import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.R;
 import com.rent_it_app.rent_it.json_models.BrainTreeEndpoint;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,6 +51,7 @@ public class AccountFragment extends Fragment {
     public static FirebaseUser myUser;
     Retrofit retrofit;
     BrainTreeEndpoint braintreeEndpoint;
+    private PaymentMethodNonce recentPaymentMethod;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -59,6 +63,8 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("PROFILE");
 
         myUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -75,11 +81,51 @@ public class AccountFragment extends Fragment {
             public void onResponse(Call<ResponseBody> call,Response<ResponseBody> response) {
                 int statusCode = response.code();
                 //List<Item> items = response.body();
-                clientToken = response.body().toString();
-               Log.d("myToken ",clientToken);
+                try{
+                    clientToken = response.body().string();
+                    Log.d("myToken ",clientToken);
+
+                    //Log.d("Client Token:", this.clientToken);
+                    Log.d("Client Token:", ""+clientToken);
 
 
-                Log.d("retrofit.call.enqueue", "success");
+
+                    DropInResult.fetchDropInResult(getActivity(), clientToken, new DropInResult.DropInResultListener() {
+                        @Override
+                        public void onError(Exception exception) {
+                            // an error occurred
+                        }
+
+                        @Override
+                        public void onResult(DropInResult result) {
+                            if (result.getPaymentMethodType() != null) {
+                                // use the icon and name to show in your UI
+                                int icon = result.getPaymentMethodType().getDrawable();
+                                int name = result.getPaymentMethodType().getLocalizedName();
+
+                                if (result.getPaymentMethodType() == PaymentMethodType.ANDROID_PAY) {
+
+                                    // The last payment method the user used was Android Pay.
+                                    // The Android Pay flow will need to be performed by the
+                                    // user again at the time of checkout.
+                                } else {
+                                    // Use the payment method show in your UI and charge the user
+                                    // at the time of checkout.
+                                    recentPaymentMethod = result.getPaymentMethodNonce();
+
+                                    Log.d("paymentMethodNonce: ", recentPaymentMethod.getDescription());
+                                }
+                            } else {
+                                // there was no existing payment method
+                                Log.d("braintree.paymentMethod", ".noExistingMethod");
+                            }
+                        }
+                    });
+
+                    Log.d("retrofit.call.enqueue", "success");
+                }catch(IOException ioe){
+
+                }
             }
 
             @Override
@@ -89,40 +135,7 @@ public class AccountFragment extends Fragment {
         });
 
 
-        //Log.d("Client Token:", this.clientToken);
-        Log.d("Client Token:", ""+clientToken);
 
-        DropInResult.fetchDropInResult(getActivity(), CLIENT_TOKEN_TESTING, new DropInResult.DropInResultListener() {
-            @Override
-            public void onError(Exception exception) {
-                // an error occurred
-            }
-
-            @Override
-            public void onResult(DropInResult result) {
-                if (result.getPaymentMethodType() != null) {
-                    // use the icon and name to show in your UI
-                    int icon = result.getPaymentMethodType().getDrawable();
-                    int name = result.getPaymentMethodType().getLocalizedName();
-
-                    if (result.getPaymentMethodType() == PaymentMethodType.ANDROID_PAY) {
-
-                        // The last payment method the user used was Android Pay.
-                        // The Android Pay flow will need to be performed by the
-                        // user again at the time of checkout.
-                    } else {
-                        // Use the payment method show in your UI and charge the user
-                        // at the time of checkout.
-                        PaymentMethodNonce paymentMethod = result.getPaymentMethodNonce();
-
-                        Log.d("paymentMethodNonce: ", paymentMethod.getDescription());
-                    }
-                } else {
-                    // there was no existing payment method
-                    Log.d("braintree.paymentMethod", ".noExistingMethod");
-                }
-            }
-        });
 
         Button brainTreeButton = (Button) view.findViewById(R.id.braintree_button);
         brainTreeButton.setOnClickListener(new View.OnClickListener(){
@@ -150,7 +163,7 @@ public class AccountFragment extends Fragment {
 
     public void onBraintreeSubmit(View v) {
         DropInRequest dropInRequest = new DropInRequest()
-                .clientToken(CLIENT_TOKEN_TESTING);
+                .clientToken(clientToken);
         startActivityForResult(dropInRequest.getIntent(getContext()), REQUEST_CODE);
     }
 
@@ -160,6 +173,7 @@ public class AccountFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
                 Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().toString());
+
                 // use the result to update your UI and send the payment method nonce to your server
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.d("resultCode: ", "RESULT_CANCELLED");

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <!--<Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Profile"
@@ -33,7 +33,7 @@
                 android:minHeight="30dp"
                 android:background="@drawable/buttonshape2"
                 android:textColor="#616161"
-                android:layout_weight="1"/>
+                android:layout_weight="1"/>-->
 
         </LinearLayout>
 
@@ -48,7 +48,7 @@
             android:id="@+id/profile" />
 
         <TextView
-            android:text="nick_name"
+            android:text="Mimi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
@@ -110,7 +110,6 @@
             android:text="mmalhan@oakland.edu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
@@ -131,7 +130,7 @@
         android:id="@+id/braintree_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BrainTree"/>
+        android:text="Add Payment Method"/>
 
         <Button
             android:id="@+id/FCM_button"

@@ -156,7 +156,7 @@ public class SendRequestActivity extends BaseActivity{
                                 tax = (sales+serviceFee)*TAX_RATE;
                                 taxAmount.setText("$ "+roundTwoDecimals(tax));
                                 total = sales+roundTwoDecimals(serviceFee)+roundTwoDecimals(tax);
-                                estimateTotal.setText("$ "+total);
+                                estimateTotal.setText("$ "+roundTwoDecimals(total));
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();

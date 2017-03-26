@@ -410,18 +410,66 @@ app.get('/api/rentals/renter/:renter',function(req,res){
 //retrieve client token
 app.get('/api/bt/client_token/:user_id', function(req,res){
 	//find the user based on user_id
+	console.log('/api/bt/client_token/:user_id');
+
 	User.getUserByUid(req.params.user_id, function(err,user){
 		if(err){
 			throw err;
 		}
-		//if they have a customer_id, use it
-		//generate client token and return it
-		gateway.clientToken.generate({
-			customerId: user.braintree_customer_id
-		}, function (err, response) {
-  		var clientToken = response.clientToken
-  			res.send(response.clientToken);
+		console.log(user);
+
+		//if no customer id found, generate one for the user
+		gateway.customer.find(user.braintree_customer_id, function(err, customer){
+			if (err) {
+			    console.log(err.type); // "notFoundError"
+			    console.log(err.name); // "notFoundError"
+			    console.log(err.message); // "Not Found"
+
+			    gateway.customer.create({
+			    	id: user.braintree_customer_id
+			    }, function(err, result){
+			    	if(err){
+		    			console.log(err.type);
+				    	console.log(err.name); 
+				    	console.log(err.message); 
+			    	}else{
+		    			console.log(result);
+
+		    			//if they have a customer_id, use it
+						//generate client token and return it
+						gateway.clientToken.generate({
+							customerId: user.braintree_customer_id
+						}, function (err, response) {
+							if(err){
+								throw err;
+							}else{
+								console.log(response.clientToken);
+								var clientToken = response.clientToken;
+				  				res.send(response.clientToken);
+				  			}
+						});
+			    	}
+			    });
+			  } else {
+			    console.log(customer);
+
+			    //if they have a customer_id, use it
+				//generate client token and return it
+				gateway.clientToken.generate({
+					customerId: user.braintree_customer_id
+				}, function (err, response) {
+					if(err){
+						throw err;
+					}else{
+						console.log(response.clientToken);
+						var clientToken = response.clientToken;
+		  				res.send(response.clientToken);
+		  			}
+				});
+			  }		
 		});
+
+		
 
 	});
 });
