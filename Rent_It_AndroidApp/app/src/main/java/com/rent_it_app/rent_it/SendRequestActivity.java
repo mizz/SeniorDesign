@@ -86,7 +86,7 @@ public class SendRequestActivity extends BaseActivity{
     private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
-    private ImageView preview;
+    private ImageView preview, imgPayment;
     private Long diff,days;
     private ImageView ivImage;
     private Double dailyRate,total,serviceFee,tax,sales;
@@ -125,6 +125,7 @@ public class SendRequestActivity extends BaseActivity{
         fee = (TextView)findViewById(R.id.searviceCharge);
         taxAmount = (TextView)findViewById(R.id.tax);
         txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
+        imgPayment =(ImageView) findViewById(R.id.img_payment);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
@@ -324,6 +325,7 @@ public class SendRequestActivity extends BaseActivity{
 
                 //icon.setImageResource(result.getPaymentMethodType().getDrawable());
                 //icon.setImageResource(result.getPaymentMethodType().getVaultedDrawable());
+                imgPayment.setImageResource(result.getPaymentMethodType().getDrawable());
 
                 // use the result to update your UI and send the payment method nonce to your server
             } else if (resultCode == Activity.RESULT_CANCELED) {

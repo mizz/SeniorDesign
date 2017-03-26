@@ -267,19 +267,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/windowBackground"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_payment"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_card" />
 
                 <TextView
                     android:id="@+id/paymentMethod"
                     android:textColor="@color/colorLabel"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="9"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:text="No Payment Method Selected"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"/>
+
+
 
             </LinearLayout>
 
