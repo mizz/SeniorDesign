@@ -70,6 +70,24 @@ public class KeywordsFragment extends Fragment {
         keywordList.add("bike");
         keywordList.add("golf");
         keywordList.add("ski");
+        keywordList.add("party");
+        keywordList.add("supplies");
+        keywordList.add("outdoor");
+        keywordList.add("gear");
+        keywordList.add("soccer");
+        keywordList.add("helmet");
+        keywordList.add("motorbike");
+        keywordList.add("equipment");
+        keywordList.add("garden");
+        keywordList.add("lamp");
+        keywordList.add("lights");
+        keywordList.add("books");
+        keywordList.add("party");
+        keywordList.add("Disney");
+        keywordList.add("electronics");
+        keywordList.add("projector");
+        keywordList.add("Apple");
+        keywordList.add("watch");
 
         keywordAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, keywordList);
 
@@ -90,9 +108,10 @@ public class KeywordsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0,
                                     View arg1, int pos, long arg3) {
+                Log.d("keywordAdapter", ".getItem(pos):"+keywordAdapter.getItem(pos));
                 // Perform query here to database for matching items...
                 startActivity(new Intent(getActivity(), SearchActivity.class)
-                        .putExtra(Config.EXTRA_DATA, keywordList.get(pos)));
+                        .putExtra(Config.EXTRA_DATA, keywordAdapter.getItem(pos)));
             }
         });
 
