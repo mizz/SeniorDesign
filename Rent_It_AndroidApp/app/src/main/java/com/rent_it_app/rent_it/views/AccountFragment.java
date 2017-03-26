@@ -181,6 +181,9 @@ public class AccountFragment extends Fragment {
             } else {
                 // handle errors here, an exception may be available in
                 Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+                Log.d("Braintree.DropInUI", "onActivityResult.exception");
+                Log.d("Braintree.DropInUI", "onActivityResult.exception:"+error.getMessage());
+                error.printStackTrace();
             }
         }
     }
