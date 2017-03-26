@@ -1,44 +1,22 @@
 package com.rent_it_app.rent_it;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.braintreepayments.api.dropin.DropInActivity;
 import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;
@@ -46,32 +24,20 @@ import com.braintreepayments.api.dropin.utils.PaymentMethodType;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
-import com.rent_it_app.rent_it.json_models.BrainTreeEndpoint;
-import com.rent_it_app.rent_it.json_models.Item;
-import com.rent_it_app.rent_it.json_models.ItemEndpoint;
+import com.rent_it_app.rent_it.json_models.FunctionEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
-import com.rent_it_app.rent_it.testing.NotificationActivity;
-import com.rent_it_app.rent_it.utils.Utility;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by malhan on 3/4/17.
@@ -97,7 +63,7 @@ public class SendRequestActivity extends BaseActivity{
     private String userChoosenTask;
     private String clientToken;
     Retrofit retrofit;
-    BrainTreeEndpoint braintreeEndpoint;
+    FunctionEndpoint functionEndpoint;
     private PaymentMethodNonce recentPaymentMethod;
     private static final int REQUEST_CODE = Menu.FIRST;
     public static FirebaseUser myUser;
@@ -131,6 +97,11 @@ public class SendRequestActivity extends BaseActivity{
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
         dailyRate = thisRental.getItem().getRate();
         rate.setText("$ "+dailyRate);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .build();
+        functionEndpoint = retrofit.create(FunctionEndpoint.class);
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +162,26 @@ public class SendRequestActivity extends BaseActivity{
 
             public void onClick(View view)
             {
-                startActivity(new Intent(SendRequestActivity.this, NotificationActivity.class));
+                //startActivity(new Intent(SendRequestActivity.this, NotificationActivity.class));
+                Call<ResponseBody> call = functionEndpoint.startRentalNotification(thisRental.getRentalId());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+
+                        //Log.d("photo_dest!=null?", photo_destination.toString());
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                    }
+
+                });
+
             }
 
         });
@@ -223,13 +213,9 @@ public class SendRequestActivity extends BaseActivity{
 
         myUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.REST_API_BASE_URL)
-                .build();
 
-        braintreeEndpoint = retrofit.create(BrainTreeEndpoint.class);
 
-        Call<ResponseBody> call = braintreeEndpoint.getToken(myUser.getUid());
+        Call<ResponseBody> call = functionEndpoint.getToken(myUser.getUid());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call,Response<ResponseBody> response) {

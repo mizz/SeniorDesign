@@ -406,6 +406,17 @@ app.get('/api/rentals/renter/:renter',function(req,res){
 	})*/
 });
 
+//get rentals by rental id
+app.get('/api/rental/:rental_id',function(req,res){
+	Rental.getRentalWithItemByRentalId(req.params.rental_id, function(err,rentalsItems){
+		if(err){
+			throw err;
+		}else{
+			res.json(rentalsItems);
+		}
+	});
+});
+
 //retrieve client token if given a customer id
 //retrieve client token
 app.get('/api/bt/client_token/:user_id', function(req,res){
@@ -474,10 +485,42 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 	});
 });
 
-function sendFCM(lenderUID){
-	//var lenderID = 'onBNW00rlNg9S1CmBWDHTOu0j3Z2';	// gotten from a DB call via item
+app.post('/api/rental/:rental_id', function(req,res){
+	var rental_id = req.params.rental_id;
+	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
+		if(err){
+			throw err;
+		}else{
+			console.log('rental:'+rental);
+			User.getUserByUid(rental.renter, function(err, renter){
+				if(err){
+					throw err;
+				}else{
+					console.log('renter:'+renter);
+					User.getUserByUid(rental.owner, function(err, lender){
+						if(err){
+							throw err;
+						}else{
+							// We now have the item (rental.item), renter, and lender info
+							console.log('lender:'+lender);
+							sendFCM(rental, renter, lender, function(err, response){
+								res.json(response);
+							});
+						}
+					});
+				}
+			});
+		}
+	});
 
-	User.getUserByUid(lenderUID, function(err, lender){
+	//sendFCM();
+	
+});
+
+/*function sendFCM(rental_id){
+	var lenderID = 'onBNW00rlNg9S1CmBWDHTOu0j3Z2';	// gotten from a DB call via item
+
+	User.getUserByUid(lenderID, function(err, lender){
 		if(err){
 			console.log(err);
 		} else{
@@ -498,10 +541,9 @@ function sendFCM(lenderUID){
 			    collapseKey: 'demo',
 			    priority: 'high',
 			    contentAvailable: true,
-			    // data: {
-			    //     key1: 'message1',
-			    //     key2: 'message2'
-			    // },
+			    data: {
+			        rentalId: rental_id
+			    },
 			    notification: {
 			        title: 'Rental Request!',
 			        icon: 'ic_launcher',
@@ -529,9 +571,42 @@ function sendFCM(lenderUID){
 	});
 
 	
+}*/
+
+function sendFCM(rental, renter, lender, callback){
+
+	var renter_name = renter.display_name;
+	var item_name = rental.item.title;
+	var rental_request = 	renter_name +
+							' would like to rent your ' +
+							item_name +
+							'!';
+
+	var message = new gcm.Message({
+	    collapseKey: 'demo',
+	    priority: 'high',
+	    contentAvailable: true,
+	    data: {
+	        rentalId: rental.rental_id
+	    },
+	    notification: {
+	        title: 'Rental Request!',
+	        icon: 'ic_launcher',
+	        body: rental_request
+	    }
+	});
+
+	console.log(lender.uid);
+	console.log(lender.fcm_token);
+
+	// Set up the sender with you API key, prepare your recipients' registration tokens. 
+	var sender = new gcm.Sender(process.env.FCM_API_KEY);
+	var regTokens = [lender.fcm_token];
+	 
+	sender.send(message, { registrationTokens: regTokens }, callback);
 }
 
-//sendFCM('onBNW00rlNg9S1CmBWDHTOu0j3Z2');
+//sendFCM('15b2888c-837d-4fd5-ae1d-093aac5ec5f4');
 
 app.listen(process.env.PORT_NO);
 console.log('Running on port 3000...');

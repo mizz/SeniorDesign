@@ -122,8 +122,8 @@ public class ChatActivity extends BaseActivity {
         if(myUser.getUid().contentEquals(myConversation.getRenter())) {
             buddyId = myConversation.getOwner();
             Log.d("Test","owner: "+myConversation.getOwner());
-            //this.getSupportActionBar().setTitle(buddyId);
-            this.getSupportActionBar().setTitle("James L");
+            this.getSupportActionBar().setTitle(buddyId);
+            //this.getSupportActionBar().setTitle("James L");
         }else{
             buddyId = myConversation.getRenter();
             Log.d("Test","renter: "+myConversation.getRenter());

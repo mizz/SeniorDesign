@@ -4,7 +4,6 @@ package com.rent_it_app.rent_it.views;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 //import com.loopj.android.http.TextHttpResponseHandler;
 import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.R;
-import com.rent_it_app.rent_it.json_models.BrainTreeEndpoint;
+import com.rent_it_app.rent_it.json_models.FunctionEndpoint;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
 
 import java.io.IOException;
@@ -50,7 +49,7 @@ public class AccountFragment extends Fragment {
     private String clientToken;
     public static FirebaseUser myUser;
     Retrofit retrofit;
-    BrainTreeEndpoint braintreeEndpoint;
+    FunctionEndpoint braintreeEndpoint;
     private PaymentMethodNonce recentPaymentMethod;
 
     public AccountFragment() {
@@ -73,7 +72,7 @@ public class AccountFragment extends Fragment {
                 .baseUrl(Constants.REST_API_BASE_URL)
                 .build();
 
-        braintreeEndpoint = retrofit.create(BrainTreeEndpoint.class);
+        braintreeEndpoint = retrofit.create(FunctionEndpoint.class);
 
         Call<ResponseBody> call = braintreeEndpoint.getToken(myUser.getUid());
         call.enqueue(new Callback<ResponseBody>() {

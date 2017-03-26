@@ -72,7 +72,7 @@ module.exports.getRentals = function(callback, limit){
 	Rental.find(callback).limit(limit);
 }
 
-//Get item IDs of rentals for trade list
+//Get item IDs of rentals for trade list - not using
 module.exports.getContactedRentalsItemIDs = function(renter, callback){
 	var query = {renter:renter,rental_status: 1};
 	Rental.find(query)
@@ -92,11 +92,19 @@ module.exports.getContactedRentalsItemIDs = function(renter, callback){
 			
 		});
 }
-
+//using
 module.exports.getContactedRentalsItems = function(renter, callback){
 	var query = {renter:renter,rental_status: 1};
 	Rental.find(query)
 		  .sort({created_date:-1})
+		  .populate('item')
+		  .exec(callback);
+}
+
+//
+module.exports.getRentalWithItemByRentalId = function(rentalid, callback){
+	var query = {rental_id:rentalid};
+	Rental.findOne(query)
 		  .populate('item')
 		  .exec(callback);
 }

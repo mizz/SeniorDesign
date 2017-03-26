@@ -44,7 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification());
         }
 
         // Check if message contains a data payload.
@@ -60,12 +60,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void handleNotification(String message) {
+    private void handleNotification(RemoteMessage.Notification notif) {
         ///if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+            /*Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
             pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);*/
 
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
@@ -78,15 +78,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
             mBuilder.setSmallIcon(R.drawable.chat_bubble_green);
-            mBuilder.setContentTitle("Alert!");
-            mBuilder.setContentText(message);
+            mBuilder.setContentTitle(notif.getTitle());
+            mBuilder.setContentText(notif.getBody());
             mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
             mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
             mBuilder.setSound(alarmSound);
 
-            Intent resultIntent = new Intent(this, SignInActivity.class);
+            Intent resultIntent = new Intent(this, NotificationActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addParentStack(SignInActivity.class);
+            stackBuilder.addParentStack(NotificationActivity.class);
 
             // Adds the Intent that starts the Activity to the top of the stack
             stackBuilder.addNextIntent(resultIntent);
