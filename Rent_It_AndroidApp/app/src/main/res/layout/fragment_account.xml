@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/windowBackground"
     tools:context="com.rent_it_app.rent_it.views.AvailabeItemFragment">
@@ -44,15 +45,16 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="125dp"
             android:layout_marginStart="125dp"
-            android:src="@drawable/ic_profile"
+            android:src="@drawable/sample"
             android:id="@+id/profile" />
 
         <TextView
             android:text="Mimi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="130dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginStart="155dp"
+            android:layout_marginTop="10dp"
             android:textSize="25sp"
             android:id="@+id/nick_name" />
 
@@ -66,7 +68,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:textColor="#A0522D"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:id="@+id/name_title"
             />
 
@@ -76,11 +78,11 @@
             android:orientation="horizontal">
 
                 <ImageView
-                    android:contentDescription="@string/app_name"
                     android:layout_width="34dp"
                     android:layout_height="26dp"
-                    app:srcCompat="@drawable/ic_home_black"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_account"
                     android:id="@+id/name_profile" />
 
                 <TextView
@@ -103,34 +105,42 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:textColor="#A0522D"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:id="@+id/email_title" />
 
-        <TextView
-            android:text="mmalhan@oakland.edu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:textSize="20sp"
-            android:id="@+id/email" />
-        <ImageView
-            android:contentDescription="@string/app_name"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_send"
-            android:layout_marginLeft="330dp"
-            android:layout_marginStart="330dp"
-            android:layout_marginTop="5dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_send"
             android:id="@+id/ic_email" />
+
+            <TextView
+                android:text="mmalhan@oakland.edu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp"
+                android:id="@+id/email" />
+
+
+        </LinearLayout>
 
         <Button
         android:id="@+id/braintree_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Payment Method"/>
+        android:text="Review Payment Method"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorAccent"/>
 
         <Button
             android:id="@+id/FCM_button"

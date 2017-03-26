@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,8 +39,16 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.braintreepayments.api.dropin.DropInActivity;
+import com.braintreepayments.api.dropin.DropInRequest;
+import com.braintreepayments.api.dropin.DropInResult;
+import com.braintreepayments.api.dropin.utils.PaymentMethodType;
+import com.braintreepayments.api.models.PaymentMethodNonce;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
+import com.rent_it_app.rent_it.json_models.BrainTreeEndpoint;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
@@ -57,6 +66,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,7 +82,7 @@ public class SendRequestActivity extends BaseActivity{
 
     Rental thisRental;
     private EditText txtDate;
-    private TextView numDays,rate,estimateTotal,fee,taxAmount;
+    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod;
     private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
@@ -85,6 +95,12 @@ public class SendRequestActivity extends BaseActivity{
     private final Double SERVICE_FEE_RATE = 0.05;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
+    private String clientToken;
+    Retrofit retrofit;
+    BrainTreeEndpoint braintreeEndpoint;
+    private PaymentMethodNonce recentPaymentMethod;
+    private static final int REQUEST_CODE = Menu.FIRST;
+    public static FirebaseUser myUser;
 
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
@@ -107,6 +123,7 @@ public class SendRequestActivity extends BaseActivity{
         estimateTotal =(TextView)findViewById(R.id.total);
         fee = (TextView)findViewById(R.id.searviceCharge);
         taxAmount = (TextView)findViewById(R.id.tax);
+        txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
@@ -167,6 +184,7 @@ public class SendRequestActivity extends BaseActivity{
         });
 
 
+
         btnRequest.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)
@@ -190,7 +208,7 @@ public class SendRequestActivity extends BaseActivity{
                 credentialsProvider);
 
         //Button - Image
-        Button imageButton = (Button) findViewById(R.id.image_button);
+        /*Button imageButton = (Button) findViewById(R.id.image_button);
         imageButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -199,8 +217,109 @@ public class SendRequestActivity extends BaseActivity{
                 selectImage();
             }
         });
-        ivImage = (ImageView) findViewById(R.id.preview);
+        ivImage = (ImageView) findViewById(R.id.preview);*/
 
+        myUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .build();
+
+        braintreeEndpoint = retrofit.create(BrainTreeEndpoint.class);
+
+        Call<ResponseBody> call = braintreeEndpoint.getToken(myUser.getUid());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,Response<ResponseBody> response) {
+                int statusCode = response.code();
+                //List<Item> items = response.body();
+                try{
+                    clientToken = response.body().string();
+                    Log.d("myToken ",clientToken);
+                    //Log.d("Client Token:", this.clientToken);
+                    Log.d("Client Token:", ""+clientToken);
+
+                    DropInResult.fetchDropInResult(SendRequestActivity.this, clientToken, new DropInResult.DropInResultListener() {
+                        @Override
+                        public void onError(Exception exception) {
+                            // an error occurred
+                        }
+
+                        @Override
+                        public void onResult(DropInResult result) {
+                            if (result.getPaymentMethodType() != null) {
+                                // use the icon and name to show in your UI
+                                int icon = result.getPaymentMethodType().getDrawable();
+                                int name = result.getPaymentMethodType().getLocalizedName();
+
+                                if (result.getPaymentMethodType() == PaymentMethodType.ANDROID_PAY) {
+
+                                    // The last payment method the user used was Android Pay.
+                                    // The Android Pay flow will need to be performed by the
+                                    // user again at the time of checkout.
+                                } else {
+                                    // Use the payment method show in your UI and charge the user
+                                    // at the time of checkout.
+                                    recentPaymentMethod = result.getPaymentMethodNonce();
+
+                                    Log.d("paymentMethodNonce: ", recentPaymentMethod.getDescription());
+                                }
+                            } else {
+                                // there was no existing payment method
+                                Log.d("braintree.paymentMethod", ".noExistingMethod");
+                            }
+                        }
+                    });
+
+                    Log.d("retrofit.call.enqueue", "success");
+                }catch(IOException ioe){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call,Throwable t) {
+                Log.d("retrofit.call.enqueue", "failed");
+            }
+        });
+
+
+        Button brainTreeButton = (Button) findViewById(R.id.braintree_button);
+        brainTreeButton.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view)
+            {
+                onBraintreeSubmit(view);
+            }
+
+        });
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+                Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().toString());
+
+                // use the result to update your UI and send the payment method nonce to your server
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.d("resultCode: ", "RESULT_CANCELLED");
+                // the user canceled
+            } else {
+                // handle errors here, an exception may be available in
+                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+                Log.d("Braintree.DropInUI", "onActivityResult.exception");
+                Log.d("Braintree.DropInUI", "onActivityResult.exception:"+error.getMessage());
+                error.printStackTrace();
+            }
+        }
+    }
+
+    public void onBraintreeSubmit(View v) {
+        DropInRequest dropInRequest = new DropInRequest()
+                .clientToken(clientToken);
+        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
     }
 
     double roundTwoDecimals(double d)
@@ -209,139 +328,4 @@ public class SendRequestActivity extends BaseActivity{
         return Double.valueOf(twoDForm.format(d));
     }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(userChoosenTask.equals("Take Photo"))
-                        cameraIntent();
-                    else if(userChoosenTask.equals("Choose from Library"))
-                        galleryIntent();
-                } else {
-                    //code for deny
-                }
-                break;
-        }
-    }
-
-    private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
-                "Cancel" };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Photo");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                boolean result= Utility.checkPermission(SendRequestActivity.this);
-
-                if (items[item].equals("Take Photo")) {
-                    userChoosenTask ="Take Photo";
-                    if(result)
-                        cameraIntent();
-
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask ="Choose from Library";
-                    if(result)
-                        galleryIntent();
-
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    private void galleryIntent()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
-    }
-
-    private void cameraIntent()
-    {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
-    }
-
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
-        photo_destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            photo_destination.createNewFile();
-            fo = new FileOutputStream(photo_destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-            Log.d("photo_des.createNewFile", "success");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Log.d("photo_dest!=null?", photo_destination.toString());
-
-        //Rsizing the image
-        Bitmap resized = Bitmap.createScaledBitmap(thumbnail, 900, 600, true);
-
-        /*ivImage.setImageBitmap(thumbnail);*/
-        ivImage.setImageBitmap(resized);
-
-        //Log.d(TAG, "Height: " + resized.getHeight() + " & Width: " + resized.getWidth());
-    }
-
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-
-        Bitmap bm=null;
-        if (data != null) {
-            try {
-                bm = MediaStore.Images.Media.getBitmap(this.getApplicationContext().getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        photo_destination = new File(getRealPathFromURI(this, getImageUri(this, bm)));
-
-        ivImage.setImageBitmap(bm);
-        Log.d("PATH",""+ photo_destination);
-    }
-
-    private Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private String getRealPathFromURI(Context inContext, Uri uri) {
-        Cursor cursor = inContext.getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
 }

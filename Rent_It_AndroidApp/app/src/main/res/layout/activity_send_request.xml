@@ -34,6 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Return Date"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp" />
 
@@ -71,6 +73,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Estimated Charges"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
@@ -78,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/windowBackground"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
                     <LinearLayout
@@ -245,12 +251,52 @@
 
             </LinearLayout>
 
+            <!--Notes-->
+            <TextView
+                android:id="@+id/label123"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment Method"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/windowBackground"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/paymentMethod"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="No Payment Method Selected"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
 
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/braintree_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorLabel"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Choose Payment Method" />
 
             <!--Image-->
-            <TextView
+            <!--<TextView
                 android:id="@+id/label10"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
@@ -278,7 +324,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/preview"
-                android:padding="5dp"/>
+                android:padding="5dp"/>-->
 
             <!--Notes-->
             <TextView
@@ -287,6 +333,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Notes (optional)"
+                android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
