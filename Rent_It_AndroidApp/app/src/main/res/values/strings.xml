@@ -68,4 +68,11 @@
         <item>Miscellaneous</item>
     </string-array>
 
+    <string-array name="owner_reason_array">
+        <item>Choose a Reason</item>
+        <item>Item Damaged</item>
+        <item>Renter not returning item</item>
+        <item>Renter not responding</item>
+    </string-array>
+
 </resources>
