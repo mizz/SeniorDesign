@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import com.rent_it_app.rent_it.ConfirmRentalActivity;
 import com.rent_it_app.rent_it.HomeActivity;
 import com.rent_it_app.rent_it.SignInActivity;
 import com.rent_it_app.rent_it.firebase.NotificationUtils;
@@ -44,28 +45,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
-        }
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            String rental_id;
 
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
+            if (remoteMessage.getData().size() > 0) {
+                try {
+                    JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                    Log.d("FCM.getData():", json.toString(2));
+                    rental_id = json.getString("rentalId");
+                    Log.d("FCM.rental_id:", rental_id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-    }
-
-    private void handleNotification(String message) {
-        ///if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
@@ -78,15 +70,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
             mBuilder.setSmallIcon(R.drawable.chat_bubble_green);
-            mBuilder.setContentTitle("Alert!");
-            mBuilder.setContentText(message);
+            mBuilder.setContentTitle(remoteMessage.getNotification().getTitle());
+            mBuilder.setContentText(remoteMessage.getNotification().getBody());
             mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
             mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
             mBuilder.setSound(alarmSound);
 
-            Intent resultIntent = new Intent(this, SignInActivity.class);
+            Intent resultIntent = new Intent(this, ConfirmRentalActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addParentStack(SignInActivity.class);
+            stackBuilder.addParentStack(ConfirmRentalActivity.class);
 
             // Adds the Intent that starts the Activity to the top of the stack
             stackBuilder.addNextIntent(resultIntent);
@@ -99,11 +91,78 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             // notificationID allows you to update the notification later on.
             mNotificationManager.notify(notificationID, mBuilder.build());
+        }
 
-        //}else{
-            // If the app is in background, firebase itself handles the notification
-        //}
+        // Check if message contains a data payload.
+        /*if (remoteMessage.getData().size() > 0) {
+            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                handleDataMessage(json);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
+            }
+        }*/
     }
+
+    /*private void handleNotification(RemoteMessage remoteMessage) {
+        ///if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            // app is in foreground, broadcast the push message
+            *//*Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+            pushNotification.putExtra("message", message);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);*//*
+
+        String rental_id;
+
+        if (remoteMessage.getData().size() > 0) {
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                Log.d("FCM.getData():", json.toString(2));
+                rental_id = json.getString("rentalId");
+                Log.d("FCM.rental_id:", rental_id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // play notification sound
+        NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+        notificationUtils.playNotificationSound();
+
+
+        // Notifications are shown here
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        mBuilder.setSmallIcon(R.drawable.chat_bubble_green);
+        mBuilder.setContentTitle(remoteMessage.getNotification().getTitle());
+        mBuilder.setContentText(remoteMessage.getNotification().getBody());
+        mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        mBuilder.setSound(alarmSound);
+
+        Intent resultIntent = new Intent(this, ConfirmRentalActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(ConfirmRentalActivity.class);
+
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int notificationID = 100;
+
+        // notificationID allows you to update the notification later on.
+        mNotificationManager.notify(notificationID, mBuilder.build());
+
+    //}else{
+        // If the app is in background, firebase itself handles the notification
+    //}
+    }*/
 
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());

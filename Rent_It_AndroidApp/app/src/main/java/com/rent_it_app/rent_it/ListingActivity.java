@@ -142,7 +142,7 @@ public class ListingActivity extends BaseActivity{
         txtCity.setText("Location : " + myItem.getCity());
         txtCondition.setText("Condition : " + myItem.getCondition());
         //oName.setText(myItem.getUid());
-        oName.setText("James L");
+        oName.setText("Edward James");
         overallRating.setRating(5);
         txtRate.setText("$" + myItem.getRate() + " /day");
         //txtRate.setText("$" + String.format("%.2f", myItem.getRate()));

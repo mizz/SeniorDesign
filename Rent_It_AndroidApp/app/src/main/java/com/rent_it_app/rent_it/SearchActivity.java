@@ -111,6 +111,16 @@ public class SearchActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                //startActivity(new Intent(SearchActivity.this, HomeActivity.class));
+                //.putExtra("fragment_name", "ChatListFragment"));
+                //startActivity(new Intent(this, ChatListFragment.class));
+            }
+        });
         this.getSupportActionBar().setTitle(myTag);
 
         gson = new Gson();
