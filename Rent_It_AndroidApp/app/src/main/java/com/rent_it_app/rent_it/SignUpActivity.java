@@ -184,8 +184,6 @@ public class SignUpActivity extends BaseActivity {
 
                                     int statusCode = response.code();
                                     //rList = response.body();
-
-
                                     Log.d("retrofit.call.enqueue", ""+statusCode);
 
                                 }
