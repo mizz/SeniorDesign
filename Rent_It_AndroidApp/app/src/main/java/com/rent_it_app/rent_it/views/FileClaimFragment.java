@@ -158,6 +158,18 @@ public class FileClaimFragment extends Fragment {
         btnDatePicker=(Button)view.findViewById(R.id.btn_date);
         rg = (RadioGroup)view.findViewById(R.id.radio_item);
 
+        //Spinner - Item
+
+        final ArrayAdapter<CharSequence> owner_adapter = ArrayAdapter.createFromResource(
+                getActivity(), R.array.owner_reason_array, android.R.layout.simple_spinner_item);
+        owner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final ArrayAdapter<CharSequence> renter_adapter = ArrayAdapter.createFromResource(
+                getActivity(), R.array.renter_reason_array, android.R.layout.simple_spinner_item);
+        renter_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner2.setAdapter(owner_adapter);
+
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -168,11 +180,13 @@ public class FileClaimFragment extends Fragment {
                         // switch to fragment 1
                         Log.d("radio","owner selected");
                         mRole="Owner";
+                        spinner2.setAdapter(owner_adapter);
                         break;
                     case R.id.renter:
                         // Fragment 2
                         Log.d("radio","renter selected");
                         mRole="Renter";
+                        spinner2.setAdapter(renter_adapter);
                         break;
                 }
             }
@@ -198,7 +212,7 @@ public class FileClaimFragment extends Fragment {
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
 
-                                txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                txtDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
 
                             }
                         }, mYear, mMonth, mDay);
@@ -240,13 +254,7 @@ public class FileClaimFragment extends Fragment {
             }
         });
 
-        //Spinner - Item
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(), R.array.owner_reason_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner2.setAdapter(adapter);
 
         //Button - List
         submitButton.setOnClickListener(new OnClickListener()

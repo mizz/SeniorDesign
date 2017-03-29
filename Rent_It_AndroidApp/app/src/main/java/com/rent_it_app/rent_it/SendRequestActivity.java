@@ -136,7 +136,7 @@ public class SendRequestActivity extends BaseActivity{
                                 returnday.set(Calendar.MILLISECOND, 0);
 
                                 diff = returnday.getTimeInMillis() - c.getTimeInMillis(); //result in millis
-                                days = (diff / (24 * 60 * 60 * 1000))+1;
+                                days = (diff / (24 * 60 * 60 * 1000));
                                 //days = TimeUnit.MILLISECONDS.toDays(diff);
                                 //Log.d("diff"," "+diff);
                                 numDays.setText(days+" days");
