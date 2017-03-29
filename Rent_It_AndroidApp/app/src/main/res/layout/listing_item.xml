@@ -112,6 +112,7 @@
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
                 android:text="Daily Rate"
+                android:textStyle="bold"
                 android:gravity="right"
                 android:textColor="#AA3939"
                 android:textSize="18sp" />

@@ -14,6 +14,9 @@ public class User implements Serializable
     @SerializedName("_id")
     @Expose
     private String id;
+    @SerializedName("uid")
+    @Expose
+    private String uid;
     @SerializedName("email")
     @Expose
     private String email;
@@ -44,6 +47,7 @@ public class User implements Serializable
     /**
      *
      * @param id
+     * @param uid
      * @param lastName
      * @param braintreeCustomerId
      * @param email
@@ -51,9 +55,10 @@ public class User implements Serializable
      * @param firstName
      * @param displayName
      */
-    public User(String id, String email, String displayName, String firstName, String lastName, String braintreeCustomerId, String fcmToken) {
+    public User(String id, String uid, String email, String displayName, String firstName, String lastName, String braintreeCustomerId, String fcmToken) {
         super();
         this.id = id;
+        this.uid = uid;
         this.email = email;
         this.displayName = displayName;
         this.firstName = firstName;
@@ -68,6 +73,14 @@ public class User implements Serializable
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {

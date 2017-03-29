@@ -39,6 +39,8 @@ import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 import com.rent_it_app.rent_it.json_models.Review;
 import com.rent_it_app.rent_it.json_models.ReviewEndpoint;
+import com.rent_it_app.rent_it.json_models.User;
+import com.rent_it_app.rent_it.json_models.UserEndpoint;
 
 import org.joda.time.DateTime;
 
@@ -61,9 +63,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ListingActivity extends BaseActivity{
 
     Item myItem;
+    User thisOwner, thisReviewer;
     Retrofit retrofit;
     ReviewEndpoint reviewEndpoint;
     RentalEndpoint rentalEndpoint;
+    UserEndpoint userEndpoint;
     private Review rList;
     Gson gson;
     private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
@@ -108,8 +112,29 @@ public class ListingActivity extends BaseActivity{
 
         final ProgressDialog dia = ProgressDialog.show(this, null, "Loading...");
 
+        gson = new Gson();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        reviewEndpoint = retrofit.create(ReviewEndpoint.class);
+        rentalEndpoint = retrofit.create(RentalEndpoint.class);
+        userEndpoint = retrofit.create(UserEndpoint.class);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.getSupportActionBar().setTitle("");
+        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                /*startActivity(new Intent(getApplicationContext(), HomeActivity.class)
+                        .putExtra("fragment_name", "ChatListFragment"));*/
+                //startActivity(new Intent(ListingActivity.this, BrowseActivity.class));
+            }
+        });
         //this.getSupportActionBar().setTitle("EDIT LISTING");
 
         myItem = (Item) getIntent().getSerializableExtra(Config.MORE_DATA);
@@ -135,14 +160,15 @@ public class ListingActivity extends BaseActivity{
 
         //progress = ProgressDialog.show(this, "dialog title","dialog message", true);
 
+
+
         //progress.show();
         //populate fields
         txtTitle.setText(myItem.getTitle());
         txtDescription.setText(myItem.getDescription());
-        txtCity.setText("Location : " + myItem.getCity());
+        txtCity.setText("" + myItem.getCity());
         txtCondition.setText("Condition : " + myItem.getCondition());
-        //oName.setText(myItem.getUid());
-        oName.setText("Edward James");
+
         overallRating.setRating(5);
         txtRate.setText("$" + myItem.getRate() + " /day");
         //txtRate.setText("$" + String.format("%.2f", myItem.getRate()));
@@ -174,21 +200,38 @@ public class ListingActivity extends BaseActivity{
             e.printStackTrace();
         }
 
+        //get owner display name
+        //String ownerId = myItem.getUid();
+        Log.d("ownerId: ",myItem.getUid());
+        //oName.setText(myItem.getUid());
+        //oName.setText("Edward James");
+
+        Call<User> call_owner = userEndpoint.getUserByUid(myItem.getUid());
+        call_owner.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                int statusCode = response.code();
+                Log.d("response.raw()",""+response.raw());
+                thisOwner = response.body();
+                Log.d("thisOwner: ",thisOwner.toString());
+                Log.d("retrofit.call.enqueue", ""+statusCode);
+                oName.setText(thisOwner.getDisplayName());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                oName.setText("Unknown");
+
+            }
+
+        });
 
 
-        String itemId = myItem.getId();
 
-        gson = new Gson();
-        retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.REST_API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        //String itemId = myItem.getId();
 
-        reviewEndpoint = retrofit.create(ReviewEndpoint.class);
-        rentalEndpoint = retrofit.create(RentalEndpoint.class);
-
-        Call<Review> call = reviewEndpoint.getLatestReviewByItemId(itemId);
-
+        Call<Review> call = reviewEndpoint.getLatestReviewByItemId(myItem.getId());
         call.enqueue(new Callback<Review>() {
             @Override
             public void onResponse(Call<Review> call, Response<Review> response) {
@@ -196,11 +239,11 @@ public class ListingActivity extends BaseActivity{
                 int statusCode = response.code();
                 rList = response.body();
 
-                Log.d("response ",""+response);
+             /*   Log.d("response ",""+response);
                 Log.d("response.body() ",""+response.body());
                 Log.d("rList ",""+rList);
                 Log.d("response.raw()",""+response.raw());
-                Log.d("response.toString() ",""+response);
+                Log.d("response.toString() ",""+response);*/
 
 
                 rTitle.setText(rList.getTitle());
@@ -208,7 +251,8 @@ public class ListingActivity extends BaseActivity{
                 Log.d("getOwnerRating() ","" + rList.getOwnerRating());
                 itemRating.setRating(rList.getItemRating());
                 ownerRating.setRating(rList.getOwnerRating());
-                rReviewer.setText("by Bonnie L");
+                rReviewer.setText(rList.getReviewer());
+
                 String s = rList.getItemComment();
                 if (s.length() > 100) {
                     s = s.substring(0, 100) + "...";
@@ -240,6 +284,29 @@ public class ListingActivity extends BaseActivity{
             }
 
         });
+
+        //get reviewer display name - remove if able to get display name from server
+        /*Call<User> call_reviewer = userEndpoint.getUserByUid(myItem.getUid());
+        call_reviewer.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                int statusCode = response.code();
+                Log.d("response.raw()",""+response.raw());
+                thisReviewer = response.body();
+                Log.d("thisReviewer: ",thisReviewer.toString());
+                Log.d("retrofit.call.enqueue", ""+statusCode);
+                rReviewer.setText(thisReviewer.getUid());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                rReviewer.setText("");
+                Log.d("retrofit.call.enqueue", "failed "+t);
+
+            }
+
+        });*/
 
         //progress.dismiss();
         readMore.setOnClickListener(new View.OnClickListener() {

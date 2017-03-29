@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.gson.Gson;
 import com.rent_it_app.rent_it.R;
 import com.rent_it_app.rent_it.json_models.Chat;
 import com.rent_it_app.rent_it.json_models.ChatUser;
@@ -39,12 +40,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rent_it_app.rent_it.json_models.Conversation;
+import com.rent_it_app.rent_it.json_models.User;
+import com.rent_it_app.rent_it.json_models.UserEndpoint;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatActivity extends BaseActivity {
     /**
@@ -53,31 +62,20 @@ public class ChatActivity extends BaseActivity {
     private ArrayList<Chat> msgList;
     private int lastSentMsgOffset;
 
-    /**
-     * The chat adapter.
-     */
     private ChatAdapter adp;
 
-    /**
-     * The Editext to compose the message.
-     */
     private EditText txt;
+    User myBuddy;
+    Retrofit retrofit;
+    UserEndpoint userEndpoint;
+    Gson gson;
 
-    /**
-     * The user name of buddy.
-     */
     private ChatUser buddy;
-    private String buddyId;
+    private String buddyId, buddyName;
     private Conversation myConversation;
     private Chat myChat;
-
-    /**
-     * The date of last message in conversation.
-     */
     private Date lastMsgDate;
-
     private String rental_id;
-
     private FirebaseUser myUser;
 
     /* (non-Javadoc)
@@ -104,6 +102,13 @@ public class ChatActivity extends BaseActivity {
 
         setTouchNClick(R.id.btnSend);
 
+        gson = new Gson();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        userEndpoint = retrofit.create(UserEndpoint.class);
+
         myUser = FirebaseAuth.getInstance().getCurrentUser();
         Log.d("Test","my uid: "+myUser.getUid());
 
@@ -123,12 +128,35 @@ public class ChatActivity extends BaseActivity {
             buddyId = myConversation.getOwner();
             Log.d("Test","owner: "+myConversation.getOwner());
             //this.getSupportActionBar().setTitle(buddyId);
-            this.getSupportActionBar().setTitle("Edward James");
+            //this.getSupportActionBar().setTitle("Edward James");
         }else{
             buddyId = myConversation.getRenter();
             Log.d("Test","renter: "+myConversation.getRenter());
-            this.getSupportActionBar().setTitle(buddyId);
+            //this.getSupportActionBar().setTitle(buddyId);
         }
+
+        Call<User> call = userEndpoint.getUserByUid(buddyId);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                int statusCode = response.code();
+                Log.d("response.raw()",""+response.raw());
+                myBuddy = response.body();
+
+                Log.d("retrofit.call.enqueue", ""+statusCode);
+                buddyName = myBuddy.getDisplayName();
+                ChatActivity.this.getSupportActionBar().setTitle(buddyName);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                ChatActivity.this.getSupportActionBar().setTitle("Unknown");
+                buddyName = "";
+            }
+
+        });
+
 
     }
 

@@ -59,6 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
+                    android:paddingTop="5dp"
                     android:layout_marginLeft="10dp"
                     style="?android:attr/ratingBarStyleSmall"
                     android:stepSize="1.0"
@@ -74,8 +75,33 @@
                     android:textSize="13sp"
                     android:layout_marginLeft="10dp"/>
 
+                <TextView
+                    android:id="@+id/city"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/item_city"
+                    android:gravity="right"
+                    android:textSize="18sp"
+                    android:layout_marginRight="15dp"/>
+
+
+
 
             </LinearLayout>
+
+            <!--DailyRate-->
+            <TextView
+                android:id="@+id/rate"
+                android:textColor="#AA3939"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="$ -.--/daily"
+                android:textSize="20sp"
+                android:gravity="right"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:paddingRight="15dp"/>
 
             <!--Description-->
             <TextView
@@ -105,7 +131,7 @@
             android:layout_width="match_parent">
 
                 <!--City-->
-                <TextView
+                <!--<TextView
                     android:id="@+id/city"
                     android:textColor="@color/colorLabel"
                     android:layout_width="wrap_content"
@@ -113,10 +139,10 @@
                     android:text="@string/item_city"
                     android:textSize="18sp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"/>-->
 
                 <!--Daily Rate-->
-                <TextView
+                <!--<TextView
                     android:id="@+id/rate"
                     android:textColor="#AA3939"
                     android:layout_width="match_parent"
@@ -126,7 +152,7 @@
                     android:gravity="right"
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
-                    android:paddingRight="15dp"/>
+                    android:paddingRight="15dp"/>-->
 
             </LinearLayout>
 

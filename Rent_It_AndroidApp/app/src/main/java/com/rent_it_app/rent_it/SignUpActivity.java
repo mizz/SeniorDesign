@@ -18,6 +18,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.rent_it_app.rent_it.json_models.User;
+import com.rent_it_app.rent_it.json_models.UserEndpoint;
+
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Mimi on 1/10/17.
@@ -31,7 +42,10 @@ public class SignUpActivity extends BaseActivity {
     private EditText mDisplayNameField;
     private EditText mFirstNameField;
     private EditText mLastNameField;
-
+    User newUser;
+    Retrofit retrofit;
+    UserEndpoint userEndpoint;
+    Gson gson;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -52,6 +66,15 @@ public class SignUpActivity extends BaseActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        userEndpoint = retrofit.create(UserEndpoint.class);
+
+        gson = new Gson();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -140,15 +163,45 @@ public class SignUpActivity extends BaseActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
-                            String userId = task.getResult().getUser().getUid();
+                            //String userId = task.getResult().getUser().getUid();
 
-                            User userData = new User(mFirstNameField.getText().toString(), mLastNameField
-                                    .getText().toString(), mDisplayNameField.getText().toString());
+                           /* User userData = new User(mFirstNameField.getText().toString(), mLastNameField
+                                    .getText().toString(), mDisplayNameField.getText().toString());*/
+
+                            newUser.setUid(task.getResult().getUser().getUid());
+                            newUser.setEmail(task.getResult().getUser().getEmail());
+                            newUser.setFirstName(mFirstNameField.getText().toString());
+                            newUser.setLastName(mLastNameField.getText().toString());
+                            newUser.setDisplayName(mDisplayNameField.getText().toString());
+                            newUser.setFcmToken("");
+                            newUser.setBraintreeCustomerId(UUID.randomUUID().toString());
+
+
+                            Call<User> call = userEndpoint.addUser(newUser);
+                            call.enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
+
+                                    int statusCode = response.code();
+                                    //rList = response.body();
+
+
+                                    Log.d("retrofit.call.enqueue", ""+statusCode);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+                                    Log.d("retrofit.call.enqueue", t.toString());
+
+                                }
+
+                            });
 
 
                             //Toast.makeText(SignUpActivity.this, userId, Toast.LENGTH_SHORT).show();
                             //Log.d(TAG, "your user id is:" + userId);
-                            mDatabase.child(userId).setValue(userData);
+                            //mDatabase.child(userId).setValue(userData);
 
 
                         }else if(task.getException() instanceof FirebaseAuthUserCollisionException){

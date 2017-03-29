@@ -19,7 +19,7 @@ public interface UserEndpoint {
     // Callback for the parsed response is the last parameter
 
 
-    @GET("api//user/{uid}")
+    @GET("api/user/{uid}")
     Call<User> getUserByUid(@Path("uid") String uid);
 
     @PUT("api/user/{uid}")
