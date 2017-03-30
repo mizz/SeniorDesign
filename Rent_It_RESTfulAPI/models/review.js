@@ -49,6 +49,7 @@ module.exports.getReviews = function(callback, limit){
 module.exports.getLatestReviewByItemId = function(item, callback){
 	Review.findOne({'item': item})
 		.sort({date_created: -1})
+		.populate('reviewer_info')
 		.exec(callback);
 }
 
@@ -64,5 +65,6 @@ module.exports.getReviewsByItemId = function(item, callback){
 module.exports.getReviewsByOwnerId = function(owner, callback){
 	Review.find()
 		.where('owner').equals(owner)
+		.populate('reviewer_info')
 		.exec(callback);
 }

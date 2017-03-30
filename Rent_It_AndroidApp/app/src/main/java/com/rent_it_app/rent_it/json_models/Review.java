@@ -38,6 +38,9 @@ public class Review implements Serializable
     @SerializedName("reviewer")
     @Expose
     private String reviewer;
+    @SerializedName("reviewer_info")
+    @Expose
+    private User reviewerInfo;
     @SerializedName("date_created")
     @Expose
     private String dateCreated;
@@ -62,8 +65,9 @@ public class Review implements Serializable
      * @param ownerRating
      * @param itemComment
      * @param itemRating
+     * @param reviewerInfo
      */
-    public Review(String id, String item, String owner, Integer itemRating, String title, String itemComment, Integer ownerRating, String ownerComment, String reviewer, String dateCreated) {
+    public Review(String id, String item, String owner, Integer itemRating, String title, String itemComment, Integer ownerRating, String ownerComment, String reviewer, User reviewerInfo, String dateCreated) {
         super();
         this.id = id;
         this.item = item;
@@ -74,6 +78,7 @@ public class Review implements Serializable
         this.ownerRating = ownerRating;
         this.ownerComment = ownerComment;
         this.reviewer = reviewer;
+        this.reviewerInfo = reviewerInfo;
         this.dateCreated = dateCreated;
     }
 
@@ -148,6 +153,15 @@ public class Review implements Serializable
     public void setReviewer(String reviewer) {
         this.reviewer = reviewer;
     }
+
+    public User getReviewerInfo() {
+        return reviewerInfo;
+    }
+
+    public void setReviewerInfo(User reviewerInfo) {
+        this.reviewerInfo = reviewerInfo;
+    }
+
 
     public String getDateCreated() {
         return dateCreated;

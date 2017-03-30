@@ -288,20 +288,22 @@ app.get('/api/review/item/:item',function(req,res){
 			console.log("review is null 1");
 			review =[];
 			console.log("review is now " + review);
-			res.json(review);
-		}else{
-			console.log(review);
+			//res.json(review);
+		}
+		res.json(review);
+		//else{
+			/*console.log(review);
 			User.getUserByUid(review.reviewer, function(err, user){
 				if(err){
 					throw err;
 				}else{
 					console.log(user);
-					review.reviewer = user.display_name;
+					//review.reviewer = user.display_name;
 					console.log(review);
-				}
-				res.json(review);
-			});
-		}
+				}*/
+				//res.json(review);
+			//});
+		//}
 	})
 });
 
