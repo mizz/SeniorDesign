@@ -288,9 +288,20 @@ app.get('/api/review/item/:item',function(req,res){
 			console.log("review is null 1");
 			review =[];
 			console.log("review is now " + review);
+			res.json(review);
+		}else{
+			console.log(review);
+			User.getUserByUid(review.reviewer, function(err, user){
+				if(err){
+					throw err;
+				}else{
+					console.log(user);
+					review.reviewer = user.display_name;
+					console.log(review);
+				}
+				res.json(review);
+			});
 		}
-	
-		res.json(review);
 	})
 });
 
@@ -300,8 +311,42 @@ app.get('/api/reviews/item/:item',function(req,res){
 		if(err){
 			throw err;
 		}
+		if (reviews){
+			console.log(reviews);
 
-			console.log("review is  " + reviews);
+			//console.log("reviewer is "+reviews[0].reviewer);
+
+			//console.log("reviewer is "+reviews[0].reviewer);
+			/*User.getUserByUid(reviews[1].reviewer, function(err, user){
+				if(err){
+					throw err;
+				}else{
+					console.log("user is " + user);
+					
+					console.log("review is "+reviews[1]);
+					console.log("reviewer is "+reviews[1].reviewer);
+					console.log("display_name is "+user.display_name);
+					reviews[1].reviewer = user.display_name;
+					console.log(reviews);
+				}
+			
+			});*/
+
+			/*for(var i = 0, len = reviews.length; i < len; i++){
+				//console.log("reviewer is "+reviews[i].reviewer);
+				User.getUserByUid(reviews[i].reviewer, function(err, user){
+					if(err){
+						throw err;
+					}else{
+						console.log("user is " + user);
+						console.log("review is "+reviews[i]);
+						console.log("reviewer is "+reviews[i].reviewer);
+						reviews[i].reviewer = user.display_name;
+					}
+				});
+			}*/
+			
+		}
 		res.json(reviews);
 	})
 });

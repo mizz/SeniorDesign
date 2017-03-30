@@ -86,7 +86,7 @@ public class ListingActivity extends BaseActivity{
 
     private FirebaseUser myUser;
     private Conversation convo;
-    private String rental_id;
+    private String rental_id, ownerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,11 +216,13 @@ public class ListingActivity extends BaseActivity{
                 thisOwner = response.body();
                 Log.d("thisOwner: ",thisOwner.toString());
                 Log.d("retrofit.call.enqueue", ""+statusCode);
-                oName.setText(thisOwner.getDisplayName());
+                ownerName = thisOwner.getDisplayName();
+                oName.setText(ownerName);
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                ownerName = "";
                 oName.setText("Unknown");
 
             }
@@ -251,7 +253,7 @@ public class ListingActivity extends BaseActivity{
                 Log.d("getOwnerRating() ","" + rList.getOwnerRating());
                 itemRating.setRating(rList.getItemRating());
                 ownerRating.setRating(rList.getOwnerRating());
-                rReviewer.setText(rList.getReviewer());
+                rReviewer.setText("by "+rList.getReviewer());
 
                 String s = rList.getItemComment();
                 if (s.length() > 100) {
@@ -340,8 +342,8 @@ public class ListingActivity extends BaseActivity{
                 defaultFirstMsg.setSender(myUser.getUid());
                 defaultFirstMsg.setReceiver(myItem.getUid());
                 defaultFirstMsg.setStatus(Chat.STATUS_SENDING);
-                String defaultMsg = "Hi " +
-                        myItem.getUid()+
+                String defaultMsg = "Hi " + ownerName +
+                        //myItem.getUid()+
                          ", I'm interested in renting your "
                                   + myItem.getTitle() + ".";
                 defaultFirstMsg.setMsg(defaultMsg);

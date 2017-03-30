@@ -29,6 +29,13 @@ var reviewSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
+}, { toJSON: { virtuals: true } });
+
+reviewSchema.virtual('reviewer_info', {
+	ref: 'User', 			// The model to use
+	localField: 'reviewer', // Find users where `localField`
+	foreignField: 'uid',	// is equal to the `foreignField`
+	justOne: true
 });
 
 var Review = module.exports = mongoose.model('Review',reviewSchema);
@@ -49,6 +56,7 @@ module.exports.getLatestReviewByItemId = function(item, callback){
 module.exports.getReviewsByItemId = function(item, callback){
 	Review.find()
 		.where('item').equals(item)
+		.populate('reviewer_info')
 		.exec(callback);
 }
 
