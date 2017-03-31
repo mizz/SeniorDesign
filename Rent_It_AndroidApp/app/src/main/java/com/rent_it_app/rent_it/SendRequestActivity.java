@@ -29,7 +29,6 @@ import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.FunctionEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
-import com.rent_it_app.rent_it.json_models.Review;
 
 import java.io.File;
 import java.io.IOException;
@@ -189,7 +188,7 @@ public class SendRequestActivity extends BaseActivity{
                 //thisRental.setBookedStartDate(c.toString());
                 thisRental.setBookedEndDate(returnAsISO);
                 thisRental.setBookedPeriod(days);
-                thisRental.setEstimatedTotal(roundTwoDecimals(total));
+                thisRental.setEstimatedProfit(roundTwoDecimals(sales));
                 thisRental.setNotes(txtNotes.getText().toString());
                 thisRental.setPaymentStatus(1);//payment saved not yet paid
                 thisRental.setDailyRate(dailyRate);

@@ -26,8 +26,9 @@ public class ConfirmRentalActivity extends BaseActivity{
     private Button btnCancel,btnAccept;
     private BroadcastReceiver broadcastReceiver;
     private Context context;
-    private TextView itemName, renterName;
+    private TextView itemName, renterName, estimatedProfit, returnDate;
     private Bundle myData;
+    private String str;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,10 @@ public class ConfirmRentalActivity extends BaseActivity{
 
         itemName = (TextView)findViewById(R.id.tvItem);
         renterName = (TextView)findViewById(R.id.tvRenter);
+        estimatedProfit = (TextView)findViewById(R.id.tvProfit);
+        returnDate = (TextView)findViewById(R.id.tvReturnDate);
 
-        myData = getIntent().getExtras();
+        //myData = getIntent().getExtras();
 
         //if (getIntent().getExtras() != null) {
            /* Bundle myData = getIntent().getExtras();
@@ -51,7 +54,7 @@ public class ConfirmRentalActivity extends BaseActivity{
         Log.d("myData: ", renter);
         Log.d("myData: ", itemName);*/
         //}
-        Log.d("Testing", "opened ConfirmRentalActivity");
+        //Log.d("Testing", "opened ConfirmRentalActivity");
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
                 Object value = getIntent().getExtras().get(key);
@@ -61,6 +64,23 @@ public class ConfirmRentalActivity extends BaseActivity{
 
             itemName.setText(""+getIntent().getExtras().get("itemName"));
             renterName.setText(""+getIntent().getExtras().get("renter"));
+            str = getIntent().getExtras().get("returnDate").toString();
+            int iend = str.indexOf("T");
+            if (iend != -1)
+                str= str.substring(0 , iend);
+
+            returnDate.setText(""+str);
+            str = getIntent().getExtras().get("estimatedProfit").toString();
+            Double profit = Double.parseDouble(str);
+            estimatedProfit.setText("$ "+String.format("%.2f", profit));
+
+
+            //Log.d("Testing Profit: ", getIntent().getExtras().get("estimatedProfit").toString());
+        }else{
+            itemName.setText("---");
+            renterName.setText("---");
+            estimatedProfit.setText("---");
+            returnDate.setText("---");
         }
         //see braodcast works
         /*broadcastReceiver = new BroadcastReceiver() {

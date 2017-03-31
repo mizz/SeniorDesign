@@ -28,7 +28,7 @@ var rentalSchema = mongoose.Schema({
 	booked_period:{
 		type:Number
 	},
-	estimated_total:{
+	estimated_profit:{
 		type:Number
 	},
 	notes:{
@@ -122,7 +122,7 @@ module.exports.updateRental = function(rentalid, rental, options, callback){
 		booked_start_date:rental.booked_start_date,
 		booked_end_date:rental.booked_end_date,
 		booked_period:rental.booked_period,
-		estimated_total:rental.estimated_total,
+		estimated_profit:rental.estimated_profit,
 		notes:rental.notes,
 		rental_started_date: rental.rental_started_date,
 		rental_end_date: rental.rental_end_date,

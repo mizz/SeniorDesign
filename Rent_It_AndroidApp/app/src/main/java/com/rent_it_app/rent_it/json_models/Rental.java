@@ -39,9 +39,9 @@ public class Rental implements Serializable
     @SerializedName("booked_period")
     @Expose
     private Long bookedPeriod;
-    @SerializedName("estimated_total")
+    @SerializedName("estimated_profit")
     @Expose
-    private Double estimatedTotal;
+    private Double estimatedProfit;
     @SerializedName("notes")
     @Expose
     private String notes;
@@ -98,9 +98,9 @@ public class Rental implements Serializable
      * @param rentalPeriod
      * @param bookedEndDate
      * @param rentalEndDate
-     * @param estimatedTotal
+     * @param estimatedProfit
      */
-    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedTotal, String notes, String rentalStartedDate, String rentalEndDate, Integer paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
+    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedProfit, String notes, String rentalStartedDate, String rentalEndDate, Integer paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
         super();
         this.id = id;
         this.rentalId = rentalId;
@@ -111,7 +111,7 @@ public class Rental implements Serializable
         this.bookedStartDate = bookedStartDate;
         this.bookedEndDate = bookedEndDate;
         this.bookedPeriod = bookedPeriod;
-        this.estimatedTotal = estimatedTotal;
+        this.estimatedProfit = estimatedProfit;
         this.notes = notes;
         this.rentalStartedDate = rentalStartedDate;
         this.rentalEndDate = rentalEndDate;
@@ -203,12 +203,12 @@ public class Rental implements Serializable
         this.bookedPeriod = bookedPeriod;
     }
 
-    public Double getEstimatedTotal() {
-        return estimatedTotal;
+    public Double getEstimatedProfit() {
+        return estimatedProfit;
     }
 
-    public void setEstimatedTotal(Double estimatedTotal) {
-        this.estimatedTotal = estimatedTotal;
+    public void setEstimatedProfit(Double estimatedProfit) {
+        this.estimatedProfit = estimatedProfit;
     }
 
     public String getNotes() {

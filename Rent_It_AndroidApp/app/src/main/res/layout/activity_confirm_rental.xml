@@ -92,7 +92,7 @@
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="3 days"
+                android:text="---"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"/>
 
@@ -115,7 +115,7 @@
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="$ 6.00"
+                android:text="---"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"/>
 
@@ -195,8 +195,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-
 
 
 </LinearLayout>

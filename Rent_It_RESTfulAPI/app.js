@@ -566,7 +566,7 @@ app.post('/api/rental/:rental_id', function(req,res){
 	
 });
 
-//update rental - when seding rental request
+//update rental - when sending rental request
 app.put('/api/rental/request/:rental_id',function(req,res){
 	var rental_id = req.params.rental_id;
 	var rental = req.body;
@@ -669,6 +669,8 @@ function sendFCM(rental, renter, lender, callback){
 
 	var renter_name = renter.display_name;
 	var item_name = rental.item.title;
+	var estimated_profit = rental.estimated_profit;
+	var return_date = rental.booked_end_date;
 	var rental_request = 	renter_name +
 							' would like to rent your ' +
 							item_name +
@@ -681,7 +683,9 @@ function sendFCM(rental, renter, lender, callback){
 	    data: {
 	        rentalId: rental.rental_id,
 	        renter: renter_name,
-	        itemName: item_name
+	        itemName: item_name,
+	        returnDate: return_date,
+	        estimatedProfit:estimated_profit
 	    },
 	    notification: {
 	        title: 'Rental Request!',

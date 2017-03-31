@@ -35,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
     private NotificationUtils notificationUtils;
     public static final String DATA_BROADCAST = "myData";
-    String rental_id,item_name,renter_name;
+    String rental_id,item_name,renter_name,estimated_profit,return_date;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle FCM messages here.
@@ -56,11 +56,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             rental_id = remoteMessage.getData().get("rentalId");
             item_name = remoteMessage.getData().get("itemName");
             renter_name = remoteMessage.getData().get("renter");
+            estimated_profit = remoteMessage.getData().get("estimatedProfit");
+            return_date = remoteMessage.getData().get("returnDate");
+
+            Log.d(TAG, "profit "+estimated_profit+"return "+return_date);
 
             String title = remoteMessage.getNotification().getTitle();
-            /*Map<String, String> data = remoteMessage.getData();
-            String myRentalId = data.get("rental_id");
-            Log.d("FCM.rental_id:", ""+myRentalId);*/
             sendNotification(remoteMessage.getNotification().getBody(),clickAction,title);
 
            /* try {
@@ -127,6 +128,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra("rentalId",rental_id);
         intent.putExtra("itemName",item_name);
         intent.putExtra("renter",renter_name);
+        intent.putExtra("estimatedProfit",estimated_profit);
+        intent.putExtra("returnDate",return_date);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
