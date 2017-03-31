@@ -178,7 +178,7 @@ public class SendRequestActivity extends BaseActivity{
             {
 
                 //String rental_id = thisRental.getRentalId();
-                thisRental.setRentalStatus(2);// 2 means sent request
+                thisRental.setRentalStatus(1);// 2 means sent request
                 thisRental.getBookedStartDate();
                 TimeZone tz = TimeZone.getTimeZone("America/New_York");
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset

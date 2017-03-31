@@ -25,6 +25,8 @@ import com.rent_it_app.rent_it.firebase.NotificationUtils;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
 import com.rent_it_app.rent_it.R;
 
+import java.util.Map;
+
 /**
  * Created by Nagoya on 2/16/17.
  */
@@ -32,6 +34,8 @@ import com.rent_it_app.rent_it.R;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
     private NotificationUtils notificationUtils;
+    public static final String DATA_BROADCAST = "myData";
+    String rental_id,item_name,renter_name;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle FCM messages here.
@@ -42,41 +46,46 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage == null)
             return;
 
-        String rental_id;
+
+        String clickAction = remoteMessage.getNotification().getClickAction();
 
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "I have data");
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            try {
+
+            rental_id = remoteMessage.getData().get("rentalId");
+            item_name = remoteMessage.getData().get("itemName");
+            renter_name = remoteMessage.getData().get("renter");
+
+            String title = remoteMessage.getNotification().getTitle();
+            /*Map<String, String> data = remoteMessage.getData();
+            String myRentalId = data.get("rental_id");
+            Log.d("FCM.rental_id:", ""+myRentalId);*/
+            sendNotification(remoteMessage.getNotification().getBody(),clickAction,title);
+
+           /* try {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                Log.d("FCM.getData():", json.toString(2));
+                //Log.d("FCM.getData():", json.toString(2));
                 rental_id = json.getString("rentalId");
-                Log.d("FCM.rental_id:", rental_id);
+                //Log.d("FCM.rental_id:", rental_id);
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
+        //testing if LocalBroadcastManager works
+        /*Intent intent = new Intent("mydata");
+        // add data
+        intent.putExtra("rentalId", rental_id);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        getApplicationContext().sendBroadcast(new Intent(DATA_BROADCAST));*/
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
 
-            /*String rental_id;
 
-            if (remoteMessage.getData().size() > 0) {
-                Log.d(TAG, "I have data");
-                Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-                try {
-                    JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                    Log.d("FCM.getData():", json.toString(2));
-                    rental_id = json.getString("rentalId");
-                    Log.d("FCM.rental_id:", rental_id);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }*/
 
-            // play notification sound
+            /*// play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
 
@@ -107,20 +116,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             int notificationID = 100;
 
             // notificationID allows you to update the notification later on.
-            mNotificationManager.notify(notificationID, mBuilder.build());
+            mNotificationManager.notify(notificationID, mBuilder.build());*/
         }
 
-        // Check if message contains a data payload.
-        /*if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
-            }
-        }*/
+    }
+
+    private void sendNotification(String messageBody,String clickAction,String title) {
+        Intent intent = new Intent(clickAction);
+        intent.putExtra("rentalId",rental_id);
+        intent.putExtra("itemName",item_name);
+        intent.putExtra("renter",renter_name);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_account)
+                .setContentTitle(title)
+                .setContentText(messageBody)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(100 /* ID of notification */, notificationBuilder.build());
     }
 
     /*private void handleNotification(RemoteMessage remoteMessage) {

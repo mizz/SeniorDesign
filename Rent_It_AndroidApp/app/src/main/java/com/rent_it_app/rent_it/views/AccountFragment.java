@@ -187,7 +187,7 @@ public class AccountFragment extends Fragment {
                 onBraintreeSubmit(view);
             }
 
-        });
+        });*/
 
         Button fcmButton = (Button) view.findViewById(R.id.FCM_button);
         fcmButton.setOnClickListener(new View.OnClickListener(){
@@ -197,7 +197,7 @@ public class AccountFragment extends Fragment {
                 startActivity(new Intent(getActivity(), NotificationActivity.class));
             }
 
-        });*/
+        });
 
         // Inflate the layout for this fragment
         return view;

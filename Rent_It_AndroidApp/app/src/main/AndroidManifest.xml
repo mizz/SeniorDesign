@@ -40,7 +40,12 @@
         <activity android:name=".ShowItemReviewsActivity"></activity>
         <activity android:name=".ShowOwnerReviewsActivity"></activity>
         <activity android:name=".ConfirmRentalActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="YOUR_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".testing.NotificationActivity">
 
         </activity>

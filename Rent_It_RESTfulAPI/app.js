@@ -582,19 +582,20 @@ app.put('/api/rental/request/:rental_id',function(req,res){
 		if(err){
 			throw err;
 		}else{
-			console.log('rental:'+rental);
+			//console.log('rental:'+rental);
 			User.getUserByUid(rental.renter, function(err, renter){
 				if(err){
 					throw err;
 				}else{
-					console.log('renter:'+renter);
+					//console.log('renter:'+renter);
 					User.getUserByUid(rental.owner, function(err, lender){
 						if(err){
 							throw err;
 						}else{
 							// We now have the item (rental.item), renter, and lender info
-							console.log('lender:'+lender);
+							//console.log('lender:'+lender);
 							sendFCM(rental, renter, lender, function(err, response){
+								console.log('notification: '+JSON.stringify(response));
 								//res.json(response);
 							});
 						}
@@ -662,6 +663,8 @@ app.put('/api/rental/request/:rental_id',function(req,res){
 	
 }*/
 
+
+
 function sendFCM(rental, renter, lender, callback){
 
 	var renter_name = renter.display_name;
@@ -683,7 +686,8 @@ function sendFCM(rental, renter, lender, callback){
 	    notification: {
 	        title: 'Rental Request!',
 	        icon: 'ic_launcher',
-	        body: rental_request
+	        body: rental_request,
+	        click_action:'YOUR_ACTION'
 	    }
 	});
 

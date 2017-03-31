@@ -117,13 +117,13 @@
         android:layout_height="wrap_content"
         android:text="Review Payment Method"
             android:layout_marginTop="40dp"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorAccent"/>-->
 
         <Button
             android:id="@+id/FCM_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FCM"/>-->
+            android:text="FCM"/>
 
 
     </LinearLayout>
