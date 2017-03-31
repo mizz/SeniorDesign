@@ -42,9 +42,9 @@ public class Rental implements Serializable
     @SerializedName("estimated_total")
     @Expose
     private Double estimatedTotal;
-    @SerializedName("image")
+    @SerializedName("notes")
     @Expose
-    private String image;
+    private String notes;
     @SerializedName("rental_started_date")
     @Expose
     private String rentalStartedDate;
@@ -53,7 +53,7 @@ public class Rental implements Serializable
     private String rentalEndDate;
     @SerializedName("payment_status")
     @Expose
-    private Long paymentStatus;
+    private Integer paymentStatus;
     @SerializedName("daily_rate")
     @Expose
     private Double dailyRate;
@@ -85,7 +85,7 @@ public class Rental implements Serializable
      * @param serviceFee
      * @param renter
      * @param dailyRate
-     * @param image
+     * @param notes
      * @param paymentStatus
      * @param bookedStartDate
      * @param rentalStartedDate
@@ -100,7 +100,7 @@ public class Rental implements Serializable
      * @param rentalEndDate
      * @param estimatedTotal
      */
-    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedTotal, String image, String rentalStartedDate, String rentalEndDate, Long paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
+    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedTotal, String notes, String rentalStartedDate, String rentalEndDate, Integer paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
         super();
         this.id = id;
         this.rentalId = rentalId;
@@ -112,7 +112,7 @@ public class Rental implements Serializable
         this.bookedEndDate = bookedEndDate;
         this.bookedPeriod = bookedPeriod;
         this.estimatedTotal = estimatedTotal;
-        this.image = image;
+        this.notes = notes;
         this.rentalStartedDate = rentalStartedDate;
         this.rentalEndDate = rentalEndDate;
         this.paymentStatus = paymentStatus;
@@ -211,12 +211,12 @@ public class Rental implements Serializable
         this.estimatedTotal = estimatedTotal;
     }
 
-    public String getImage() {
-        return image;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getRentalStartedDate() {
@@ -235,11 +235,11 @@ public class Rental implements Serializable
         this.rentalEndDate = rentalEndDate;
     }
 
-    public Long getPaymentStatus() {
+    public Integer getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(Long paymentStatus) {
+    public void setPaymentStatus(Integer paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 

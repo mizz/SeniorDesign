@@ -24,20 +24,28 @@ import com.braintreepayments.api.dropin.utils.PaymentMethodType;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.FunctionEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
+import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+import com.rent_it_app.rent_it.json_models.Review;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by malhan on 3/4/17.
@@ -47,7 +55,7 @@ public class SendRequestActivity extends BaseActivity{
 
 
     Rental thisRental;
-    private EditText txtDate;
+    private EditText txtDate,txtNotes;
     private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod;
     private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
@@ -56,7 +64,7 @@ public class SendRequestActivity extends BaseActivity{
     private Long diff,days;
     private ImageView ivImage;
     private Double dailyRate,total,serviceFee,tax,sales;
-    private Calendar returnday;
+    private Calendar returnday,c;
     private final Double TAX_RATE = 0.06;
     private final Double SERVICE_FEE_RATE = 0.05;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -64,10 +72,12 @@ public class SendRequestActivity extends BaseActivity{
     private String clientToken;
     Retrofit retrofit;
     FunctionEndpoint functionEndpoint;
+    RentalEndpoint rentalEndpoint;
     private PaymentMethodNonce recentPaymentMethod;
     private static final int REQUEST_CODE = Menu.FIRST;
     public static FirebaseUser myUser;
     private String paymentMethodDescription;
+    Gson gson;
 
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
@@ -91,23 +101,27 @@ public class SendRequestActivity extends BaseActivity{
         fee = (TextView)findViewById(R.id.searviceCharge);
         taxAmount = (TextView)findViewById(R.id.tax);
         txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
-        imgPayment =(ImageView) findViewById(R.id.img_payment);
+        txtNotes = (EditText)findViewById(R.id.notes);
+        //imgPayment =(ImageView) findViewById(R.id.img_payment);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
         dailyRate = thisRental.getItem().getRate();
         rate.setText("$ "+dailyRate);
 
+        gson = new Gson();
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.REST_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         functionEndpoint = retrofit.create(FunctionEndpoint.class);
+        rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get Current Date
-                final Calendar c = Calendar.getInstance();
+                c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);
                 mMonth = c.get(Calendar.MONTH);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -162,8 +176,51 @@ public class SendRequestActivity extends BaseActivity{
 
             public void onClick(View view)
             {
-                //startActivity(new Intent(SendRequestActivity.this, NotificationActivity.class));
-                Call<ResponseBody> call = functionEndpoint.startRentalNotification(thisRental.getRentalId());
+
+                //String rental_id = thisRental.getRentalId();
+                thisRental.setRentalStatus(2);// 2 means sent request
+                thisRental.getBookedStartDate();
+                TimeZone tz = TimeZone.getTimeZone("America/New_York");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+                df.setTimeZone(tz);
+                String nowAsISO = df.format(new Date());
+                String returnAsISO = df.format(returnday.getTime());
+                thisRental.setBookedStartDate(nowAsISO);
+                //thisRental.setBookedStartDate(c.toString());
+                thisRental.setBookedEndDate(returnAsISO);
+                thisRental.setBookedPeriod(days);
+                thisRental.setEstimatedTotal(roundTwoDecimals(total));
+                thisRental.setNotes(txtNotes.getText().toString());
+                thisRental.setPaymentStatus(1);//payment saved not yet paid
+                thisRental.setDailyRate(dailyRate);
+                thisRental.setRentalPeriod(0.0);
+                thisRental.setServiceFee(0.00);
+                thisRental.setTax(0.00);
+                thisRental.setTotal(0.00);
+
+                String rental_id = thisRental.getRentalId();
+
+                //update Rental Table
+                Call<Rental> call = rentalEndpoint.sendRequest(rental_id,thisRental);
+                call.enqueue(new Callback<Rental>() {
+                    @Override
+                    public void onResponse(Call<Rental> call, Response<Rental> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+
+                        //Log.d("photo_dest!=null?", photo_destination.toString());
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Rental> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                    }
+
+                });
+                //send notification to owner
+                /*Call<ResponseBody> call = functionEndpoint.startRentalNotification(thisRental.getRentalId());
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -180,7 +237,7 @@ public class SendRequestActivity extends BaseActivity{
                         Log.d("retrofit.call.enqueue", t.toString());
                     }
 
-                });
+                });*/
 
             }
 

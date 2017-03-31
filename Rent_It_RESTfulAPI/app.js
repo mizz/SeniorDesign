@@ -464,6 +464,8 @@ app.get('/api/rental/:rental_id',function(req,res){
 	});
 });
 
+
+
 //retrieve client token if given a customer id
 //retrieve client token
 app.get('/api/bt/client_token/:user_id', function(req,res){
@@ -531,7 +533,7 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 
 	});
 });
-
+//send rental request
 app.post('/api/rental/:rental_id', function(req,res){
 	var rental_id = req.params.rental_id;
 	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
@@ -562,6 +564,46 @@ app.post('/api/rental/:rental_id', function(req,res){
 
 	//sendFCM();
 	
+});
+
+//update rental - when seding rental request
+app.put('/api/rental/request/:rental_id',function(req,res){
+	var rental_id = req.params.rental_id;
+	var rental = req.body;
+	//update rental info
+	Rental.updateRental(rental_id, rental, {}, function(err,rental){
+		if(err){
+			throw err;
+		}
+		//res.json(rental);
+	});
+	//send notification
+	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
+		if(err){
+			throw err;
+		}else{
+			console.log('rental:'+rental);
+			User.getUserByUid(rental.renter, function(err, renter){
+				if(err){
+					throw err;
+				}else{
+					console.log('renter:'+renter);
+					User.getUserByUid(rental.owner, function(err, lender){
+						if(err){
+							throw err;
+						}else{
+							// We now have the item (rental.item), renter, and lender info
+							console.log('lender:'+lender);
+							sendFCM(rental, renter, lender, function(err, response){
+								//res.json(response);
+							});
+						}
+					});
+				}
+			});
+		}
+		res.json(rental);
+	});
 });
 
 /*function sendFCM(rental_id){
@@ -634,7 +676,9 @@ function sendFCM(rental, renter, lender, callback){
 	    priority: 'high',
 	    contentAvailable: true,
 	    data: {
-	        rentalId: rental.rental_id
+	        rentalId: rental.rental_id,
+	        renter: renter_name,
+	        itemName: item_name
 	    },
 	    notification: {
 	        title: 'Rental Request!',

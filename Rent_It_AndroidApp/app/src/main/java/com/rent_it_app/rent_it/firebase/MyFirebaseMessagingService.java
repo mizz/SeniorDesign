@@ -42,13 +42,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage == null)
             return;
 
+        String rental_id;
+
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "I have data");
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                Log.d("FCM.getData():", json.toString(2));
+                rental_id = json.getString("rentalId");
+                Log.d("FCM.rental_id:", rental_id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
 
-            String rental_id;
+            /*String rental_id;
 
             if (remoteMessage.getData().size() > 0) {
+                Log.d(TAG, "I have data");
+                Log.d(TAG, "Message data payload: " + remoteMessage.getData());
                 try {
                     JSONObject json = new JSONObject(remoteMessage.getData().toString());
                     Log.d("FCM.getData():", json.toString(2));
@@ -57,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());

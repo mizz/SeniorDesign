@@ -31,8 +31,8 @@ var rentalSchema = mongoose.Schema({
 	estimated_total:{
 		type:Number
 	},
-	image:{
-		type:Number
+	notes:{
+		type:String
 	},
 	rental_started_date:{
 		type:Date
@@ -101,7 +101,7 @@ module.exports.getContactedRentalsItems = function(renter, callback){
 		  .exec(callback);
 }
 
-//
+//get by rental id
 module.exports.getRentalWithItemByRentalId = function(rentalid, callback){
 	var query = {rental_id:rentalid};
 	Rental.findOne(query)
@@ -114,24 +114,27 @@ module.exports.addRental = function(rental, callback){
 	Rental.create(rental, callback);
 }
 
-//Update Item
-/*module.exports.updateItem = function(id, item, options, callback){
-	var query = {_id: id};
+//Update Rental
+module.exports.updateRental = function(rentalid, rental, options, callback){
+	var query = {rental_id: rentalid};
 	var update = {
-		//category: item.category,
-		city:item.city,
-		condition:item.condition,
-		description:item.description,
-		//image:item.image,
-		title: item.title,
-		value: item.value,
-		zipcode:item.zipcode,
-		tags: item.tags,
-		visible: item.visible,
-		rate:item.rate
+		rental_status: rental.rental_status,
+		booked_start_date:rental.booked_start_date,
+		booked_end_date:rental.booked_end_date,
+		booked_period:rental.booked_period,
+		estimated_total:rental.estimated_total,
+		notes:rental.notes,
+		rental_started_date: rental.rental_started_date,
+		rental_end_date: rental.rental_end_date,
+		payment_status:rental.payment_status,
+		daily_rate: rental.daily_rate,
+		rental_period: rental.rental_period,
+		service_fee:rental.service_fee,
+		tax:rental.service_fee,
+		total:rental.total
 	}
-	Item.findOneAndUpdate(query, update, options, callback);
-}*/
+	Rental.findOneAndUpdate(query, update, options, callback);
+}
 
 
 

@@ -21,6 +21,9 @@ public interface RentalEndpoint {
     @GET("api/rentals/renter/{renter}")
     Call<ArrayList<Rental>> getContactedRentalsItems(@Path("renter") String renter);
 
+    @PUT("api/rental/request/{rental_id}")
+    Call<Rental> sendRequest(@Path("rental_id") String rental_id, @Body Rental rental);
+
     @PUT("api/rental/{rental_id}")
     Call<Rental> updateRental(@Path("rental_id") String rental_id, @Body Rental rental);
 
