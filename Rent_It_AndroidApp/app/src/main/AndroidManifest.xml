@@ -39,6 +39,8 @@
         </activity>
         <activity android:name=".ShowItemReviewsActivity"></activity>
         <activity android:name=".ShowOwnerReviewsActivity"></activity>
+        <activity android:name=".WriteReviewActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".ConfirmRentalActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>

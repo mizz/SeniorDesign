@@ -111,13 +111,13 @@
 
         </LinearLayout>
 
-        <!--<Button
+        <Button
         android:id="@+id/braintree_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Review Payment Method"
+        android:text="Write a Review"
             android:layout_marginTop="40dp"
-            android:background="@color/colorAccent"/>-->
+            android:background="@color/colorAccent"/>
 
         <Button
             android:id="@+id/FCM_button"

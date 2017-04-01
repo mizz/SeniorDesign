@@ -68,3 +68,8 @@ module.exports.getReviewsByOwnerId = function(owner, callback){
 		.populate('reviewer_info')
 		.exec(callback);
 }
+
+//Add Review
+module.exports.addReview = function(review, callback){
+	Review.create(review, callback);
+}

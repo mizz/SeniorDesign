@@ -362,6 +362,18 @@ app.get('/api/reviews/owner/:owner',function(req,res){
 		res.json(reviews);
 	})
 });
+
+//add new review
+app.post('/api/reviews',function(req,res){
+	var review = req.body;
+	Review.addReview(review,function(err,review){
+		if(err){
+			throw err;
+		}
+		res.json(review);
+	});
+});
+
 //User Model
 //get all reviews
 app.get('/api/users',function(req,res){

@@ -1,7 +1,6 @@
 package com.rent_it_app.rent_it.views;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,14 +11,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.braintreepayments.api.dropin.DropInActivity;
-import com.braintreepayments.api.dropin.DropInRequest;
-import com.braintreepayments.api.dropin.DropInResult;
-import com.braintreepayments.api.models.PaymentMethodNonce;
-import com.braintreepayments.api.dropin.utils.PaymentMethodType;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 //import com.loopj.android.http.AsyncHttpClient;
@@ -27,14 +20,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.R;
-import com.rent_it_app.rent_it.json_models.FunctionEndpoint;
+import com.rent_it_app.rent_it.WriteReviewActivity;
 import com.rent_it_app.rent_it.json_models.User;
 import com.rent_it_app.rent_it.json_models.UserEndpoint;
 import com.rent_it_app.rent_it.testing.NotificationActivity;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -179,15 +169,15 @@ public class AccountFragment extends Fragment {
 
 
 
-        /*Button brainTreeButton = (Button) view.findViewById(R.id.braintree_button);
+        Button brainTreeButton = (Button) view.findViewById(R.id.braintree_button);
         brainTreeButton.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)
             {
-                onBraintreeSubmit(view);
+                startActivity(new Intent(getActivity(), WriteReviewActivity.class));
             }
 
-        });*/
+        });
 
         Button fcmButton = (Button) view.findViewById(R.id.FCM_button);
         fcmButton.setOnClickListener(new View.OnClickListener(){

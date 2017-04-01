@@ -33,13 +33,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="How did you like the Item?"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:gravity="left"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp" />
 
             <!--Item Rating-->
-            <LinearLayout
+            <!--<LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -51,22 +51,21 @@
                     android:layout_height="match_parent"
                     android:text="Recommendation"
                     android:textSize="18sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"/>-->
 
                 <RatingBar
-                    android:id="@+id/ratingBar1"
+                    android:id="@+id/itemRating"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:numStars="5"
                     android:layout_marginLeft="10dp"
-                    style="?android:attr/ratingBarStyleSmall"
+                    style="?android:attr/ratingBarStyle"
                     android:stepSize="1.0"
-                    android:isIndicator="true"
-                    android:rating="2.0" />
+                    android:isIndicator="false" />
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -86,13 +85,13 @@
                     android:layout_height="match_parent"
                     android:numStars="5"
                     android:layout_marginLeft="10dp"
-                    style="?android:attr/ratingBarStyleSmall"
+                    style="?android:attr/ratingBarStyle"
                     android:stepSize="1.0"
                     android:isIndicator="true"
                     android:rating="2.0" />
 
             </LinearLayout>
-
+-->
             <!--Comment on Item-->
             <!--<TextView
                 android:id="@+id/condition"
@@ -142,14 +141,14 @@
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tell us about the owner"
-                android:textSize="22sp"
+                android:text="Tell us about the owner..."
+                android:textSize="18sp"
                 android:gravity="left"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp" />
 
             <!--Responsiveness-->
-            <LinearLayout
+            <!--<LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -162,23 +161,22 @@
                     android:layout_height="match_parent"
                     android:text="Responsiveness"
                     android:textSize="18sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"/>-->
 
                 <RatingBar
-                    android:id="@+id/ratingBar2"
+                    android:id="@+id/ownerRating"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:numStars="5"
                     android:layout_marginLeft="10dp"
-                    style="?android:attr/ratingBarStyleSmall"
+                    style="?android:attr/ratingBarStyle"
                     android:stepSize="1.0"
-                    android:isIndicator="true"
-                    android:rating="2.0" />
+                    android:isIndicator="false"/>
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <!--Responsiveness-->
-            <LinearLayout
+            <!--<LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -199,13 +197,13 @@
                     android:layout_height="match_parent"
                     android:numStars="5"
                     android:layout_marginLeft="10dp"
-                    style="?android:attr/ratingBarStyleSmall"
+                    style="?android:attr/ratingBarStyle"
                     android:stepSize="1.0"
                     android:isIndicator="true"
                     android:rating="2.0" />
 
             </LinearLayout>
-
+-->
             <!--Daily Rate-->
             <!--<TextView
                 android:id="@+id/rate"
@@ -233,12 +231,14 @@
                 android:padding="5dp"/>
 
             <Button
-                android:id="@+id/contact_button"
+                android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Submit Review"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:background="@color/colorAccent"
                 android:layout_gravity="center_horizontal"/>
             <!--android:onClick=""-->
