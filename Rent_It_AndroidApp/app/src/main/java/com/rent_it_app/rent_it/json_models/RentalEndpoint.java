@@ -18,8 +18,11 @@ public interface RentalEndpoint {
     // Request method and URL specified in the annotation
     // Callback for the parsed response is the last parameter
 
-    @GET("api/rentals/renter/{renter}")
+    @GET("api/rentals/contacted/renter/{renter}")
     Call<ArrayList<Rental>> getContactedRentalsItems(@Path("renter") String renter);
+
+    @GET("api/rentals/active/renter/{renter}")
+    Call<ArrayList<Rental>> getActiveRentalsItems(@Path("renter") String renter);
 
     @PUT("api/rental/request/{rental_id}")
     Call<Rental> sendRequest(@Path("rental_id") String rental_id, @Body Rental rental);

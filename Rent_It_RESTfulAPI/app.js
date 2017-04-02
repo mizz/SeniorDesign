@@ -441,7 +441,7 @@ app.post('/api/rentals', function(req,res){
 });
 
 //get contacted rentals by renter
-app.get('/api/rentals/renter/:renter',function(req,res){
+app.get('/api/rentals/contacted/renter/:renter',function(req,res){
 	Rental.getContactedRentalsItems(req.params.renter, function(err,rentalsItems){
 		if(err){
 			throw err;
@@ -463,6 +463,17 @@ app.get('/api/rentals/renter/:renter',function(req,res){
 		}
 		//res.json(rentals);
 	})*/
+});
+
+//get active rentals by renter
+app.get('/api/rentals/active/renter/:renter',function(req,res){
+	Rental.getActiveRentalsItems(req.params.renter, function(err,rentalsItems){
+		if(err){
+			throw err;
+		}else{
+			res.json(rentalsItems);
+		}
+	});
 });
 
 //get rentals by rental id

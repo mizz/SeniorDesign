@@ -34,6 +34,7 @@ import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Category;
 import com.rent_it_app.rent_it.json_models.CategoryEndpoint;
 import com.rent_it_app.rent_it.views.AccountFragment;
+import com.rent_it_app.rent_it.views.ActiveRentalFragment;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 import com.rent_it_app.rent_it.views.AvailabeItemFragment;
 import com.rent_it_app.rent_it.views.FileClaimFragment;
@@ -399,7 +400,13 @@ public class HomeActivity extends BaseActivity
                 }
                 manager.beginTransaction().replace(R.id.content_home, fragment, "StartRentalFragment").commit();
             } else if (id == R.id.nav_rental) {
-                //fragmentClass = ListItemFragment.class;
+                fragmentClass = ActiveRentalFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "ActiveRentalFragment").commit();
             } else if (id == R.id.nav_inventory) {
                 fragmentClass = AvailabeItemFragment.class;
                 try {

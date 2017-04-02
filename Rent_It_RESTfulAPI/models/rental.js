@@ -73,7 +73,7 @@ module.exports.getRentals = function(callback, limit){
 }
 
 //Get item IDs of rentals for trade list - not using
-module.exports.getContactedRentalsItemIDs = function(renter, callback){
+/*module.exports.getContactedRentalsItemIDs = function(renter, callback){
 	var query = {renter:renter,rental_status: 1};
 	Rental.find(query)
 		.sort({created_date:-1})
@@ -91,10 +91,18 @@ module.exports.getContactedRentalsItemIDs = function(renter, callback){
 			}
 			
 		});
-}
-//using
+}*/
+//using - Get item IDs of rentals for trade list 
 module.exports.getContactedRentalsItems = function(renter, callback){
 	var query = {renter:renter,rental_status: 1};
+	Rental.find(query)
+		  .sort({created_date:-1})
+		  .populate('item')
+		  .exec(callback);
+}
+//
+module.exports.getActiveRentalsItems = function(renter, callback){
+	var query = {renter:renter,rental_status: 2};
 	Rental.find(query)
 		  .sort({created_date:-1})
 		  .populate('item')

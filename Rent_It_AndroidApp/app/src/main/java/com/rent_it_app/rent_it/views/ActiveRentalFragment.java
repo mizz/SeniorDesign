@@ -113,7 +113,7 @@ public class ActiveRentalFragment extends Fragment {
 
 
 
-        Call<ArrayList<Rental>> call = rentalEndpoint.getItemsByUid(myUser.getUid());
+        Call<ArrayList<Rental>> call = rentalEndpoint.getActiveRentalsItems(myUser.getUid());
         call.enqueue(new Callback<ArrayList<Rental>>() {
             @Override
             public void onResponse(Call<ArrayList<Rental>> call, Response<ArrayList<Rental>> response) {
@@ -123,14 +123,13 @@ public class ActiveRentalFragment extends Fragment {
 
 
                 //tv1.setText(sb.toString());
-                list.setAdapter(new ItemListAdapter());
+                list.setAdapter(new RentalListAdapter());
                 list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> arg0,
                                             View arg1, int pos, long arg3) {
-                        startActivity(new Intent(getActivity(), EditItemActivity.class)
-                                .putExtra(Config.EXTRA_DATA, rList.get(pos)));
+                        //startActivity(new Intent(getActivity(), EditItemActivity.class).putExtra(Config.EXTRA_DATA, rList.get(pos)));
                     }
                 });
 
@@ -144,7 +143,7 @@ public class ActiveRentalFragment extends Fragment {
         });
 
     }
-    private class ItemListAdapter extends BaseAdapter
+    private class RentalListAdapter extends BaseAdapter
     {
 
         /* (non-Javadoc)
