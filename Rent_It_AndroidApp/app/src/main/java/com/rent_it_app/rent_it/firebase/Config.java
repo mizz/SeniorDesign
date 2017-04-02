@@ -25,5 +25,5 @@ public class Config {
     public static final String EXTRA_DATA = "extraData";
     public static final String MORE_DATA = "moreData";
     public static final String THIS_RENTAL = "thisRental";
-
+    public static final String MY_RENTAL = "myRental";
 }

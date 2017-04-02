@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
 import com.rent_it_app.rent_it.EditItemActivity;
 import com.rent_it_app.rent_it.R;
+import com.rent_it_app.rent_it.RentalDetailActivity;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
@@ -129,7 +130,7 @@ public class ActiveRentalFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> arg0,
                                             View arg1, int pos, long arg3) {
-                        //startActivity(new Intent(getActivity(), EditItemActivity.class).putExtra(Config.EXTRA_DATA, rList.get(pos)));
+                        startActivity(new Intent(getActivity(), RentalDetailActivity.class).putExtra(Config.MY_RENTAL, rList.get(pos)));
                     }
                 });
 
