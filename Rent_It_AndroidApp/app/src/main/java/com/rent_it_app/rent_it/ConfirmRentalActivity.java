@@ -10,12 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextClock;
 import android.widget.TextView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.rent_it_app.rent_it.firebase.MyFirebaseMessagingService;
+import com.google.gson.Gson;
+import com.rent_it_app.rent_it.json_models.Rental;
+import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by malhan on 3/26/17.
@@ -28,7 +34,11 @@ public class ConfirmRentalActivity extends BaseActivity{
     private Context context;
     private TextView itemName, renterName, estimatedProfit, returnDate;
     private Bundle myData;
-    private String str;
+    private String str, rental_id;
+    Rental myRental;
+    Gson gson;
+    Retrofit retrofit;
+    RentalEndpoint rentalEndpoint;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +52,13 @@ public class ConfirmRentalActivity extends BaseActivity{
         renterName = (TextView)findViewById(R.id.tvRenter);
         estimatedProfit = (TextView)findViewById(R.id.tvProfit);
         returnDate = (TextView)findViewById(R.id.tvReturnDate);
+
+        gson = new Gson();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.REST_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
         //myData = getIntent().getExtras();
 
@@ -61,7 +78,8 @@ public class ConfirmRentalActivity extends BaseActivity{
                 Log.d("Testing", "Key: " + key + " Value: " + value);
             }
 
-
+            rental_id = getIntent().getExtras().get("rentalId").toString();
+            Log.d("rentalId: ", rental_id);
             itemName.setText(""+getIntent().getExtras().get("itemName"));
             renterName.setText(""+getIntent().getExtras().get("renter"));
             str = getIntent().getExtras().get("returnDate").toString();
@@ -74,8 +92,6 @@ public class ConfirmRentalActivity extends BaseActivity{
             Double profit = Double.parseDouble(str);
             estimatedProfit.setText("$ "+String.format("%.2f", profit));
 
-
-            //Log.d("Testing Profit: ", getIntent().getExtras().get("estimatedProfit").toString());
         }else{
             itemName.setText("---");
             renterName.setText("---");
@@ -93,6 +109,8 @@ public class ConfirmRentalActivity extends BaseActivity{
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseMessagingService.DATA_BROADCAST));
 */
 
+
+
         btnAccept = (Button)findViewById(R.id.accept_button);
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +127,29 @@ public class ConfirmRentalActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
 
+                //update Rental Table
+                Call<ResponseBody> call = rentalEndpoint.cancelRequest(rental_id);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+
+                        //Log.d("photo_dest!=null?", photo_destination.toString());
+                        Intent myIntent = new Intent(ConfirmRentalActivity.this, HomeActivity.class);
+                        //myIntent.putExtra(Config.MORE_DATA, brwsList.get(pos));
+                        ConfirmRentalActivity.this.startActivity(myIntent);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                    }
+
+                });
+
                 Intent myIntent = new Intent(ConfirmRentalActivity.this, HomeActivity.class);
                 ConfirmRentalActivity.this.startActivity(myIntent);
             }
@@ -117,29 +158,5 @@ public class ConfirmRentalActivity extends BaseActivity{
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        // Register mMessageReceiver to receive messages.
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("my-event"));
-    }
-
-    // handler for received Intents for the "my-event" event
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Extract data included in the Intent
-            String message = intent.getStringExtra("rentalId");
-            Log.d("Testing ", message);
-        }
-    };
-
-    @Override
-    protected void onPause() {
-        // Unregister since the activity is not visible
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        super.onPause();
-    }
 }

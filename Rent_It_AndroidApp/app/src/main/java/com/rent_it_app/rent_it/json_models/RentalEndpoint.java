@@ -2,6 +2,7 @@ package com.rent_it_app.rent_it.json_models;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,5 +33,10 @@ public interface RentalEndpoint {
 
     @POST("api/rentals")
     Call<Rental> addRental(@Body Rental rental);
+
+    //send lender notofication
+    @POST("/api/rental/cancel/{rental_id}")
+    Call<ResponseBody> cancelRequest(@Path("rental_id") String rental_id);
+
 
 }

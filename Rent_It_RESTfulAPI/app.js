@@ -556,8 +556,8 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 
 	});
 });
-//send rental request
-app.post('/api/rental/:rental_id', function(req,res){
+//send cancel rental request
+app.post('/api/rental/cancel/:rental_id', function(req,res){
 	var rental_id = req.params.rental_id;
 	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
 		if(err){
@@ -575,7 +575,7 @@ app.post('/api/rental/:rental_id', function(req,res){
 						}else{
 							// We now have the item (rental.item), renter, and lender info
 							console.log('lender:'+lender);
-							sendFCM(rental, renter, lender, function(err, response){
+							sendCancelNotification(rental, renter, lender, function(err, response){
 								res.json(response);
 							});
 						}
@@ -687,7 +687,7 @@ app.put('/api/rental/request/:rental_id',function(req,res){
 }*/
 
 
-
+//send rental request
 function sendFCM(rental, renter, lender, callback){
 
 	var renter_name = renter.display_name;
@@ -728,6 +728,49 @@ function sendFCM(rental, renter, lender, callback){
 	 
 	sender.send(message, { registrationTokens: regTokens }, callback);
 }
+
+//cancel rental request
+function sendCancelNotification(rental, renter, lender, callback){
+
+	var renter_name = renter.display_name;
+	var owner_name = lender.display_name;
+	var item_name = rental.item.title;
+	var estimated_profit = rental.estimated_profit;
+	var return_date = rental.booked_end_date;
+	var rental_request = 	'Your rental request for ' +
+							item_name +
+							'was canceled by '+ owner_name;
+
+	var message = new gcm.Message({
+	    collapseKey: 'demo',
+	    priority: 'high',
+	    contentAvailable: true,
+	    data: {
+	    	notificationType:'rental_request',
+	        rentalId: rental.rental_id,
+	        renter: renter_name,
+	        itemName: item_name,
+	        returnDate: return_date,
+	        estimatedProfit:estimated_profit
+	    },
+	    notification: {
+	        title: 'Rental Canceled!',
+	        icon: 'ic_launcher',
+	        body: rental_request,
+	        click_action:'CANCEL_REQUEST'
+	    }
+	});
+
+	console.log(renter.uid);
+	console.log(renter.fcm_token);
+
+	// Set up the sender with you API key, prepare your recipients' registration tokens. 
+	var sender = new gcm.Sender(process.env.FCM_API_KEY);
+	var regTokens = [renter.fcm_token];
+	 
+	sender.send(message, { registrationTokens: regTokens }, callback);
+}
+
 
 //sendFCM('15b2888c-837d-4fd5-ae1d-093aac5ec5f4');
 

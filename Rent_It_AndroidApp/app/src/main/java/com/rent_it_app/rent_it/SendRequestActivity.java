@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
-import com.amazonaws.regions.Regions;
 import com.braintreepayments.api.dropin.DropInActivity;
 import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;
@@ -26,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
-import com.rent_it_app.rent_it.json_models.FunctionEndpoint;
+import com.rent_it_app.rent_it.json_models.BraintreeEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 
@@ -70,7 +69,7 @@ public class SendRequestActivity extends BaseActivity{
     private String userChoosenTask;
     private String clientToken;
     Retrofit retrofit;
-    FunctionEndpoint functionEndpoint;
+    BraintreeEndpoint functionEndpoint;
     RentalEndpoint rentalEndpoint;
     private PaymentMethodNonce recentPaymentMethod;
     private static final int REQUEST_CODE = Menu.FIRST;
@@ -113,7 +112,7 @@ public class SendRequestActivity extends BaseActivity{
                 .baseUrl(Constants.REST_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        functionEndpoint = retrofit.create(FunctionEndpoint.class);
+        functionEndpoint = retrofit.create(BraintreeEndpoint.class);
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {

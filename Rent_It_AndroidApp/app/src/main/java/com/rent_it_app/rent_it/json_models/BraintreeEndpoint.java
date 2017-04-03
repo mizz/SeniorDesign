@@ -12,13 +12,10 @@ import retrofit2.http.Path;
  * Created by Miz on 3/20/17.
  */
 
-public interface FunctionEndpoint {
+public interface BraintreeEndpoint {
 
     @GET("/api/bt/client_token/{uid}")
     Call<ResponseBody> getToken(@Path("uid") String uid);
 
-    //send lender notofication
-    @POST("/api/rental/{rental_id}")
-    Call<ResponseBody> startRentalNotification(@Path("rental_id") String rental_id);
 
 }

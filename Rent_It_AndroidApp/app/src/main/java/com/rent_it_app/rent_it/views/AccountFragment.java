@@ -105,7 +105,7 @@ public class AccountFragment extends Fragment {
         });
 
 
-        /*braintreeEndpoint = retrofit.create(FunctionEndpoint.class);
+        /*braintreeEndpoint = retrofit.create(BraintreeEndpoint.class);
 
         Call<ResponseBody> call = braintreeEndpoint.getToken(myUser.getUid());
         call.enqueue(new Callback<ResponseBody>() {
