@@ -63,7 +63,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ListingActivity extends BaseActivity{
 
     Item myItem;
-    User thisOwner, thisReviewer;
+    User thisOwner;
     Retrofit retrofit;
     ReviewEndpoint reviewEndpoint;
     RentalEndpoint rentalEndpoint;

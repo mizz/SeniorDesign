@@ -35,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
     private NotificationUtils notificationUtils;
     public static final String DATA_BROADCAST = "myData";
-    String rental_id,item_name,renter_name,estimated_profit,return_date;
+    String rental_id,item_name,renter_name,estimated_profit,return_date,notification_type;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle FCM messages here.
@@ -50,16 +50,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String clickAction = remoteMessage.getNotification().getClickAction();
 
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "I have data");
+            //Log.d(TAG, "I have data");
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            notification_type = remoteMessage.getData().get("notificationType").toString();
+            Log.d(TAG, "Notification Type: " + notification_type);
 
-            rental_id = remoteMessage.getData().get("rentalId");
-            item_name = remoteMessage.getData().get("itemName");
-            renter_name = remoteMessage.getData().get("renter");
-            estimated_profit = remoteMessage.getData().get("estimatedProfit");
-            return_date = remoteMessage.getData().get("returnDate");
+            if(notification_type.contentEquals("rental_request")) {
 
-            Log.d(TAG, "profit "+estimated_profit+"return "+return_date);
+                rental_id = remoteMessage.getData().get("rentalId");
+                item_name = remoteMessage.getData().get("itemName");
+                renter_name = remoteMessage.getData().get("renter");
+                estimated_profit = remoteMessage.getData().get("estimatedProfit");
+                return_date = remoteMessage.getData().get("returnDate");
+
+                Log.d(TAG, "profit " + estimated_profit + "return " + return_date);
+            }
 
             String title = remoteMessage.getNotification().getTitle();
             sendNotification(remoteMessage.getNotification().getBody(),clickAction,title);

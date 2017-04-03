@@ -209,6 +209,9 @@ public class SendRequestActivity extends BaseActivity{
                         Log.d("retrofit.call.enqueue", "" + statusCode);
 
                         //Log.d("photo_dest!=null?", photo_destination.toString());
+                        Intent myIntent = new Intent(SendRequestActivity.this, RequestSentActivity.class);
+                        //myIntent.putExtra(Config.MORE_DATA, brwsList.get(pos));
+                        SendRequestActivity.this.startActivity(myIntent);
 
                     }
 
@@ -238,11 +241,13 @@ public class SendRequestActivity extends BaseActivity{
 
                 });*/
 
+
+
             }
 
         });
 
-        // Initialize the Amazon Cognito credentials provider
+        /*// Initialize the Amazon Cognito credentials provider
         credentialsProvider = new CognitoCachingCredentialsProvider(
                 this,  // getApplicationContext(),
                 Constants.COGNITO_POOL_ID, // Identity Pool ID
@@ -253,7 +258,7 @@ public class SendRequestActivity extends BaseActivity{
         syncClient = new CognitoSyncManager(
                 this,
                 Regions.US_WEST_2, // Region
-                credentialsProvider);
+                credentialsProvider);*/
 
         //Button - Image
         /*Button imageButton = (Button) findViewById(R.id.image_button);

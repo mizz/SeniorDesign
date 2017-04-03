@@ -30,9 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RentalDetailActivity extends BaseActivity{
 
-    private Button btnCancel,btnAccept;
-    private BroadcastReceiver broadcastReceiver;
-    private Context context;
+    //private Button btnCancel,btnAccept;
     private TextView itemName, ownerName, dailyRate, returnDate,startDate;
     private String str;
     Rental myRental;

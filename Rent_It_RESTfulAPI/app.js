@@ -704,6 +704,7 @@ function sendFCM(rental, renter, lender, callback){
 	    priority: 'high',
 	    contentAvailable: true,
 	    data: {
+	    	notificationType:'rental_request',
 	        rentalId: rental.rental_id,
 	        renter: renter_name,
 	        itemName: item_name,
