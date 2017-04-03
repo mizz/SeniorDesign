@@ -11,10 +11,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,6 +28,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.rent_it_app.rent_it.firebase.Config.NOTIFICATION_TYPE;
 
 /**
  * Created by malhan on 3/26/17.
@@ -108,6 +116,23 @@ public class ConfirmRentalActivity extends BaseActivity{
         };
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseMessagingService.DATA_BROADCAST));
 */
+        //update Rental Table
+        Call<Rental> call = rentalEndpoint.getRentalsItemsById(rental_id);
+        call.enqueue(new Callback<Rental>() {
+            @Override
+            public void onResponse(Call<Rental> call, Response<Rental> response) {
+                int statusCode = response.code();
+                myRental = response.body();
+                Log.d("Testing", "" + myRental.getId());
+
+            }
+
+            @Override
+            public void onFailure(Call<Rental> call, Throwable t) {
+                Log.d("retrofit.call.enqueue", t.toString());
+            }
+
+        });
 
 
 
@@ -116,7 +141,35 @@ public class ConfirmRentalActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
 
+                myRental.setRentalStatus(2);//renting
+                TimeZone tz = TimeZone.getTimeZone("America/New_York");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+                df.setTimeZone(tz);
+                String nowAsISO = df.format(new Date());
+                myRental.setRentalStartedDate(nowAsISO);
 
+                //update Rental Table
+                Call<Rental> call = rentalEndpoint.startRental(rental_id,myRental);
+                call.enqueue(new Callback<Rental>() {
+                    @Override
+                    public void onResponse(Call<Rental> call, Response<Rental> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+
+                        //Log.d("photo_dest!=null?", photo_destination.toString());
+                        Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmedActivity.class);
+                        //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
+                        ConfirmRentalActivity.this.startActivity(myIntent);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Rental> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                    }
+
+                });
 
 
             }
@@ -140,6 +193,7 @@ public class ConfirmRentalActivity extends BaseActivity{
                         Intent myIntent = new Intent(ConfirmRentalActivity.this, HomeActivity.class);
                         //myIntent.putExtra(Config.MORE_DATA, brwsList.get(pos));
                         ConfirmRentalActivity.this.startActivity(myIntent);
+                        Toast.makeText(ConfirmRentalActivity.this, "Trade Cancelled", Toast.LENGTH_LONG).show();
 
                     }
 
@@ -150,8 +204,8 @@ public class ConfirmRentalActivity extends BaseActivity{
 
                 });
 
-                Intent myIntent = new Intent(ConfirmRentalActivity.this, HomeActivity.class);
-                ConfirmRentalActivity.this.startActivity(myIntent);
+                /*Intent myIntent = new Intent(ConfirmRentalActivity.this, HomeActivity.class);
+                ConfirmRentalActivity.this.startActivity(myIntent);*/
             }
         });
 

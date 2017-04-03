@@ -30,6 +30,18 @@
         <activity android:name=".ListingActivity"></activity>
         <activity android:name=".EditItemActivity"></activity>
         <activity android:name=".RequestSentActivity"></activity>
+        <activity android:name=".TradeConfirmedActivity">
+            <intent-filter>
+                <action android:name="START_RENTAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TradeCanceledActivity">
+            <intent-filter>
+                <action android:name="CANCEL_REQUEST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SendRequestActivity"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".PickDatesActivity">
@@ -46,7 +58,7 @@
         <activity android:name=".ConfirmRentalActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <action android:name="YOUR_ACTION" />
+                <action android:name="RENTAL_REQUEST" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
