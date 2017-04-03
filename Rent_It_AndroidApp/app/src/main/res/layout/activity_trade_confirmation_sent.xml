@@ -39,7 +39,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="Your rental request was accepted. The rental clock has started!"
+        android:text="We have sent a trade confirmation to the renter."
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:id="@+id/text" />

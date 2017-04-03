@@ -158,7 +158,7 @@ public class ConfirmRentalActivity extends BaseActivity{
                         Log.d("retrofit.call.enqueue", "" + statusCode);
 
                         //Log.d("photo_dest!=null?", photo_destination.toString());
-                        Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmedActivity.class);
+                        Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmationSentActivity.class);
                         //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
                         ConfirmRentalActivity.this.startActivity(myIntent);
 

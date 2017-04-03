@@ -11,7 +11,7 @@ import android.widget.TextView;
  * Created by malhan on 3/4/17.
  */
 
-public class TradeConfirmedActivity extends BaseActivity {
+public class TradeConfirmationSentActivity extends BaseActivity {
 
     private Button btnHome;
     private TextView tvText;
@@ -19,7 +19,7 @@ public class TradeConfirmedActivity extends BaseActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trade_confirmed);
+        setContentView(R.layout.activity_trade_confirmation_sent);
 
         tvText = (TextView)findViewById(R.id.text);
 
@@ -38,8 +38,8 @@ public class TradeConfirmedActivity extends BaseActivity {
         btnHome.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent myIntent = new Intent(TradeConfirmedActivity.this, HomeActivity.class);
-                TradeConfirmedActivity.this.startActivity(myIntent);
+                Intent myIntent = new Intent(TradeConfirmationSentActivity.this, HomeActivity.class);
+                TradeConfirmationSentActivity.this.startActivity(myIntent);
             }
 
         });

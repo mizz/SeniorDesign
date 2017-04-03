@@ -55,7 +55,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notification_type = remoteMessage.getData().get("notificationType").toString();
             Log.d(TAG, "Notification Type: " + notification_type);
 
-            if(notification_type.contentEquals("rental_request")) {
+            //if(notification_type.contentEquals("rental_request")) {
 
                 rental_id = remoteMessage.getData().get("rentalId");
                 item_name = remoteMessage.getData().get("itemName");
@@ -63,8 +63,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 estimated_profit = remoteMessage.getData().get("estimatedProfit");
                 return_date = remoteMessage.getData().get("returnDate");
 
+
                 Log.d(TAG, "profit " + estimated_profit + "return " + return_date);
-            }
+            //}
 
             String title = remoteMessage.getNotification().getTitle();
             sendNotification(remoteMessage.getNotification().getBody(),clickAction,title);
@@ -130,11 +131,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String messageBody,String clickAction,String title) {
         Intent intent = new Intent(clickAction);
-        intent.putExtra("rentalId",rental_id);
-        intent.putExtra("itemName",item_name);
-        intent.putExtra("renter",renter_name);
-        intent.putExtra("estimatedProfit",estimated_profit);
-        intent.putExtra("returnDate",return_date);
+        //if (clickAction.contentEquals("RENTAL_REQUEST")) {
+            intent.putExtra("rentalId", rental_id);
+            intent.putExtra("itemName", item_name);
+            intent.putExtra("renter", renter_name);
+            intent.putExtra("estimatedProfit", estimated_profit);
+            intent.putExtra("returnDate", return_date);
+            intent.putExtra("notificationType", notification_type);
+        //}
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
