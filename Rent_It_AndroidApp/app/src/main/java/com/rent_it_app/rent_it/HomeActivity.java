@@ -33,6 +33,8 @@ import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Category;
 import com.rent_it_app.rent_it.json_models.CategoryEndpoint;
+import com.rent_it_app.rent_it.json_models.User;
+import com.rent_it_app.rent_it.json_models.UserEndpoint;
 import com.rent_it_app.rent_it.views.AccountFragment;
 import com.rent_it_app.rent_it.views.ActiveRentalFragment;
 import com.rent_it_app.rent_it.views.ChatListFragment;
@@ -68,12 +70,15 @@ public class HomeActivity extends BaseActivity
     private FirebaseDatabase mFirebaseInstance;*/
 
     private String userId;
+    private TextView displayName, email;
     private static final String TAG = HomeActivity.class.getName();
     public ListView browseList;
     private ArrayList<Category> cateList;
     Retrofit retrofit;
     CategoryEndpoint categoryEndpoint;
+    UserEndpoint userEndpoint;
     Gson gson;
+    User myInfo;
     public static int bgresource;
 
     Fragment searchFragment = null;
@@ -106,6 +111,9 @@ public class HomeActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        displayName = (TextView)header.findViewById(R.id.display_name);
+        email = (TextView)header.findViewById(R.id.email);
 
         //Added from Main Activity
         //myStatusText = (TextView)findViewById(R.id.greetingMessage);
@@ -123,7 +131,7 @@ public class HomeActivity extends BaseActivity
                 .build();
 
         categoryEndpoint = retrofit.create(CategoryEndpoint.class);
-
+        userEndpoint = retrofit.create(UserEndpoint.class);
 
         if(user != null) {
 
@@ -183,6 +191,30 @@ public class HomeActivity extends BaseActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_home, fragment).commit();
         }
+
+        Log.d("userId",""+user.getUid());
+
+        Call<User> call = userEndpoint.getUserByUid(user.getUid());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                int statusCode = response.code();
+                Log.d("response.raw()",""+response.raw());
+                myInfo = response.body();
+                displayName.setText(myInfo.getDisplayName());
+                email.setText(myInfo.getEmail());
+                Log.d("retrofit.call.enqueue", ""+statusCode);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("retrofit.call.enqueue", t.toString());
+            }
+
+        });
     }
 
     private class CategoryListAdapter extends BaseAdapter
