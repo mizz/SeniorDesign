@@ -21,22 +21,24 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnRent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="RENT"
-                android:background="@drawable/buttonshape1"
-                android:minHeight="30dp"
-                android:textColor="#FFFFFF"
-                android:layout_weight="1" />
-            <Button
-                android:id="@+id/btnReturn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="RETURN"
                 android:minHeight="30dp"
                 android:background="@drawable/buttonshape2"
                 android:textColor="#616161"
                 android:layout_weight="1"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="RETURN"
+                android:background="@drawable/buttonshape1"
+                android:minHeight="30dp"
+                android:textColor="#FFFFFF"
+                android:layout_weight="1" />
+
 
         </LinearLayout>
 

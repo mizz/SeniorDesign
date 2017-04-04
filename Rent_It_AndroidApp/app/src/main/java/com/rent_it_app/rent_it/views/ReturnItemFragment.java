@@ -23,12 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
-import com.rent_it_app.rent_it.EditItemActivity;
 import com.rent_it_app.rent_it.R;
 import com.rent_it_app.rent_it.SendRequestActivity;
 import com.rent_it_app.rent_it.firebase.Config;
-import com.rent_it_app.rent_it.json_models.Item;
-import com.rent_it_app.rent_it.json_models.ItemEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 
@@ -43,10 +40,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StartRentalFragment extends Fragment {
+public class ReturnItemFragment extends Fragment {
 
 
-    public StartRentalFragment() {
+    public ReturnItemFragment() {
         // Required empty public constructor
     }
 
@@ -55,7 +52,7 @@ public class StartRentalFragment extends Fragment {
     RentalEndpoint rentalEndpoint;
     TextView tv1;
     Gson gson;
-    private Button btnReturn;
+    private Button btnRent;
     private ArrayList<Rental> iList;
     private ListView list;
     CognitoCachingCredentialsProvider credentialsProvider;
@@ -65,7 +62,7 @@ public class StartRentalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_start_rental, container, false);
+        View view = inflater.inflate(R.layout.fragment_return_item, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("TRADE ITEM");
 
         gson = new Gson();
@@ -80,12 +77,12 @@ public class StartRentalFragment extends Fragment {
         //itemEndpoint = retrofit.create(ItemEndpoint.class);
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
-        btnReturn = (Button)view.findViewById(R.id.btnReturn);
-        btnReturn.setOnClickListener(new View.OnClickListener() {
+        btnRent = (Button)view.findViewById(R.id.btnRent);
+        btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Fragment fragment = new ReturnItemFragment();
+                Fragment fragment = new StartRentalFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.myFragment, fragment);
@@ -121,7 +118,7 @@ public class StartRentalFragment extends Fragment {
         iList = new ArrayList<Rental>();
         FirebaseUser myUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        Call<ArrayList<Rental>> call = rentalEndpoint.getContactedRentalsItems(myUser.getUid());
+        Call<ArrayList<Rental>> call = rentalEndpoint.getActiveRentalsItems(myUser.getUid());
         call.enqueue(new Callback<ArrayList<Rental>>() {
             @Override
             public void onResponse(Call<ArrayList<Rental>> call, Response<ArrayList<Rental>> response) {
