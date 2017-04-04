@@ -27,19 +27,31 @@
 
 
 
-            <!--Return Date-->
+            <!--Started Date-->
             <TextView
                 android:id="@+id/label1"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Return Date"
+                android:text="Rental Start Date"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/startDate"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="start date"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
+
+
+
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -65,14 +77,13 @@
                     android:background="@color/colorAccent"
                     android:id="@+id/btn_date" />
 
-            </LinearLayout>
-
+            </LinearLayout>-->
             <TextView
                 android:id="@+id/label12"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Estimated Charges"
+                android:text="Charges"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginBottom="5dp"
@@ -127,7 +138,7 @@
                             android:layout_weight="3"
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
-                            android:text="Number of Days"
+                            android:text="Rental Period"
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="10dp"/>
 
@@ -245,7 +256,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:text="* You will not be charged until returning the item. The final charges is calculated based on acutal rental period. *"
+                        android:text="* You will be charged once owner confirm the return *"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"/>
 
@@ -368,7 +379,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Start Rental"
+                android:text="Initiate Return"
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorAccent"
                 android:layout_gravity="center_horizontal"/>

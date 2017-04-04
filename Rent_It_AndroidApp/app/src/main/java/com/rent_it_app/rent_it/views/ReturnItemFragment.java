@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
+import com.rent_it_app.rent_it.InitiateReturnActivity;
 import com.rent_it_app.rent_it.R;
 import com.rent_it_app.rent_it.SendRequestActivity;
 import com.rent_it_app.rent_it.firebase.Config;
@@ -132,7 +133,7 @@ public class ReturnItemFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> arg0,
                                             View arg1, int pos, long arg3) {
-                        startActivity(new Intent(getActivity(), SendRequestActivity.class)
+                        startActivity(new Intent(getActivity(), InitiateReturnActivity.class)
                                 .putExtra(Config.THIS_RENTAL, iList.get(pos)));
                     }
                 });
