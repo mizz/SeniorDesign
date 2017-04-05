@@ -54,7 +54,7 @@ public class SendRequestActivity extends BaseActivity{
 
     Rental thisRental;
     private EditText txtDate,txtNotes;
-    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod;
+    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod,rentalFee;
     private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
@@ -100,6 +100,7 @@ public class SendRequestActivity extends BaseActivity{
         taxAmount = (TextView)findViewById(R.id.tax);
         txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
         txtNotes = (EditText)findViewById(R.id.notes);
+        rentalFee = (TextView) findViewById(R.id.rentalCharge);
         //imgPayment =(ImageView) findViewById(R.id.img_payment);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
@@ -153,6 +154,7 @@ public class SendRequestActivity extends BaseActivity{
                                 //Log.d("diff"," "+diff);
                                 numDays.setText(days+" days");
                                 sales = dailyRate*days;
+                                rentalFee.setText("$ "+sales);
                                 serviceFee = sales*SERVICE_FEE_RATE;
                                 fee.setText("$ "+roundTwoDecimals(serviceFee));
                                 tax = (sales+serviceFee)*TAX_RATE;
@@ -177,7 +179,7 @@ public class SendRequestActivity extends BaseActivity{
 
                 //String rental_id = thisRental.getRentalId();
                 thisRental.setRentalStatus(1);// 2 means sent request
-                thisRental.getBookedStartDate();
+                //thisRental.getBookedStartDate();
                 TimeZone tz = TimeZone.getTimeZone("America/New_York");
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
                 df.setTimeZone(tz);

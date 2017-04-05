@@ -57,12 +57,12 @@ public class InitiateReturnActivity extends BaseActivity{
 
     Rental thisRental;
     private EditText txtDate,txtNotes;
-    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod, tvStart;
+    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod, tvStart, tvReturn, rentalFee;
     private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
     private ImageView preview, imgPayment;
-    private Long diff,days;
+    private Long diff,days,hours;
     private ImageView ivImage;
     private Double dailyRate,total,serviceFee,tax,sales;
     private Calendar returnday,c;
@@ -103,20 +103,56 @@ public class InitiateReturnActivity extends BaseActivity{
         taxAmount = (TextView)findViewById(R.id.tax);
         txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
         txtNotes = (EditText)findViewById(R.id.notes);
+        rentalFee = (TextView)findViewById(R.id.rentalCharge);
         //imgPayment =(ImageView) findViewById(R.id.img_payment);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
         dailyRate = thisRental.getItem().getRate();
         rate.setText("$ "+dailyRate);
+        /*TimeZone tz = TimeZone.getTimeZone("America/New_York");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm 'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(new Date());*/
+        c = Calendar.getInstance();
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        String returnDate = df.format(c.getTime());
+        Log.d("NOW: ",returnDate);
+        //DateTime returnDate = ISODateTimeFormat.dateTime().parseDateTime(nowAsISO);
+
+
         tvStart = (TextView)findViewById(R.id.startDate);
+        tvReturn = (TextView)findViewById(R.id.returnDate);
         //Log.d("start date: ",""+thisRental.getRentalStartedDate());
-        DateTime dateTimeObj = ISODateTimeFormat.dateTime().parseDateTime(thisRental.getRentalStartedDate());
-        Log.d("jodatime.ISODateTime: ", dateTimeObj.toString());
+        DateTime startDate = ISODateTimeFormat.dateTime().parseDateTime(thisRental.getRentalStartedDate());
+
         //date.setText("Submitted: "+ dateTimeObj.toString( "MM/dd/yyyy"))
         //String rental_started = thisRental.getRentalStartedDate();
-        Log.d("start date: ",""+dateTimeObj.toString( "MM/dd/yyyy hh:mm a"));
-        tvStart.setText(dateTimeObj.toString( "MM/dd/yyyy hh:mm a"));
+        Log.d("start date: ",""+startDate.toString( "MM/dd/yyyy hh:mm a"));
+
+        //tvReturn.setText("Return Now: "+returnDate);
+        diff = c.getTimeInMillis() - startDate.getMillis();
+        hours = (diff / (60 * 60 * 1000));
+        days = (diff / (24 * 60 * 60 * 1000));
+        diff = hours - (24*days);
+        Log.d("hours diff: ",""+ diff);
+        Log.d("hours: ",""+hours);
+        //numDays.setText(days+" days "+diff+" hours");
+        tvStart.setText(days+" days "+diff+" hours");
+        tvReturn.setText("Rental Started: "+startDate.toString( "MM/dd/yyyy hh:mm a"));
+        sales = dailyRate*days+diff*(dailyRate/24);
+        rentalFee.setText("$ "+roundTwoDecimals(sales));
+        serviceFee = sales*SERVICE_FEE_RATE;
+        fee.setText("$ "+roundTwoDecimals(serviceFee));
+        tax = (sales+serviceFee)*TAX_RATE;
+        taxAmount.setText("$ "+roundTwoDecimals(tax));
+        total = sales+roundTwoDecimals(serviceFee)+roundTwoDecimals(tax);
+        estimateTotal.setText("$ "+roundTwoDecimals(total));
+
+       /* c = Calendar.getInstance();
+        Log.d("NOW 1: ",c.toString());*/
+
+
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -126,68 +162,6 @@ public class InitiateReturnActivity extends BaseActivity{
         functionEndpoint = retrofit.create(BraintreeEndpoint.class);
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
-        c = Calendar.getInstance();
-        Log.d("NOW 1: ",c.toString());
-
-        TimeZone tz = TimeZone.getTimeZone("America/New_York");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-        df.setTimeZone(tz);
-        String nowAsISO = df.format(new Date());
-        Log.d("NOW 2: ",nowAsISO);
-
-        /*btnDatePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get Current Date
-                c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
-                c.set(Calendar.HOUR_OF_DAY, 0);
-                c.set(Calendar.MINUTE, 0);
-                c.set(Calendar.SECOND, 0);
-                c.set(Calendar.MILLISECOND, 0);
-
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(InitiateReturnActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                txtDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
-
-                                returnday = Calendar.getInstance();
-                                returnday.set(Calendar.YEAR,year);
-                                returnday.set(Calendar.MONTH,monthOfYear);
-                                returnday.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                returnday.set(Calendar.HOUR_OF_DAY, 0);
-                                returnday.set(Calendar.MINUTE, 0);
-                                returnday.set(Calendar.SECOND, 0);
-                                returnday.set(Calendar.MILLISECOND, 0);
-
-                                diff = returnday.getTimeInMillis() - c.getTimeInMillis(); //result in millis
-                                days = (diff / (24 * 60 * 60 * 1000));
-                                //days = TimeUnit.MILLISECONDS.toDays(diff);
-                                //Log.d("diff"," "+diff);
-                                numDays.setText(days+" days");
-                                sales = dailyRate*days;
-                                serviceFee = sales*SERVICE_FEE_RATE;
-                                fee.setText("$ "+roundTwoDecimals(serviceFee));
-                                tax = (sales+serviceFee)*TAX_RATE;
-                                taxAmount.setText("$ "+roundTwoDecimals(tax));
-                                total = sales+roundTwoDecimals(serviceFee)+roundTwoDecimals(tax);
-                                estimateTotal.setText("$ "+roundTwoDecimals(total));
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-
-
-
-            }
-        });*/
-
 
 
         btnRequest.setOnClickListener(new View.OnClickListener(){
@@ -196,30 +170,30 @@ public class InitiateReturnActivity extends BaseActivity{
             {
 
                 //String rental_id = thisRental.getRentalId();
-                thisRental.setRentalStatus(1);// 2 means sent request
-                thisRental.getBookedStartDate();
-                TimeZone tz = TimeZone.getTimeZone("America/New_York");
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-                df.setTimeZone(tz);
-                String nowAsISO = df.format(new Date());
-                String returnAsISO = df.format(returnday.getTime());
-                thisRental.setBookedStartDate(nowAsISO);
+                thisRental.setRentalStatus(2);// 2 means renting
+                //thisRental.getBookedStartDate();
+                //TimeZone tz = TimeZone.getTimeZone("America/New_York");
+                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+                //df.setTimeZone(tz);
+                //String nowAsISO = df.format(new Date());
+                String returnAsISO = df2.format(c.getTime());
+                thisRental.setRentalEndDate(returnAsISO);
                 //thisRental.setBookedStartDate(c.toString());
-                thisRental.setBookedEndDate(returnAsISO);
+                /*thisRental.setBookedEndDate(returnAsISO);
                 thisRental.setBookedPeriod(days);
-                thisRental.setEstimatedProfit(roundTwoDecimals(sales));
+                thisRental.setEstimatedProfit(roundTwoDecimals(sales));*/
                 thisRental.setNotes(txtNotes.getText().toString());
-                thisRental.setPaymentStatus(1);//payment saved not yet paid
-                thisRental.setDailyRate(dailyRate);
-                thisRental.setRentalPeriod(0.0);
-                thisRental.setServiceFee(0.00);
-                thisRental.setTax(0.00);
-                thisRental.setTotal(0.00);
+                thisRental.setPaymentStatus(2);//payment paid
+                //thisRental.setDailyRate(dailyRate);
+                thisRental.setRentalPeriod(diff.doubleValue());
+                thisRental.setServiceFee(serviceFee);
+                thisRental.setTax(tax);
+                thisRental.setTotal(total);
 
                 String rental_id = thisRental.getRentalId();
 
                 //update Rental Table
-                Call<Rental> call = rentalEndpoint.sendRequest(rental_id,thisRental);
+                Call<Rental> call = rentalEndpoint.returnItem(rental_id,thisRental);
                 call.enqueue(new Callback<Rental>() {
                     @Override
                     public void onResponse(Call<Rental> call, Response<Rental> response) {

@@ -630,6 +630,47 @@ app.put('/api/rental/request/:rental_id',function(req,res){
 	});
 });
 
+//update rental - when sending return request
+app.put('/api/rental/return/:rental_id',function(req,res){
+	var rental_id = req.params.rental_id;
+	var rental = req.body;
+	//update rental info
+	Rental.updateRental(rental_id, rental, {}, function(err,rental){
+		if(err){
+			throw err;
+		}
+		//res.json(rental);
+	});
+	//send notification
+	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
+		if(err){
+			throw err;
+		}else{
+			//console.log('rental:'+rental);
+			User.getUserByUid(rental.renter, function(err, renter){
+				if(err){
+					throw err;
+				}else{
+					//console.log('renter:'+renter);
+					User.getUserByUid(rental.owner, function(err, lender){
+						if(err){
+							throw err;
+						}else{
+							// We now have the item (rental.item), renter, and lender info
+							//console.log('lender:'+lender);
+							sendReturnRequest(rental, renter, lender, function(err, response){
+								console.log('notification: '+JSON.stringify(response));
+								//res.json(response);
+							});
+						}
+					});
+				}
+			});
+		}
+		res.json(rental);
+	});
+});
+
 //update rental - when accepting request and starting rental
 app.put('/api/rental/start/:rental_id',function(req,res){
 	var rental_id = req.params.rental_id;
@@ -732,6 +773,7 @@ app.put('/api/rental/start/:rental_id',function(req,res){
 function sendRentalRequest(rental, renter, lender, callback){
 
 	var renter_name = renter.display_name;
+	var owner_name = lender.display_name;
 	var item_name = rental.item.title;
 	var estimated_profit = rental.estimated_profit;
 	var return_date = rental.booked_end_date;
@@ -757,6 +799,49 @@ function sendRentalRequest(rental, renter, lender, callback){
 	        icon: 'ic_launcher',
 	        body: rental_request,
 	        click_action:'RENTAL_REQUEST'
+	    }
+	});
+
+	console.log(lender.uid);
+	console.log(lender.fcm_token);
+
+	// Set up the sender with you API key, prepare your recipients' registration tokens. 
+	var sender = new gcm.Sender(process.env.FCM_API_KEY);
+	var regTokens = [lender.fcm_token];
+	 
+	sender.send(message, { registrationTokens: regTokens }, callback);
+}
+
+//send return request
+function sendReturnRequest(rental, renter, lender, callback){
+
+	var renter_name = renter.display_name;
+	var owner_name = lender.display_name;
+	var item_name = rental.item.title;
+	var estimated_profit = rental.estimated_profit;
+	var return_date = rental.booked_end_date;
+	var rental_request = 	renter_name +
+							' would like to return your ' +
+							item_name +
+							'!';
+
+	var message = new gcm.Message({
+	    collapseKey: 'demo',
+	    priority: 'high',
+	    contentAvailable: true,
+	    data: {
+	    	notificationType:'return_request',
+	        rentalId: rental.rental_id,
+	        renter: renter_name,
+	        itemName: item_name,
+	        returnDate: return_date,
+	        estimatedProfit:estimated_profit
+	    },
+	    notification: {
+	        title: 'Return Initiated!',
+	        icon: 'ic_launcher',
+	        body: rental_request,
+	        click_action:'RETURN_REQUEST'
 	    }
 	});
 
