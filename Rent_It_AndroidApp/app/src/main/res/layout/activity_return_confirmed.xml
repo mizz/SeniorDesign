@@ -43,6 +43,56 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:id="@+id/text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginTop="0dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/damage"
+            android:id="@+id/imageView2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title33"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Damage Policy"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:id="@+id/title"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="If you need to file a claim, you have 24 hours to submit a claim. Claim form is located under 'My Claims' in menu."
+                android:textSize="15sp"
+                android:gravity="left"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/greyButton" />
     <Button
         android:id="@+id/btn_home"
         android:layout_marginLeft="30dp"
