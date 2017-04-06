@@ -16,6 +16,7 @@ import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -114,7 +115,7 @@ public class ConfirmReturnActivity extends BaseActivity{
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseMessagingService.DATA_BROADCAST));
 */
         //update Rental Table
-        /*Call<Rental> call = rentalEndpoint.getRentalsItemsById(rental_id);
+        Call<Rental> call = rentalEndpoint.getRentalsItemsById(rental_id);
         call.enqueue(new Callback<Rental>() {
             @Override
             public void onResponse(Call<Rental> call, Response<Rental> response) {
@@ -127,7 +128,7 @@ public class ConfirmReturnActivity extends BaseActivity{
                 days = (diff2 / (24 * 60 * 60 * 1000));
                 diff2 = hours - (24*days);
                 rentalPeriod.setText(days+" days "+diff2+" hours");
-                profit.setText("$ "+myRental.getRentalFee());
+                profit.setText("$ "+roundTwoDecimals(myRental.getRentalFee()));
 
             }
 
@@ -136,7 +137,7 @@ public class ConfirmReturnActivity extends BaseActivity{
                 Log.d("retrofit.call.enqueue", t.toString());
             }
 
-        });*/
+        });
 
 
 
@@ -145,9 +146,8 @@ public class ConfirmReturnActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(ConfirmReturnActivity.this, HomeActivity.class);
-                ConfirmReturnActivity.this.startActivity(myIntent);
-               /* myRental.setRentalStatus(3);//renting
+
+                myRental.setRentalStatus(3);//renting
                 TimeZone tz = TimeZone.getTimeZone("America/New_York");
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
                 df.setTimeZone(tz);
@@ -176,7 +176,12 @@ public class ConfirmReturnActivity extends BaseActivity{
                         Log.d("Testing ", "fail");
                     }
 
-                });*/
+                });
+/*
+
+                Intent myIntent = new Intent(ConfirmReturnActivity.this, ReturnConfirmationSentActivity.class);
+                ConfirmReturnActivity.this.startActivity(myIntent);
+*/
 
 
             }
@@ -217,6 +222,11 @@ public class ConfirmReturnActivity extends BaseActivity{
         });
 
 
+    }
+    double roundTwoDecimals(double d)
+    {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
     }
 
 

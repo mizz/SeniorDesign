@@ -26,7 +26,7 @@
         android:id="@+id/textView2" />-->
 
 
-    <!--<ImageView
+   <!-- <ImageView
         android:layout_marginTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,44 +34,13 @@
         android:src="@drawable/check"
         android:id="@+id/imageView2" />-->
 
-
-
-    <TextView
-        android:id="@+id/title3"
-        android:textColor="@color/colorLabel"
+    <ImageView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tell us about the renter..."
-        android:textSize="18sp"
-        android:gravity="left"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp" />
-
-    <RatingBar
-        android:id="@+id/ownerRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:layout_marginLeft="10dp"
-        style="?android:attr/ratingBarStyle"
-        android:stepSize="1.0"
-        android:isIndicator="false"/>
-
-    <EditText
-        android:id="@+id/description2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
-        android:inputType="textMultiLine"
-        android:gravity="top"
-        android:lines="4"
-        android:hint="Comment on Renter"
-        android:scrollbars="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:padding="5dp"/>
+        android:layout_height="120dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/handshake"
+        android:id="@+id/imageView2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -110,16 +79,63 @@
                 android:text="If you need to file a claim, you have 24 hours to submit a claim. Claim form is located under 'My Claims' in menu."
                 android:textSize="15sp"
                 android:gravity="left"
+                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/greyButton" />
+
+    <TextView
+        android:id="@+id/title3"
+        android:textColor="@color/colorLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tell us about the renter..."
+        android:textSize="18sp"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <RatingBar
+        android:id="@+id/ownerRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:layout_marginLeft="10dp"
+        style="?android:attr/ratingBarStyle"
+        android:stepSize="1.0"
+        android:isIndicator="false"/>
+
+    <EditText
+        android:id="@+id/description2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_bg"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:lines="4"
+        android:hint="Comment on Renter"
+        android:scrollbars="vertical"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"/>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:orientation="horizontal">
 
         <Button
