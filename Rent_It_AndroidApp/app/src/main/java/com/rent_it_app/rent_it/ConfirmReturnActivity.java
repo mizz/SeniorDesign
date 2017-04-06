@@ -34,9 +34,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConfirmReturnActivity extends BaseActivity{
 
     private Button btnCancel,btnAccept;
-    private BroadcastReceiver broadcastReceiver;
+    private Double diff;
+    private Long days,hours,diff2;
     private Context context;
-    private TextView itemName, renterName, estimatedProfit, returnDate;
+    private TextView itemName, renterName, profit, rentalPeriod;
     private Bundle myData;
     private String str, rental_id;
     Rental myRental;
@@ -54,8 +55,8 @@ public class ConfirmReturnActivity extends BaseActivity{
 
         itemName = (TextView)findViewById(R.id.tvItem);
         renterName = (TextView)findViewById(R.id.tvRenter);
-        estimatedProfit = (TextView)findViewById(R.id.tvProfit);
-        returnDate = (TextView)findViewById(R.id.tvReturnDate);
+        profit = (TextView)findViewById(R.id.tvProfit);
+        rentalPeriod = (TextView)findViewById(R.id.tvRentalPeriod);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -86,7 +87,7 @@ public class ConfirmReturnActivity extends BaseActivity{
             Log.d("rentalId: ", rental_id);
             itemName.setText(""+getIntent().getExtras().get("itemName"));
             renterName.setText(""+getIntent().getExtras().get("renter"));
-            str = getIntent().getExtras().get("returnDate").toString();
+            /*str = getIntent().getExtras().get("returnDate").toString();
             int iend = str.indexOf("T");
             if (iend != -1)
                 str= str.substring(0 , iend);
@@ -94,13 +95,13 @@ public class ConfirmReturnActivity extends BaseActivity{
             returnDate.setText(""+str);
             str = getIntent().getExtras().get("estimatedProfit").toString();
             Double profit = Double.parseDouble(str);
-            estimatedProfit.setText("$ "+String.format("%.2f", profit));
+            estimatedProfit.setText("$ "+String.format("%.2f", profit));*/
 
         }else{
             itemName.setText("---");
             renterName.setText("---");
-            estimatedProfit.setText("---");
-            returnDate.setText("---");
+            //estimatedProfit.setText("---");
+            //returnDate.setText("---");
         }
         //see braodcast works
         /*broadcastReceiver = new BroadcastReceiver() {
@@ -113,13 +114,20 @@ public class ConfirmReturnActivity extends BaseActivity{
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseMessagingService.DATA_BROADCAST));
 */
         //update Rental Table
-        Call<Rental> call = rentalEndpoint.getRentalsItemsById(rental_id);
+        /*Call<Rental> call = rentalEndpoint.getRentalsItemsById(rental_id);
         call.enqueue(new Callback<Rental>() {
             @Override
             public void onResponse(Call<Rental> call, Response<Rental> response) {
                 int statusCode = response.code();
                 myRental = response.body();
                 Log.d("Testing", "" + myRental.getId());
+                diff = myRental.getRentalPeriod();
+                diff2 = diff.longValue();
+                hours = (diff2 / (60 * 60 * 1000));
+                days = (diff2 / (24 * 60 * 60 * 1000));
+                diff2 = hours - (24*days);
+                rentalPeriod.setText(days+" days "+diff2+" hours");
+                profit.setText("$ "+myRental.getRentalFee());
 
             }
 
@@ -128,7 +136,7 @@ public class ConfirmReturnActivity extends BaseActivity{
                 Log.d("retrofit.call.enqueue", t.toString());
             }
 
-        });
+        });*/
 
 
 
@@ -137,15 +145,17 @@ public class ConfirmReturnActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
 
-                myRental.setRentalStatus(2);//renting
+                Intent myIntent = new Intent(ConfirmReturnActivity.this, HomeActivity.class);
+                ConfirmReturnActivity.this.startActivity(myIntent);
+               /* myRental.setRentalStatus(3);//renting
                 TimeZone tz = TimeZone.getTimeZone("America/New_York");
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
                 df.setTimeZone(tz);
                 String nowAsISO = df.format(new Date());
-                myRental.setRentalStartedDate(nowAsISO);
+                myRental.setReturnConfirmedDate(nowAsISO);
 
                 //update Rental Table
-                Call<Rental> call = rentalEndpoint.startRental(rental_id,myRental);
+                Call<Rental> call = rentalEndpoint.confirmReturn(rental_id,myRental);
                 call.enqueue(new Callback<Rental>() {
                     @Override
                     public void onResponse(Call<Rental> call, Response<Rental> response) {
@@ -153,8 +163,8 @@ public class ConfirmReturnActivity extends BaseActivity{
 
                         Log.d("retrofit.call.enqueue", "" + statusCode);
 
-                        //Log.d("photo_dest!=null?", photo_destination.toString());
-                        Intent myIntent = new Intent(ConfirmReturnActivity.this, TradeConfirmationSentActivity.class);
+                        Log.d("Testing ", "sucess");
+                        Intent myIntent = new Intent(ConfirmReturnActivity.this, ReturnConfirmationSentActivity.class);
                         //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
                         ConfirmReturnActivity.this.startActivity(myIntent);
 
@@ -163,9 +173,10 @@ public class ConfirmReturnActivity extends BaseActivity{
                     @Override
                     public void onFailure(Call<Rental> call, Throwable t) {
                         Log.d("retrofit.call.enqueue", t.toString());
+                        Log.d("Testing ", "fail");
                     }
 
-                });
+                });*/
 
 
             }
@@ -189,7 +200,7 @@ public class ConfirmReturnActivity extends BaseActivity{
                         Intent myIntent = new Intent(ConfirmReturnActivity.this, HomeActivity.class);
                         //myIntent.putExtra(Config.MORE_DATA, brwsList.get(pos));
                         ConfirmReturnActivity.this.startActivity(myIntent);
-                        Toast.makeText(ConfirmReturnActivity.this, "Trade Cancelled", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ConfirmReturnActivity.this, "Return Canceled", Toast.LENGTH_LONG).show();
 
                     }
 

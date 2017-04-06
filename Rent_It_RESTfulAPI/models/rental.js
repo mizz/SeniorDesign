@@ -40,6 +40,9 @@ var rentalSchema = mongoose.Schema({
 	rental_end_date:{
 		type:Date
 	},
+	return_confirmed_date:{
+		type:Date
+	},
 	payment_status:{
 		type:Number
 	},
@@ -47,6 +50,9 @@ var rentalSchema = mongoose.Schema({
 		type:Number
 	},
 	rental_period:{
+		type:Number
+	},
+	rental_fee:{
 		type:Number
 	},
 	service_fee:{
@@ -134,9 +140,11 @@ module.exports.updateRental = function(rentalid, rental, options, callback){
 		notes:rental.notes,
 		rental_started_date: rental.rental_started_date,
 		rental_end_date: rental.rental_end_date,
+		return_confirmed_date: rental.return_confirmed_date,
 		payment_status:rental.payment_status,
 		daily_rate: rental.daily_rate,
 		rental_period: rental.rental_period,
+		rental_fee:rental.rental_fee,
 		service_fee:rental.service_fee,
 		tax:rental.service_fee,
 		total:rental.total

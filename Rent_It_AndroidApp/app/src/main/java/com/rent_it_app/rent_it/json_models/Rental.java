@@ -51,6 +51,9 @@ public class Rental implements Serializable
     @SerializedName("rental_end_date")
     @Expose
     private String rentalEndDate;
+    @SerializedName("return_confirmed_date")
+    @Expose
+    private String returnConfirmedDate;
     @SerializedName("payment_status")
     @Expose
     private Integer paymentStatus;
@@ -60,6 +63,9 @@ public class Rental implements Serializable
     @SerializedName("rental_period")
     @Expose
     private Double rentalPeriod;
+    @SerializedName("rental_fee")
+    @Expose
+    private Double rentalFee;
     @SerializedName("service_fee")
     @Expose
     private Double serviceFee;
@@ -83,12 +89,14 @@ public class Rental implements Serializable
      * @param total
      * @param rentalStatus
      * @param serviceFee
+     * @param rentalFee
      * @param renter
      * @param dailyRate
      * @param notes
      * @param paymentStatus
      * @param bookedStartDate
      * @param rentalStartedDate
+     * @param returnConfirmedDate
      * @param id
      * @param tax
      * @param item
@@ -100,7 +108,7 @@ public class Rental implements Serializable
      * @param rentalEndDate
      * @param estimatedProfit
      */
-    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedProfit, String notes, String rentalStartedDate, String rentalEndDate, Integer paymentStatus, Double dailyRate, Double rentalPeriod, Double serviceFee, Double tax, Double total) {
+    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedProfit, String notes, String rentalStartedDate, String rentalEndDate, String returnConfirmedDate, Integer paymentStatus, Double dailyRate, Double rentalPeriod, Double rentalFee, Double serviceFee, Double tax, Double total) {
         super();
         this.id = id;
         this.rentalId = rentalId;
@@ -115,9 +123,11 @@ public class Rental implements Serializable
         this.notes = notes;
         this.rentalStartedDate = rentalStartedDate;
         this.rentalEndDate = rentalEndDate;
+        this.returnConfirmedDate = returnConfirmedDate;
         this.paymentStatus = paymentStatus;
         this.dailyRate = dailyRate;
         this.rentalPeriod = rentalPeriod;
+        this.rentalFee = rentalFee;
         this.serviceFee = serviceFee;
         this.tax = tax;
         this.total = total;
@@ -235,6 +245,14 @@ public class Rental implements Serializable
         this.rentalEndDate = rentalEndDate;
     }
 
+    public String getReturnConfirmedDate() {
+        return returnConfirmedDate;
+    }
+
+    public void setReturnConfirmedDate(String returnConfirmedDate) {
+        this.returnConfirmedDate = returnConfirmedDate;
+    }
+
     public Integer getPaymentStatus() {
         return paymentStatus;
     }
@@ -258,6 +276,15 @@ public class Rental implements Serializable
     public void setRentalPeriod(Double rentalPeriod) {
         this.rentalPeriod = rentalPeriod;
     }
+
+    public Double getRentalFee() {
+        return rentalFee;
+    }
+
+    public void setRentalFee(Double rentalFee) {
+        this.rentalFee = rentalFee;
+    }
+
 
     public Double getServiceFee() {
         return serviceFee;

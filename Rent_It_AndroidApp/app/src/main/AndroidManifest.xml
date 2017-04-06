@@ -32,9 +32,17 @@
         <activity android:name=".RequestSentActivity"></activity>
         <activity android:name=".InitiateReturnActivity"></activity>
         <activity android:name=".TradeConfirmationSentActivity"></activity>
+        <activity android:name=".ReturnConfirmationSentActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".TradeConfirmedActivity">
             <intent-filter>
                 <action android:name="START_RENTAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ReturnConfirmedActivity">
+            <intent-filter>
+                <action android:name="RETURN_CONFIRM" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -61,6 +69,13 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="RENTAL_REQUEST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ConfirmReturnActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="RETURN_REQUEST" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

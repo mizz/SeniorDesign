@@ -86,7 +86,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <TextView
-                android:id="@+id/tvReturnDate"
+                android:id="@+id/tvRentalPeriod"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_weight="3"
@@ -165,27 +165,29 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/accept_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="COMFIRM"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/colorAccent"
-                    android:layout_gravity="center_horizontal"/>
-
-                <Button
                     android:id="@+id/cancel_button"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="CANCEL"
-                    android:layout_marginLeft="5dp"
+                    android:text="NOT RECEIVED"
                     android:layout_marginBottom="10dp"
                     android:background="#d3d3d3"
                     android:layout_gravity="center_horizontal"/>
+
+                <Button
+                    android:id="@+id/accept_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="ITEM RECEIVED"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorAccent"
+                    android:layout_gravity="center_horizontal"/>
+
+
 
 
             </LinearLayout>

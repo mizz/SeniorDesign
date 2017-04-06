@@ -712,6 +712,47 @@ app.put('/api/rental/start/:rental_id',function(req,res){
 	});
 });
 
+//update rental - when confirming return and end rental
+app.put('/api/rental/end/:rental_id',function(req,res){
+	var rental_id = req.params.rental_id;
+	var rental = req.body;
+	//update rental info
+	Rental.updateRental(rental_id, rental, {}, function(err,rental){
+		if(err){
+			throw err;
+		}
+		//res.json(rental);
+	});
+	//send notification
+	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
+		if(err){
+			throw err;
+		}else{
+			//console.log('rental:'+rental);
+			User.getUserByUid(rental.renter, function(err, renter){
+				if(err){
+					throw err;
+				}else{
+					//console.log('renter:'+renter);
+					User.getUserByUid(rental.owner, function(err, lender){
+						if(err){
+							throw err;
+						}else{
+							// We now have the item (rental.item), renter, and lender info
+							//console.log('lender:'+lender);
+							sendReturnConfirmation(rental, renter, lender, function(err, response){
+								console.log('notification: '+JSON.stringify(response));
+								//res.json(response);
+							});
+						}
+					});
+				}
+			});
+		}
+		res.json(rental);
+	});
+});
+
 /*function sendFCM(rental_id){
 	var lenderID = 'onBNW00rlNg9S1CmBWDHTOu0j3Z2';	// gotten from a DB call via item
 
@@ -926,6 +967,48 @@ function sendRentalConfirmation(rental, renter, lender, callback){
 	        icon: 'ic_launcher',
 	        body: rental_request,
 	        click_action:'START_RENTAL'
+	    }
+	});
+
+	console.log(renter.uid);
+	console.log(renter.fcm_token);
+
+	// Set up the sender with you API key, prepare your recipients' registration tokens. 
+	var sender = new gcm.Sender(process.env.FCM_API_KEY);
+	var regTokens = [renter.fcm_token];
+	 
+	sender.send(message, { registrationTokens: regTokens }, callback);
+}
+
+//send rental confirmation - trade started
+function sendReturnConfirmation(rental, renter, lender, callback){
+
+	var renter_name = renter.display_name;
+	var owner_name = lender.display_name;
+	var item_name = rental.item.title;
+	var estimated_profit = rental.estimated_profit;
+	var return_date = rental.booked_end_date;
+	var rental_request = 	'Your return of '+item_name
+							' was confirmed by' + owner_name + 
+							'. You are all set!';
+
+	var message = new gcm.Message({
+	    collapseKey: 'demo',
+	    priority: 'high',
+	    contentAvailable: true,
+	    data: {
+	    	notificationType:'confirm_return',
+	        rentalId: rental.rental_id,
+	        renter: renter_name,
+	        itemName: item_name,
+	        returnDate: return_date,
+	        estimatedProfit:estimated_profit
+	    },
+	    notification: {
+	        title: 'Rental Started!',
+	        icon: 'ic_launcher',
+	        body: rental_request,
+	        click_action:'RETURN_CONFIRM'
 	    }
 	});
 

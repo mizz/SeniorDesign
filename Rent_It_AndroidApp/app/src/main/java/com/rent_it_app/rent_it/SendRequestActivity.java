@@ -101,7 +101,7 @@ public class SendRequestActivity extends BaseActivity{
         txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
         txtNotes = (EditText)findViewById(R.id.notes);
         rentalFee = (TextView) findViewById(R.id.rentalCharge);
-        //imgPayment =(ImageView) findViewById(R.id.img_payment);
+        imgPayment =(ImageView) findViewById(R.id.img_payment);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);

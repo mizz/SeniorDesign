@@ -28,6 +28,7 @@ import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.BraintreeEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+import com.rent_it_app.rent_it.json_models.Transaction;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -62,7 +63,7 @@ public class InitiateReturnActivity extends BaseActivity{
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
     private ImageView preview, imgPayment;
-    private Long diff,days,hours;
+    private Long diff,days,hours,diff2;
     private ImageView ivImage;
     private Double dailyRate,total,serviceFee,tax,sales;
     private Calendar returnday,c;
@@ -72,9 +73,9 @@ public class InitiateReturnActivity extends BaseActivity{
     private String userChoosenTask;
     private String clientToken;
     Retrofit retrofit;
-    BraintreeEndpoint functionEndpoint;
+    BraintreeEndpoint braintreeEndpoint;
     RentalEndpoint rentalEndpoint;
-    private PaymentMethodNonce recentPaymentMethod;
+    private PaymentMethodNonce paymentMethodNonce;
     private static final int REQUEST_CODE = Menu.FIRST;
     public static FirebaseUser myUser;
     private String paymentMethodDescription;
@@ -104,7 +105,7 @@ public class InitiateReturnActivity extends BaseActivity{
         txtPaymentMethod = (TextView)findViewById(R.id.paymentMethod);
         txtNotes = (EditText)findViewById(R.id.notes);
         rentalFee = (TextView)findViewById(R.id.rentalCharge);
-        //imgPayment =(ImageView) findViewById(R.id.img_payment);
+        imgPayment =(ImageView) findViewById(R.id.img_payment);
         /*dailyRate = 3.50;//temp
         rate.setText("$ "+dailyRate);*/
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
@@ -115,7 +116,9 @@ public class InitiateReturnActivity extends BaseActivity{
         df.setTimeZone(tz);
         String nowAsISO = df.format(new Date());*/
         c = Calendar.getInstance();
+        TimeZone tz = TimeZone.getTimeZone("America/New_York");
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        df.setTimeZone(tz);
         String returnDate = df.format(c.getTime());
         Log.d("NOW: ",returnDate);
         //DateTime returnDate = ISODateTimeFormat.dateTime().parseDateTime(nowAsISO);
@@ -134,13 +137,13 @@ public class InitiateReturnActivity extends BaseActivity{
         diff = c.getTimeInMillis() - startDate.getMillis();
         hours = (diff / (60 * 60 * 1000));
         days = (diff / (24 * 60 * 60 * 1000));
-        diff = hours - (24*days);
-        Log.d("hours diff: ",""+ diff);
+        diff2 = hours - (24*days);
+        Log.d("hours diff: ",""+ diff2);
         Log.d("hours: ",""+hours);
-        //numDays.setText(days+" days "+diff+" hours");
-        tvStart.setText(days+" days "+diff+" hours");
+        //numDays.setText(days+" days "+diff2+" hours");
+        tvStart.setText(days+" days "+diff2+" hours");
         tvReturn.setText("Rental Started: "+startDate.toString( "MM/dd/yyyy hh:mm a"));
-        sales = dailyRate*days+diff*(dailyRate/24);
+        sales = dailyRate*days+diff2*(dailyRate/24);
         rentalFee.setText("$ "+roundTwoDecimals(sales));
         serviceFee = sales*SERVICE_FEE_RATE;
         fee.setText("$ "+roundTwoDecimals(serviceFee));
@@ -159,7 +162,7 @@ public class InitiateReturnActivity extends BaseActivity{
                 .baseUrl(Constants.REST_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        functionEndpoint = retrofit.create(BraintreeEndpoint.class);
+        braintreeEndpoint = retrofit.create(BraintreeEndpoint.class);
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
 
@@ -172,9 +175,9 @@ public class InitiateReturnActivity extends BaseActivity{
                 //String rental_id = thisRental.getRentalId();
                 thisRental.setRentalStatus(2);// 2 means renting
                 //thisRental.getBookedStartDate();
-                //TimeZone tz = TimeZone.getTimeZone("America/New_York");
+                TimeZone tz = TimeZone.getTimeZone("America/New_York");
                 DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-                //df.setTimeZone(tz);
+                df2.setTimeZone(tz);
                 //String nowAsISO = df.format(new Date());
                 String returnAsISO = df2.format(c.getTime());
                 thisRental.setRentalEndDate(returnAsISO);
@@ -186,6 +189,7 @@ public class InitiateReturnActivity extends BaseActivity{
                 thisRental.setPaymentStatus(2);//payment paid
                 //thisRental.setDailyRate(dailyRate);
                 thisRental.setRentalPeriod(diff.doubleValue());
+                thisRental.setRentalFee(sales);
                 thisRental.setServiceFee(serviceFee);
                 thisRental.setTax(tax);
                 thisRental.setTotal(total);
@@ -214,8 +218,31 @@ public class InitiateReturnActivity extends BaseActivity{
                     }
 
                 });
+
+                /*process payment*/
+                /*// Create Transaction including paymentMethodNonce, total here
+                Transaction transaction = new Transaction();
+                transaction.setChargeAmount(total);
+                transaction.setPaymentMethodNonce(paymentMethodNonce.toString());
+
+                // Send Transaction to server via Retrofit
+                Call<Transaction> call2 = braintreeEndpoint.processTransaction(transaction);
+                call2.enqueue(new Callback<Transaction>() {
+                    @Override
+                    public void onResponse(Call<Transaction> call,Response<Transaction> response) {
+                        int statusCode = response.code();
+
+                        // success
+                    }
+
+                    @Override
+                    public void onFailure(Call<Transaction> call,Throwable t) {
+                        Log.d("retrofit.call.enqueue", "failed");
+                    }
+                });*/
+
                 //send notification to owner
-                /*Call<ResponseBody> call = functionEndpoint.startRentalNotification(thisRental.getRentalId());
+                /*Call<ResponseBody> call = braintreeEndpoint.startRentalNotification(thisRental.getRentalId());
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -269,7 +296,7 @@ public class InitiateReturnActivity extends BaseActivity{
 
 
 
-        Call<ResponseBody> call = functionEndpoint.getToken(myUser.getUid());
+        Call<ResponseBody> call = braintreeEndpoint.getToken(myUser.getUid());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call,Response<ResponseBody> response) {
@@ -310,9 +337,9 @@ public class InitiateReturnActivity extends BaseActivity{
                                 } else {
                                     // Use the payment method show in your UI and charge the user
                                     // at the time of checkout.
-                                    recentPaymentMethod = result.getPaymentMethodNonce();
+                                    paymentMethodNonce = result.getPaymentMethodNonce();
 
-                                    Log.d("paymentMethodNonce: ", recentPaymentMethod.getDescription());
+                                    Log.d("paymentMethodNonce: ", paymentMethodNonce.getDescription());
                                 }
                             } else {
                                 // there was no existing payment method
@@ -350,6 +377,8 @@ public class InitiateReturnActivity extends BaseActivity{
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+
+                paymentMethodNonce = result.getPaymentMethodNonce();
                 Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().toString());
 
                 // use the icon and name to show in your UI

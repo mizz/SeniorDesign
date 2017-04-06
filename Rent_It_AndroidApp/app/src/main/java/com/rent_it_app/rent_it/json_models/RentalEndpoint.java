@@ -34,9 +34,12 @@ public interface RentalEndpoint {
     @PUT("api/rental/return/{rental_id}")
     Call<Rental> returnItem(@Path("rental_id") String rental_id, @Body Rental rental);
 
-
     @PUT("api/rental/start/{rental_id}")
     Call<Rental> startRental(@Path("rental_id") String rental_id, @Body Rental rental);
+
+    @PUT("api/rental/end/{rental_id}")
+    Call<Rental> confirmReturn(@Path("rental_id") String rental_id, @Body Rental rental);
+
 
     @PUT("api/rental/{rental_id}")
     Call<Rental> updateRental(@Path("rental_id") String rental_id, @Body Rental rental);
