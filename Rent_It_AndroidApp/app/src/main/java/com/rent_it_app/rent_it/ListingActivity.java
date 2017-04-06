@@ -253,7 +253,7 @@ public class ListingActivity extends BaseActivity{
                 Log.d("getOwnerRating() ","" + rList.getOwnerRating());
                 itemRating.setRating(rList.getItemRating());
                 ownerRating.setRating(rList.getOwnerRating());
-                //rReviewer.setText("by "+rList.getReviewer());
+                //rReviewer.setText("by "+rList.getRenter());
                 rReviewer.setText("by "+rList.getReviewerInfo().getDisplayName());
 
                 String s = rList.getItemComment();

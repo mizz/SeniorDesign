@@ -16,11 +16,11 @@
 
     <ImageView
         android:layout_marginTop="20dp"
-        android:layout_width="139dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="115dp"
+        android:layout_width="173dp"
+        android:layout_height="181dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginRight="95dp"
-        android:src="@drawable/check"
+        android:src="@drawable/check_light"
         android:id="@+id/imageView" />
 
     <TextView
@@ -29,11 +29,11 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="Return Confirmed!"
-        android:textColor="#FFD400"
-        android:textSize="35sp"
+        android:textColor="@color/orange"
+        android:textSize="30sp"
         android:id="@+id/textView2" />
 
-    <TextView
+  <!--  <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -42,7 +42,14 @@
         android:text="Your rental request was accepted. The rental clock has started!"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:id="@+id/text" />
+        android:id="@+id/text" />-->
+
+   <!-- <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/greyButton" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,8 +61,9 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginLeft="10dp"
+            android:padding="10dp"
             android:src="@drawable/damage"
-            android:id="@+id/imageView2" />
+            android:id="@+id/imageView3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,19 +96,90 @@
 
     </LinearLayout>
 
-    <View
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginTop="0dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@drawable/claim"
+            android:id="@+id/imageView2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title32"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Claim Policy"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:id="@+id/title2"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="If you need to file a claim, you have 24 hours to submit a claim. Claim form is located under 'My Claims' in menu."
+                android:textSize="15sp"
+                android:gravity="left"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+   <!-- <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/greyButton" />
-    <Button
-        android:id="@+id/btn_home"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_width="fill_parent"
+        android:background="@color/greyButton" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dip"
-        android:background="@color/colorAccent"
-        android:text="GO TO HOME" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/later_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="REMIND ME LATER"
+            android:layout_marginBottom="0dp"
+            android:background="@color/greyButton"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/review_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="WRITE A REVIEW"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/colorAccent"
+            android:layout_gravity="center_horizontal"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>

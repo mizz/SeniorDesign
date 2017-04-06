@@ -112,10 +112,11 @@
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
                 android:text="Daily Rate"
+                android:fontFamily="sans-serif-condensed"
                 android:textStyle="bold"
                 android:gravity="right"
-                android:textColor="#AA3939"
-                android:textSize="18sp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
 
         </LinearLayout>
 

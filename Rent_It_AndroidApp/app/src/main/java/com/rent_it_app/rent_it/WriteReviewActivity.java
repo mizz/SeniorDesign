@@ -1,6 +1,5 @@
 package com.rent_it_app.rent_it;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -87,7 +86,7 @@ public class WriteReviewActivity extends BaseActivity{
                 new_review.setOwnerComment(ownerDescription.getText().toString());
                 new_review.setItemRating(itemRating.getNumStars());
                 new_review.setOwnerRating(ownerRating.getNumStars());
-                new_review.setReviewer(user.getUid());
+                new_review.setRenter(user.getUid());
 
                 Call<Review> call = reviewEndpoint.addReview(new_review);
                 call.enqueue(new Callback<Review>() {

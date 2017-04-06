@@ -4,9 +4,6 @@ var reviewSchema = mongoose.Schema({
 	item:{
 		type:String
 	},
-	rental_id:{
-		type:String
-	},
 	owner:{
 		type: String
 	},
@@ -25,13 +22,7 @@ var reviewSchema = mongoose.Schema({
 	owner_comment:{
 		type: String
 	},
-	renter:{
-		type: String
-	},
-	renter_rating:{
-		type: Number
-	},
-	renter_comment:{
+	reviewer:{
 		type: String
 	},
 	date_created:{
@@ -42,7 +33,7 @@ var reviewSchema = mongoose.Schema({
 
 reviewSchema.virtual('reviewer_info', {
 	ref: 'User', 			// The model to use
-	localField: 'renter', // Find users where `localField`
+	localField: 'reviewer', // Find users where `localField`
 	foreignField: 'uid',	// is equal to the `foreignField`
 	justOne: true
 });
@@ -81,19 +72,4 @@ module.exports.getReviewsByOwnerId = function(owner, callback){
 //Add Review
 module.exports.addReview = function(review, callback){
 	Review.create(review, callback);
-}
-
-//Update Review
-module.exports.updateReview = function(rentalid, review, options, callback){
-	var query = {rental_id: rentalid};
-	var update = {
-		item_rating: review.item_rating,
-		title:review.title,
-		item_comment:review.item_comment,
-		owner_rating:review.owner_rating,
-		owner_comment:review.owner_comment,
-		notes:renter_rating.renter_rating,
-		renter_comment: review.renter_comment
-	}
-	Review.findOneAndUpdate(query, update, options, callback);
 }

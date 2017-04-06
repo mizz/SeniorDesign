@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class ReturnConfirmedActivity extends BaseActivity {
 
-    private Button btnHome;
+    private Button btnLater, btnReview;
     private TextView tvText;
 
 
@@ -34,11 +34,21 @@ public class ReturnConfirmedActivity extends BaseActivity {
             }
         }*/
 
-        btnHome = (Button)findViewById(R.id.btn_home);
-        btnHome.setOnClickListener(new View.OnClickListener() {
+        btnLater = (Button)findViewById(R.id.later_button);
+        btnLater.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent myIntent = new Intent(ReturnConfirmedActivity.this, HomeActivity.class);
+                ReturnConfirmedActivity.this.startActivity(myIntent);
+            }
+
+        });
+
+        btnReview = (Button)findViewById(R.id.review_button);
+        btnReview.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                Intent myIntent = new Intent(ReturnConfirmedActivity.this, WriteReviewActivity.class);
                 ReturnConfirmedActivity.this.startActivity(myIntent);
             }
 

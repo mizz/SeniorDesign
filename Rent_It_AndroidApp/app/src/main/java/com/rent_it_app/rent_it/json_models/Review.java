@@ -14,6 +14,15 @@ public class Review implements Serializable
     @SerializedName("_id")
     @Expose
     private String id;
+    @SerializedName("rental_id")
+    @Expose
+    private String rentalId;
+    @SerializedName("renter_rating")
+    @Expose
+    private Integer renterRating;
+    @SerializedName("renter_comment")
+    @Expose
+    private String renterComment;
     @SerializedName("item")
     @Expose
     private String item;
@@ -35,9 +44,9 @@ public class Review implements Serializable
     @SerializedName("owner_comment")
     @Expose
     private String ownerComment;
-    @SerializedName("reviewer")
+    @SerializedName("renter")
     @Expose
-    private String reviewer;
+    private String renter;
     @SerializedName("reviewer_info")
     @Expose
     private User reviewerInfo;
@@ -61,15 +70,21 @@ public class Review implements Serializable
      * @param owner
      * @param dateCreated
      * @param ownerComment
-     * @param reviewer
+     * @param renter
      * @param ownerRating
      * @param itemComment
      * @param itemRating
+     * @param renterComment
+     * @param rentalId
+     * @param renterRating
      * @param reviewerInfo
      */
-    public Review(String id, String item, String owner, Integer itemRating, String title, String itemComment, Integer ownerRating, String ownerComment, String reviewer, User reviewerInfo, String dateCreated) {
+    public Review(String id, String rentalId, Integer renterRating, String renterComment,String item, String owner, Integer itemRating, String title, String itemComment, Integer ownerRating, String ownerComment, String renter, User reviewerInfo, String dateCreated) {
         super();
         this.id = id;
+        this.rentalId = rentalId;
+        this.renterRating = renterRating;
+        this.renterComment = renterComment;
         this.item = item;
         this.owner = owner;
         this.itemRating = itemRating;
@@ -77,7 +92,7 @@ public class Review implements Serializable
         this.itemComment = itemComment;
         this.ownerRating = ownerRating;
         this.ownerComment = ownerComment;
-        this.reviewer = reviewer;
+        this.renter = renter;
         this.reviewerInfo = reviewerInfo;
         this.dateCreated = dateCreated;
     }
@@ -89,6 +104,31 @@ public class Review implements Serializable
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getRentalId() {
+        return rentalId;
+    }
+
+    public void setRentalId(String rentalId) {
+        this.rentalId = rentalId;
+    }
+
+    public Integer getRenterRating() {
+        return renterRating;
+    }
+
+    public void setRenterRating(Integer renterRating) {
+        this.renterRating = renterRating;
+    }
+
+    public String getRenterComment() {
+        return renterComment;
+    }
+
+    public void setRenterComment(String renterComment) {
+        this.renterComment = renterComment;
+    }
+
 
     public String getItem() {
         return item;
@@ -146,12 +186,12 @@ public class Review implements Serializable
         this.ownerComment = ownerComment;
     }
 
-    public String getReviewer() {
-        return reviewer;
+    public String getRenter() {
+        return renter;
     }
 
-    public void setReviewer(String reviewer) {
-        this.reviewer = reviewer;
+    public void setRenter(String renter) {
+        this.renter = renter;
     }
 
     public User getReviewerInfo() {

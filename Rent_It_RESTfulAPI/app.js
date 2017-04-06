@@ -374,6 +374,18 @@ app.post('/api/reviews',function(req,res){
 	});
 });
 
+//update review
+app.put('/api/review/:rentald',function(req,res){
+	var rental_id = req.params.rental_id;
+	var review = req.body;
+	Review.updateReview(rental_id, review, {}, function(err,review){
+		if(err){
+			throw err;
+		}
+		res.json(review);
+	});
+});
+
 //User Model
 //get all reviews
 app.get('/api/users',function(req,res){
@@ -439,6 +451,8 @@ app.post('/api/rentals', function(req,res){
 		res.json(rental);
 	});
 });
+
+
 
 //get contacted rentals by renter
 app.get('/api/rentals/contacted/renter/:renter',function(req,res){

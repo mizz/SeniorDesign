@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+import com.rent_it_app.rent_it.json_models.Review;
+import com.rent_it_app.rent_it.json_models.ReviewEndpoint;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,8 @@ public class ConfirmRentalActivity extends BaseActivity{
     Gson gson;
     Retrofit retrofit;
     RentalEndpoint rentalEndpoint;
+    ReviewEndpoint reviewEndpoint;
+    Review newReview;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ public class ConfirmRentalActivity extends BaseActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
+        reviewEndpoint = retrofit.create(ReviewEndpoint.class);
 
         //myData = getIntent().getExtras();
 
@@ -125,6 +130,7 @@ public class ConfirmRentalActivity extends BaseActivity{
                 myRental = response.body();
                 Log.d("Testing", "" + myRental.getId());
 
+
             }
 
             @Override
@@ -158,9 +164,9 @@ public class ConfirmRentalActivity extends BaseActivity{
                         Log.d("retrofit.call.enqueue", "" + statusCode);
 
                         //Log.d("photo_dest!=null?", photo_destination.toString());
-                        Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmationSentActivity.class);
+                        /*Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmationSentActivity.class);
                         //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
-                        ConfirmRentalActivity.this.startActivity(myIntent);
+                        ConfirmRentalActivity.this.startActivity(myIntent);*/
 
                     }
 
@@ -171,6 +177,31 @@ public class ConfirmRentalActivity extends BaseActivity{
 
                 });
 
+                newReview.setRentalId(rental_id);
+                newReview.setItem(myRental.getItem().getId());
+                newReview.setOwner(myRental.getOwner());
+                newReview.setRenter(myRental.getRenter());
+                Call<Review> call2 = reviewEndpoint.addReview(newReview);
+                call2.enqueue(new Callback<Review>() {
+                    @Override
+                    public void onResponse(Call<Review> call, Response<Review> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+
+                        //Log.d("photo_dest!=null?", photo_destination.toString());
+                        Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmationSentActivity.class);
+                        //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
+                        ConfirmRentalActivity.this.startActivity(myIntent);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Review> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                    }
+
+                });
 
             }
         });

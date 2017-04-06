@@ -35,12 +35,12 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
             }
         }*/
 
-        /*btnSubmit = (Button)findViewById(R.id.submit_button);
+        btnSubmit = (Button)findViewById(R.id.submit_button);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                *//*Intent myIntent = new Intent(ReturnConfirmationSentActivity.this, HomeActivity.class);
-                ReturnConfirmationSentActivity.this.startActivity(myIntent);*//*
+                Intent myIntent = new Intent(ReturnConfirmationSentActivity.this, HomeActivity.class);
+                ReturnConfirmationSentActivity.this.startActivity(myIntent);
             }
 
         });
@@ -49,11 +49,11 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
         btnLater.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                *//*Intent myIntent = new Intent(ReturnConfirmationSentActivity.this, HomeActivity.class);
-                ReturnConfirmationSentActivity.this.startActivity(myIntent);*//*
+                Intent myIntent = new Intent(ReturnConfirmationSentActivity.this, HomeActivity.class);
+                ReturnConfirmationSentActivity.this.startActivity(myIntent);
             }
 
-        });*/
+        });
     }
 
 }

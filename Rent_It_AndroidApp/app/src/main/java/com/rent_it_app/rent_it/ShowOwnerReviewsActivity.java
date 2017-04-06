@@ -130,7 +130,7 @@ public class ShowOwnerReviewsActivity extends BaseActivity{
             TextView comment = (TextView)ll.findViewById(R.id.rComment);
             RatingBar ownerRating = (RatingBar) ll.findViewById(R.id.rRating);
             title.setVisibility(View.GONE);
-            //Log.d("reviewer ",""+c.getReviewer());
+            //Log.d("reviewer ",""+c.getRenter());
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS zzz");
 
             //SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -140,13 +140,13 @@ public class ShowOwnerReviewsActivity extends BaseActivity{
             DateTime dateTimeObj = ISODateTimeFormat.dateTime().parseDateTime(c.getDateCreated());
             Log.d("jodatime.ISODateTime: ", dateTimeObj.toString());
             date.setText("Submitted: "+ dateTimeObj.toString( "dd/MM/yy"));
-            /*String s = c.getReviewer();
+            /*String s = c.getRenter();
             if (s.equals("onBNW00rlNg9S1CmBWDHTOu0j3Z2")){
                 s="Mimi M";
             }else if(s.equals("DXvNYnJragb5rF64XaQ67iyfxh42")){
                 s="Bonnie M";
             }else{
-                s = c.getReviewer();
+                s = c.getRenter();
             }*/
             reviewer.setText("by " + c.getReviewerInfo().getDisplayName());
             comment.setText(c.getOwnerComment());

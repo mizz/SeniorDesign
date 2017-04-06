@@ -48,7 +48,7 @@
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="by reviewer"
+            android:text="by renter"
             android:textSize="18sp"
             android:layout_marginLeft="10dp"/>
 
