@@ -1,5 +1,7 @@
 package com.rent_it_app.rent_it.json_models;
 
+import com.google.firebase.database.Transaction;
+
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
@@ -20,8 +22,8 @@ public interface BraintreeEndpoint {
     Call<ResponseBody> getToken(@Path("uid") String uid);
 
     //Create a Transaction
-    @POST("api/bt/transaction")
-    Call<Transaction> processTransaction(@Body Transaction transaction);
+    @POST("api/bt/complete_payment/{rental_id}")
+    Call<TransactionAmount> processTransaction(@Path("rental_id") String rental_id, @Body TransactionAmount transaction);
 
     //Add paymentMethodToken to the rental so we have the right details when charging
     @PUT("api/bt/add_payment_method/{rental_id}")

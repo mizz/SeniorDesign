@@ -644,18 +644,49 @@ app.put('/api/bt/add_payment_method/:rental_id', function(req,res){
 	});
 });
 
-function applyCharge(rental, chargeAmount){
-	gateway.transaction.sale({
+//Complete a return of an item and apply the charge
+app.post('/api/bt/complete_payment/:rental_id', function(req,res){
+	var rental_id = req.params.rental_id;
+	var transaction_amount = req.body;
+
+	console.log(JSON.stringify(transaction_amount, null, 2));
+
+	Rental.getRentalWithItemByRentalId(rental_id, function(err, rental){
+		if(err){
+			throw err;
+		} else{
+			console.log(rental);
+			applyCharge(rental, transaction_amount.chargeAmount, function(err, result){
+				if(err){
+					throw err;
+				}else{
+					console.log(result);
+					res.send(result.success);
+				}
+			});
+		}
+	});
+
+	
+});
+
+function applyCharge(rental, chargeAmount, callback){
+	var sale = {
 		amount: chargeAmount,
-		paymentMethodToken: rental.paymentMethodToken,
+		paymentMethodToken: rental.payment_method_token,
 		options: {
 			submitForSettlement: true
 		}
-	}, function (err, result){
-		console.log(result);
-		console.log(result.success);
-		return result.success;
-	});
+	};
+	console.log(JSON.stringify(sale, null, 2));
+
+	gateway.transaction.sale({
+		amount: chargeAmount,
+		paymentMethodToken: rental.payment_method_token,
+		options: {
+			submitForSettlement: true
+		}
+	}, callback);
 }
 
 

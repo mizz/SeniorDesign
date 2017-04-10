@@ -29,7 +29,7 @@ import com.rent_it_app.rent_it.json_models.BraintreeEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 import com.rent_it_app.rent_it.json_models.RentalPaymentMethodNonce;
-import com.rent_it_app.rent_it.json_models.Transaction;
+import com.rent_it_app.rent_it.json_models.TransactionAmount;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -249,7 +249,7 @@ public class InitiateReturnActivity extends BaseActivity{
                 rpmn.setUser(myUser.getUid());
 
                 // Send Transaction to server via Retrofit
-                Call<RentalPaymentMethodNonce> call2 = braintreeEndpoint.addPaymentMethodToken(thisRental.getId(), rpmn);
+                Call<RentalPaymentMethodNonce> call2 = braintreeEndpoint.addPaymentMethodToken(thisRental.getRentalId(), rpmn);
                 call2.enqueue(new Callback<RentalPaymentMethodNonce>() {
                     @Override
                     public void onResponse(Call<RentalPaymentMethodNonce> call,Response<RentalPaymentMethodNonce> response) {
