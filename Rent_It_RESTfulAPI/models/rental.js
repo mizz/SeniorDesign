@@ -67,6 +67,9 @@ var rentalSchema = mongoose.Schema({
 	created_date:{
 		type: Date,
 		default: Date.now
+	},
+	payment_method_token:{
+		type:String
 	}
 });
 
@@ -126,6 +129,21 @@ module.exports.getRentalWithItemByRentalId = function(rentalid, callback){
 //Add Rental
 module.exports.addRental = function(rental, callback){
 	Rental.create(rental, callback);
+}
+
+//Add rental paymentMethodToken
+module.exports.addPaymentMethodToken = function(rentalid, _payment_method_token, callback){
+	var query = {'rental_id': rentalid};
+	console.log(JSON.stringify(query, null, 2));
+	var update = {
+		'payment_method_token': _payment_method_token
+	};
+	console.log(JSON.stringify(update, null, 2));
+
+	// We want to return the updated rental, with the payment_method_token
+	var options = { 'new': 'true' };
+	console.log(JSON.stringify(options, null, 2));
+	Rental.findOneAndUpdate(query, update, options, callback);
 }
 
 //Update Rental

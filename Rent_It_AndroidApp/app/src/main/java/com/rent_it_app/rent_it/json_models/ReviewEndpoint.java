@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 
 public interface ReviewEndpoint {
 
-    //Request Type - Relative URL - Return Value - Query Parameter
+    //get latest review by item id
     @GET("api/review/item/{item}")
     Call<Review> getLatestReviewByItemId(@Path("item") String item);
 
@@ -24,11 +24,16 @@ public interface ReviewEndpoint {
     @GET("api/reviews/item/{item}")
     Call<ArrayList<Review>> getReviewsByItemId(@Path("item") String item);
 
+    //get review by rental id
+    @GET("api/review/rental/{rental_id}")
+    Call<Review> getReviewByRentalId(@Path("rental_id") String rental_id);
+
+
     //Owner Reviews
     @GET("api/reviews/owner/{owner}")
     Call<ArrayList<Review>> getReviewsByOwnerId(@Path("owner") String owner);
 
-    //Create a Review
+    //Update a Review
     @PUT("api/review/{rental_id}")
     Call<Review> updateReview(@Path("rental_id") String rental_id, @Body Review review);
 

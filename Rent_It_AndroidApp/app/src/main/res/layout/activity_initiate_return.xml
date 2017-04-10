@@ -40,16 +40,16 @@
                 android:layout_marginLeft="10dp" />
 
             <TextView
-                android:id="@+id/startDate"
+                android:id="@+id/rentalPeriod"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="start date"
+                android:text="---"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/returnDate"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:textSize="20sp"
                 android:text="Rental Period"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"/>-->
 
             <!--<LinearLayout
                 android:layout_width="match_parent"
@@ -133,6 +133,8 @@
                             android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
+
+
 
                     <!--<LinearLayout
                         android:layout_width="match_parent"
@@ -260,6 +262,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -288,7 +291,7 @@
 
                     </LinearLayout>
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/label9"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
@@ -296,9 +299,109 @@
                         android:textSize="12sp"
                         android:text="* You will be charged once owner confirm the return *"
                         android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"/>-->
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title31"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Payment Policy"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/title3"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="You will not be charged until returning the item. The final charges is calculated based on acutal rental period."
+                        android:textSize="15sp"
+                        android:gravity="left"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:padding="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="0dp"
+                    android:src="@drawable/card"
+                    android:id="@+id/imageView4" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:padding="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/damage"
+                    android:id="@+id/imageView2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title33"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Damage Policy"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="If you need to file a claim, you have 24 hours to submit a claim. Claim form is located under 'My Claims' in menu."
+                        android:textSize="15sp"
+                        android:gravity="left"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/greyButton" />
+
+
 
             <!--Notes-->
             <TextView

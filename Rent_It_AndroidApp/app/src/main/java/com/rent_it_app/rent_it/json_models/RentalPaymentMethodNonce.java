@@ -1,41 +1,40 @@
 package com.rent_it_app.rent_it.json_models;
 
+/**
+ * Created by malhan on 4/9/17.
+ */
+
+
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Transaction implements Serializable
+public class RentalPaymentMethodNonce implements Serializable
 {
 
     @SerializedName("user")
     @Expose
     private String user;
-    @SerializedName("chargeAmount")
-    @Expose
-    private Double chargeAmount;
     @SerializedName("paymentMethodNonce")
     @Expose
     private String paymentMethodNonce;
-    private final static long serialVersionUID = -1427674605071040881L;
+    private final static long serialVersionUID = 6941288643142427697L;
 
     /**
      * No args constructor for use in serialization
      *
      */
-    public Transaction() {
+    public RentalPaymentMethodNonce() {
     }
 
     /**
      *
-     * @param chargeAmount
      * @param paymentMethodNonce
      * @param user
      */
-    public Transaction(String user, Double chargeAmount, String paymentMethodNonce) {
+    public RentalPaymentMethodNonce(String user, String paymentMethodNonce) {
         super();
         this.user = user;
-        this.chargeAmount = chargeAmount;
         this.paymentMethodNonce = paymentMethodNonce;
     }
 
@@ -45,14 +44,6 @@ public class Transaction implements Serializable
 
     public void setUser(String user) {
         this.user = user;
-    }
-
-    public Double getChargeAmount() {
-        return chargeAmount;
-    }
-
-    public void setChargeAmount(Double chargeAmount) {
-        this.chargeAmount = chargeAmount;
     }
 
     public String getPaymentMethodNonce() {

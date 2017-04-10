@@ -353,6 +353,16 @@ app.get('/api/reviews/item/:item',function(req,res){
 	})
 });
 
+//get review by rental id
+app.get('/api/review/rental/:rental_id',function(req,res){
+	Review.getReviewsByRentalId(req.params.rental_id,function(err,review){
+		if(err){
+			throw err;
+		}
+		res.json(review);
+	})
+});
+
 //get review by owner id
 app.get('/api/reviews/owner/:owner',function(req,res){
 	Review.getReviewsByOwnerId(req.params.owner,function(err,reviews){
@@ -504,7 +514,6 @@ app.get('/api/rental/:rental_id',function(req,res){
 
 
 //retrieve client token if given a customer id
-//retrieve client token
 app.get('/api/bt/client_token/:user_id', function(req,res){
 	//find the user based on user_id
 	console.log('/api/bt/client_token/:user_id');
@@ -570,6 +579,86 @@ app.get('/api/bt/client_token/:user_id', function(req,res){
 
 	});
 });
+
+//post a transaction given an amount and a paymentMethodNonce
+/*app.post('/api/bt/transaction/', function(req,res){
+
+	var transaction_to_attempt = req.body;
+
+	User.getUserByUid(transaction_to_attempt.user, function(err, user){
+		if(err){
+			throw(err);
+		} else{
+			console.log(user);
+			gateway.paymentMethod.create({
+		  		customerId: user.braintree_customer_id,
+		  		paymentMethodNonce: transaction_to_attempt.paymentMethodNonce
+			}, function (err, result) { 
+				console.log(result);
+
+				// save the token to the database here
+				// rental.paymentMethodToken = result.creditCard.token		
+
+				// Below should go into a "post" action:
+				// normally would get this from the database, after saving it
+				rental = { 'paymentMethodToken': result.creditCard.token };
+				res.send(applyCharge(rental, transaction_to_attempt.chargeAmount));
+			});
+		}
+	})
+});*/
+
+//Save a paymentMethodToken to a rental
+app.put('/api/bt/add_payment_method/:rental_id', function(req,res){
+
+	var payment_method_nonce = req.body;
+	var rental_id = req.params.rental_id;
+
+	User.getUserByUid(payment_method_nonce.user, function(err, user){
+		if(err){
+			throw(err);
+		} else{
+			console.log(user);
+			gateway.paymentMethod.create({
+		  		customerId: user.braintree_customer_id,
+		  		paymentMethodNonce: payment_method_nonce.paymentMethodNonce
+			}, function (err, result) {
+				console.log(result);
+
+				console.log('rental_id: ' + rental_id);
+
+				// save the token to the database here
+				// rental.paymentMethodToken = result.creditCard.token		
+				Rental.addPaymentMethodToken(rental_id, result.creditCard.token, function(err, rental){
+					if(err){
+						console.log('updateRental failed');
+						console.log(err);
+						throw err;
+					} else{
+						console.log(rental);
+						res.send(rental);
+					}
+				});
+			});
+		}
+	});
+});
+
+function applyCharge(rental, chargeAmount){
+	gateway.transaction.sale({
+		amount: chargeAmount,
+		paymentMethodToken: rental.paymentMethodToken,
+		options: {
+			submitForSettlement: true
+		}
+	}, function (err, result){
+		console.log(result);
+		console.log(result.success);
+		return result.success;
+	});
+}
+
+
 //send cancel rental request
 app.post('/api/rental/cancel/:rental_id', function(req,res){
 	var rental_id = req.params.rental_id;

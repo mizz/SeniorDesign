@@ -75,6 +75,9 @@ public class Rental implements Serializable
     @SerializedName("total")
     @Expose
     private Double total;
+    @SerializedName("payment_method_token")
+    @Expose
+    private String payment_method_token;
     private final static long serialVersionUID = -978368248115006438L;
 
     /**
@@ -108,7 +111,12 @@ public class Rental implements Serializable
      * @param rentalEndDate
      * @param estimatedProfit
      */
-    public Rental(String id, String rentalId, String renter, String owner, /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate, Long bookedPeriod, Double estimatedProfit, String notes, String rentalStartedDate, String rentalEndDate, String returnConfirmedDate, Integer paymentStatus, Double dailyRate, Double rentalPeriod, Double rentalFee, Double serviceFee, Double tax, Double total) {
+    public Rental(String id, String rentalId, String renter, String owner,
+                  /*String item*/Item item, Integer rentalStatus, String bookedStartDate, String bookedEndDate,
+                  Long bookedPeriod, Double estimatedProfit, String notes, String rentalStartedDate,
+                  String rentalEndDate, String returnConfirmedDate, Integer paymentStatus, Double dailyRate,
+                  Double rentalPeriod, Double rentalFee, Double serviceFee, Double tax, Double total,
+                  String paymentMethodToken) {
         super();
         this.id = id;
         this.rentalId = rentalId;
@@ -131,6 +139,7 @@ public class Rental implements Serializable
         this.serviceFee = serviceFee;
         this.tax = tax;
         this.total = total;
+        this.payment_method_token = paymentMethodToken;
     }
 
     public String getId() {
@@ -308,6 +317,14 @@ public class Rental implements Serializable
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public String getPaymentMethodToken() {
+        return payment_method_token;
+    }
+
+    public void setPaymentMethodToken(String paymentMethodToken) {
+        this.payment_method_token = paymentMethodToken;
     }
 
 }

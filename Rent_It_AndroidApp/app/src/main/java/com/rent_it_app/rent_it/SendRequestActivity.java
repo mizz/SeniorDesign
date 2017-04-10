@@ -194,6 +194,7 @@ public class SendRequestActivity extends BaseActivity{
                 thisRental.setPaymentStatus(1);//payment saved not yet paid
                 thisRental.setDailyRate(dailyRate);
                 thisRental.setRentalPeriod(0.0);
+                thisRental.setRentalFee(0.00);
                 thisRental.setServiceFee(0.00);
                 thisRental.setTax(0.00);
                 thisRental.setTotal(0.00);
@@ -320,7 +321,7 @@ public class SendRequestActivity extends BaseActivity{
                                     // at the time of checkout.
                                     recentPaymentMethod = result.getPaymentMethodNonce();
 
-                                    Log.d("paymentMethodNonce: ", recentPaymentMethod.getDescription());
+                                    Log.d("paymentMethodNonce: ", recentPaymentMethod.getNonce());
                                 }
                             } else {
                                 // there was no existing payment method
@@ -358,7 +359,7 @@ public class SendRequestActivity extends BaseActivity{
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
-                Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().toString());
+                Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().getNonce());
 
                 // use the icon and name to show in your UI
                 int icon = result.getPaymentMethodType().getDrawable();

@@ -28,6 +28,7 @@ import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.BraintreeEndpoint;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+import com.rent_it_app.rent_it.json_models.RentalPaymentMethodNonce;
 import com.rent_it_app.rent_it.json_models.Transaction;
 
 import org.joda.time.DateTime;
@@ -58,7 +59,7 @@ public class InitiateReturnActivity extends BaseActivity{
 
     Rental thisRental;
     private EditText txtDate,txtNotes;
-    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod, tvStart, tvReturn, rentalFee;
+    private TextView numDays,rate,estimateTotal,fee,taxAmount, txtPaymentMethod, tvPeriod, tvReturn, rentalFee;
     private Button btnDatePicker, btnRequest;
     private String myIssue, myItem, myReason, myRental, mDate;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
@@ -124,8 +125,8 @@ public class InitiateReturnActivity extends BaseActivity{
         //DateTime returnDate = ISODateTimeFormat.dateTime().parseDateTime(nowAsISO);
 
 
-        tvStart = (TextView)findViewById(R.id.startDate);
-        tvReturn = (TextView)findViewById(R.id.returnDate);
+        tvPeriod = (TextView)findViewById(R.id.rentalPeriod);
+        //tvReturn = (TextView)findViewById(R.id.returnDate);
         //Log.d("start date: ",""+thisRental.getRentalStartedDate());
         DateTime startDate = ISODateTimeFormat.dateTime().parseDateTime(thisRental.getRentalStartedDate());
 
@@ -141,8 +142,8 @@ public class InitiateReturnActivity extends BaseActivity{
         Log.d("hours diff: ",""+ diff2);
         Log.d("hours: ",""+hours);
         //numDays.setText(days+" days "+diff2+" hours");
-        tvStart.setText(days+" days "+diff2+" hours");
-        tvReturn.setText("Rental Started: "+startDate.toString( "MM/dd/yyyy hh:mm a"));
+        tvPeriod.setText(days+" days "+diff2+" hours");
+        //tvReturn.setText("Rental Started: "+startDate.toString( "MM/dd/yyyy hh:mm a"));
         sales = dailyRate*days+diff2*(dailyRate/24);
         rentalFee.setText("$ "+roundTwoDecimals(sales));
         serviceFee = sales*SERVICE_FEE_RATE;
@@ -220,10 +221,11 @@ public class InitiateReturnActivity extends BaseActivity{
                 });
 
                 /*process payment*/
-                /*// Create Transaction including paymentMethodNonce, total here
-                Transaction transaction = new Transaction();
-                transaction.setChargeAmount(total);
-                transaction.setPaymentMethodNonce(paymentMethodNonce.toString());
+                // Create Transaction including paymentMethodNonce, total here
+                /*Transaction transaction = new Transaction();
+                transaction.setChargeAmount(roundTwoDecimals(total));
+                transaction.setPaymentMethodNonce(paymentMethodNonce.getNonce());
+                transaction.setUser(myUser.getUid());
 
                 // Send Transaction to server via Retrofit
                 Call<Transaction> call2 = braintreeEndpoint.processTransaction(transaction);
@@ -240,6 +242,27 @@ public class InitiateReturnActivity extends BaseActivity{
                         Log.d("retrofit.call.enqueue", "failed");
                     }
                 });*/
+
+                /* <----- Set up server with proper paymentMethodToken to use when charging ----> */
+                RentalPaymentMethodNonce rpmn = new RentalPaymentMethodNonce();
+                rpmn.setPaymentMethodNonce(paymentMethodNonce.getNonce());
+                rpmn.setUser(myUser.getUid());
+
+                // Send Transaction to server via Retrofit
+                Call<RentalPaymentMethodNonce> call2 = braintreeEndpoint.addPaymentMethodToken(thisRental.getId(), rpmn);
+                call2.enqueue(new Callback<RentalPaymentMethodNonce>() {
+                    @Override
+                    public void onResponse(Call<RentalPaymentMethodNonce> call,Response<RentalPaymentMethodNonce> response) {
+                        int statusCode = response.code();
+
+                        // success
+                    }
+
+                    @Override
+                    public void onFailure(Call<RentalPaymentMethodNonce> call,Throwable t) {
+                        Log.d("retrofit.call.enqueue", "failed");
+                    }
+                });
 
                 //send notification to owner
                 /*Call<ResponseBody> call = braintreeEndpoint.startRentalNotification(thisRental.getRentalId());
@@ -321,6 +344,7 @@ public class InitiateReturnActivity extends BaseActivity{
                                 /*int icon = result.getPaymentMethodType().getDrawable();
                                 int name = result.getPaymentMethodType().getLocalizedName();*/
 
+
                                 paymentMethodDescription = result.getPaymentMethodType().getCanonicalName()+" "+result.getPaymentMethodNonce().getDescription();
                                 txtPaymentMethod.setText(paymentMethodDescription);
 
@@ -339,7 +363,7 @@ public class InitiateReturnActivity extends BaseActivity{
                                     // at the time of checkout.
                                     paymentMethodNonce = result.getPaymentMethodNonce();
 
-                                    Log.d("paymentMethodNonce: ", paymentMethodNonce.getDescription());
+                                    Log.d("paymentMethodNonce: ", paymentMethodNonce.getNonce());
                                 }
                             } else {
                                 // there was no existing payment method
@@ -379,11 +403,14 @@ public class InitiateReturnActivity extends BaseActivity{
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
 
                 paymentMethodNonce = result.getPaymentMethodNonce();
-                Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().toString());
+                Log.d("paymentMethodNonce: ", result.getPaymentMethodNonce().getNonce());
 
                 // use the icon and name to show in your UI
                 int icon = result.getPaymentMethodType().getDrawable();
                 int name = result.getPaymentMethodType().getLocalizedName();
+
+                Log.d("user_id: ", myUser.getUid());
+                Log.d("rental_id: ", thisRental.getRentalId());
 
                 paymentMethodDescription = result.getPaymentMethodType().getCanonicalName()+" "+result.getPaymentMethodNonce().getDescription();
                 txtPaymentMethod.setText(paymentMethodDescription);

@@ -78,6 +78,21 @@ module.exports.getReviewsByOwnerId = function(owner, callback){
 		.exec(callback);
 }
 
+//Get Review by Rental Id
+module.exports.getReviewsByRentalId = function(rental_id, callback){
+	var query = {rental_id:rental_id};
+	Review.findOne(query)
+		.exec(callback);
+}
+
+//get by rental id
+/*module.exports.getRentalWithItemByRentalId = function(rentalid, callback){
+	var query = {rental_id:rentalid};
+	Rental.findOne(query)
+		  .populate('item')
+		  .exec(callback);
+}*/
+
 //Add Review
 module.exports.addReview = function(review, callback){
 	Review.create(review, callback);
@@ -92,7 +107,7 @@ module.exports.updateReview = function(rentalid, review, options, callback){
 		item_comment:review.item_comment,
 		owner_rating:review.owner_rating,
 		owner_comment:review.owner_comment,
-		notes:renter_rating.renter_rating,
+		notes:review.renter_rating,
 		renter_comment: review.renter_comment
 	}
 	Review.findOneAndUpdate(query, update, options, callback);

@@ -114,7 +114,7 @@ public class ConfirmReturnActivity extends BaseActivity{
         };
         registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseMessagingService.DATA_BROADCAST));
 */
-        //update Rental Table
+        //get rental infomation
         Call<Rental> call = rentalEndpoint.getRentalsItemsById(rental_id);
         call.enqueue(new Callback<Rental>() {
             @Override
@@ -165,7 +165,7 @@ public class ConfirmReturnActivity extends BaseActivity{
 
                         Log.d("Testing ", "sucess");
                         Intent myIntent = new Intent(ConfirmReturnActivity.this, ReturnConfirmationSentActivity.class);
-                        //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
+                        myIntent.putExtra("RENTAL_ID", rental_id);
                         ConfirmReturnActivity.this.startActivity(myIntent);
 
                     }

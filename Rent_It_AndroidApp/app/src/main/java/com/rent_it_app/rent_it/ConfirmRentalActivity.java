@@ -50,7 +50,7 @@ public class ConfirmRentalActivity extends BaseActivity{
     Retrofit retrofit;
     RentalEndpoint rentalEndpoint;
     ReviewEndpoint reviewEndpoint;
-    Review newReview;
+    //Review newReview;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,10 +162,7 @@ public class ConfirmRentalActivity extends BaseActivity{
                         int statusCode = response.code();
 
                         Log.d("retrofit.call.enqueue", "" + statusCode);
-
-                        //Log.d("photo_dest!=null?", photo_destination.toString());
                         /*Intent myIntent = new Intent(ConfirmRentalActivity.this, TradeConfirmationSentActivity.class);
-                        //myIntent.putExtra(NOTIFICATION_TYPE, "RENTAL STARTED");
                         ConfirmRentalActivity.this.startActivity(myIntent);*/
 
                     }
@@ -177,10 +174,19 @@ public class ConfirmRentalActivity extends BaseActivity{
 
                 });
 
+                Review newReview = new Review();
+
                 newReview.setRentalId(rental_id);
                 newReview.setItem(myRental.getItem().getId());
                 newReview.setOwner(myRental.getOwner());
                 newReview.setRenter(myRental.getRenter());
+                newReview.setOwnerRating(0);
+                newReview.setOwnerComment("");
+                newReview.setItemRating(0);
+                newReview.setItemComment("");
+                newReview.setTitle("");
+                newReview.setRenterRating(0);
+                newReview.setRenterComment("");
                 Call<Review> call2 = reviewEndpoint.addReview(newReview);
                 call2.enqueue(new Callback<Review>() {
                     @Override

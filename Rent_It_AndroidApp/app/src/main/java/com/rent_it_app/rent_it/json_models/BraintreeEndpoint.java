@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -22,5 +23,7 @@ public interface BraintreeEndpoint {
     @POST("api/bt/transaction")
     Call<Transaction> processTransaction(@Body Transaction transaction);
 
-
+    //Add paymentMethodToken to the rental so we have the right details when charging
+    @PUT("api/bt/add_payment_method/{rental_id}")
+    Call<RentalPaymentMethodNonce> addPaymentMethodToken(@Path("rental_id") String rental_id, @Body RentalPaymentMethodNonce rpmn);
 }
