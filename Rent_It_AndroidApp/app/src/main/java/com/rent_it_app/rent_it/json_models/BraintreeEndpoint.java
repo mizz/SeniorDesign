@@ -23,7 +23,7 @@ public interface BraintreeEndpoint {
 
     //Create a Transaction
     @POST("api/bt/complete_payment/{rental_id}")
-    Call<TransactionAmount> processTransaction(@Path("rental_id") String rental_id, @Body TransactionAmount transaction);
+    Call<TransactionAmount> processTransaction(@Path("rental_id") String rental_id, @Body TransactionAmount transactionAmount);
 
     //Add paymentMethodToken to the rental so we have the right details when charging
     @PUT("api/bt/add_payment_method/{rental_id}")
