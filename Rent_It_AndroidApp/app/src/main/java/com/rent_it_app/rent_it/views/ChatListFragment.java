@@ -4,6 +4,7 @@ package com.rent_it_app.rent_it.views;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.rent_it_app.rent_it.json_models.Conversation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,7 +105,7 @@ public class ChatListFragment extends Fragment {
 
         // Pull the users list once no sync required.
         //mFirebaseDatabaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
-        mFirebaseDatabaseReference.child("conversations").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabaseReference.child("conversations").orderByChild("last_active").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {dia.dismiss();
 
@@ -132,12 +135,15 @@ public class ChatListFragment extends Fragment {
                                 .contentEquals(myUser.getUid())) {
                             cList.add(conversation);
 
+
+
                             /*if (lastMsgDate == null || lastMsgDate.before(conversation.getDate()))
                                 lastMsgDate = conversation.getDate();*/
                             //Log.d("Test2", "conversation.getOwner(): "+ conversation.getOwner());
                             //Log.d("Test2", "conversation.getItem_name(): "+ conversation.getItem_name());
                             //adp.notifyDataSetChanged();
                         }
+                        Collections.reverse(cList);
                     }
                     //ListView list = (ListView) view.findViewById(R.id.list);
                     list.setAdapter(new ChatListAdapter());
@@ -208,10 +214,21 @@ public class ChatListFragment extends Fragment {
             //ChatUser c = getItem(pos);
             Conversation c = getItem(pos);
 
-            TextView lbl = (TextView) v;
+            LinearLayout ll = (LinearLayout) v;
+
+            TextView lbl = (TextView) ll.findViewById(R.id.itemName);
+            TextView lblTime = (TextView) ll.findViewById(R.id.time);
+            TextView lblFrom = (TextView) ll.findViewById(R.id.from);
             //lbl.setText(c.getUsername());
             lbl.setText(c.getItem_name());
-
+            lblTime.setText(DateUtils.getRelativeDateTimeString(getActivity(), c
+                            .getLastMsgDate().getTime(), DateUtils.SECOND_IN_MILLIS,
+                    DateUtils.DAY_IN_MILLIS, 0));
+            if(myUser.getUid().contentEquals(c.getRenter())) {
+                lblFrom.setText(c.getRenterName());
+            }else{
+                lblFrom.setText(c.getOwnerName());
+            }
             /*lbl.setCompoundDrawablesWithIntrinsicBounds(
                     c.isOnline() ? R.drawable.ic_online
                             : R.drawable.ic_offline, 0, R.drawable.arrow, 0);*/

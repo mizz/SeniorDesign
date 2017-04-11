@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Chat;
@@ -47,6 +48,7 @@ import org.joda.time.DateTime;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -63,12 +65,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ListingActivity extends BaseActivity{
 
     Item myItem;
-    User thisOwner;
+    User thisOwner,mySelf;
     Retrofit retrofit;
     ReviewEndpoint reviewEndpoint;
     RentalEndpoint rentalEndpoint;
     UserEndpoint userEndpoint;
     private Review rList;
+    private Calendar c;
     Gson gson;
     private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
     private TextView rTitle, rReviewer, rComment, oName;
@@ -86,7 +89,7 @@ public class ListingActivity extends BaseActivity{
 
     private FirebaseUser myUser;
     private Conversation convo;
-    private String rental_id, ownerName;
+    private String rental_id, ownerName,myName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,28 +291,28 @@ public class ListingActivity extends BaseActivity{
 
         });
 
+
+
         //get reviewer display name - remove if able to get display name from server
-        /*Call<User> call_reviewer = userEndpoint.getUserByUid(myItem.getUid());
+        Call<User> call_reviewer = userEndpoint.getUserByUid(myUser.getUid());
         call_reviewer.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 int statusCode = response.code();
                 Log.d("response.raw()",""+response.raw());
-                thisReviewer = response.body();
-                Log.d("thisReviewer: ",thisReviewer.toString());
-                Log.d("retrofit.call.enqueue", ""+statusCode);
-                rReviewer.setText(thisReviewer.getUid());
+                mySelf = response.body();
+                myName = mySelf.getDisplayName();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                rReviewer.setText("");
+
                 Log.d("retrofit.call.enqueue", "failed "+t);
 
             }
 
-        });*/
+        });
 
         //progress.dismiss();
         readMore.setOnClickListener(new View.OnClickListener() {
@@ -348,15 +351,18 @@ public class ListingActivity extends BaseActivity{
                          ", I'm interested in renting your "
                                   + myItem.getTitle() + ".";
                 defaultFirstMsg.setMsg(defaultMsg);
+                 c = Calendar.getInstance();
 
                 convo = new Conversation();
                 convo.setRenter(myUser.getUid());
+                convo.setRenterName(myName);
+                convo.setOwnerName(ownerName);
                 convo.setOwner(myItem.getUid());
                 convo.setItem_id(myItem.getId());
                 convo.setItem_name(myItem.getTitle());
                 convo.setRental_id(rental_id);
-
                 convo.setLastMsgDate(msgDate);
+                convo.setLast_active(c.getTimeInMillis());
                 ArrayList<Chat> chatMsgs = new ArrayList<Chat>();
                 chatMsgs.add(defaultFirstMsg);
                 convo.setChat(chatMsgs);

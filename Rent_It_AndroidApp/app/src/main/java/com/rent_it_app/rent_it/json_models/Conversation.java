@@ -21,15 +21,21 @@ public class Conversation implements Serializable
     @SerializedName("owner")
     @Expose
     private String owner;
+    @SerializedName("ownerName")
+    @Expose
+    private String ownerName;
     @SerializedName("renter")
     @Expose
     private String renter;
+    @SerializedName("renterName")
+    @Expose
+    private String renterName;
     @SerializedName("lastMsgDate")
     @Expose
     private Date lastMsgDate;
-    /*@SerializedName("last_active")
+    @SerializedName("last_active")
     @Expose
-    private String last_active;*/
+    private Long last_active;
     @SerializedName("chat")
     @Expose
     private List<Chat> chat = null;
@@ -45,22 +51,27 @@ public class Conversation implements Serializable
     /**
      *
      * @param item_name
-     * @param last_active
      * @param lastMsgDate
+     * @param lastMsgDate
+     * @param last_active
      * @param renter
+     * @param renterName
      * @param owner
+     * @param ownerName
      * @param rental_id
      * @param chat
      * @param item_id
      */
-    public Conversation(String rental_id, String item_id, String item_name, String owner, String renter, /*String last_active,*/Date lastMsgDate, List<Chat> chat) {
+    public Conversation(String rental_id, String item_id, String item_name, String owner, String ownerName, String renter, String renterName, Long last_active,Date lastMsgDate, List<Chat> chat) {
         super();
         this.rental_id = rental_id;
         this.item_id = item_id;
         this.item_name = item_name;
         this.owner = owner;
+        this.ownerName = ownerName;
         this.renter = renter;
-        //this.last_active = last_active;
+        this.renterName = renterName;
+        this.last_active = last_active;
         this.lastMsgDate = lastMsgDate;
         this.chat = chat;
     }
@@ -97,6 +108,15 @@ public class Conversation implements Serializable
         this.owner = owner;
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+
     public String getRenter() {
         return renter;
     }
@@ -105,19 +125,28 @@ public class Conversation implements Serializable
         this.renter = renter;
     }
 
-    /*public String getLast_active() {
+    public String getRenterName() {
+        return renterName;
+    }
+
+    public void setRenterName(String renterName) {
+        this.renterName = renterName;
+    }
+
+
+    public Long getLast_active() {
         return last_active;
     }
 
-    public void setLast_active(String last_active) {
+    public void setLast_active(Long last_active) {
         this.last_active = last_active;
-    }*/
+    }
 
     public Date getLastMsgDate() {
         return lastMsgDate;
     }
 
-    public void setLastMsgDate(Date date) {
+    public void setLastMsgDate(Date lastMsgDate) {
         this.lastMsgDate = lastMsgDate;
     }
 
