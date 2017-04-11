@@ -452,7 +452,7 @@ app.get('/api/rentals',function(req,res){
 });
 
 //create a new rental
-app.post('/api/rentals', function(req,res){
+/*app.post('/api/rentals', function(req,res){
 	var rental = req.body;
 	Rental.addRental(rental,function(err,rental){
 		if(err){
@@ -460,8 +460,37 @@ app.post('/api/rentals', function(req,res){
 		}
 		res.json(rental);
 	});
+});*/
+app.post('/api/rentals', function(req,res){
+	var rental = req.body;
+	Rental.addRental(rental,function(err,rental){
+		if(err){
+			throw err;
+		}else{
+			User.getUserByUid(rental.renter, function(err, renter){
+				if(err){
+					throw err;
+				}else{
+					//console.log('renter:'+renter);
+					User.getUserByUid(rental.owner, function(err, lender){
+						if(err){
+							throw err;
+						}else{
+							// We now have the item (rental.item), renter, and lender info
+							//console.log('lender:'+lender);
+							chatInitiated(rental, renter, lender, function(err, response){
+								console.log('notification: '+JSON.stringify(response));
+								//res.json(response);
+							});
+						}
+					});
+				}
+			});
+		}
+		res.json(rental);
+	});
+	
 });
-
 
 
 //get contacted rentals by renter
@@ -1152,6 +1181,42 @@ function sendReturnConfirmation(rental, renter, lender, callback){
 	// Set up the sender with you API key, prepare your recipients' registration tokens. 
 	var sender = new gcm.Sender(process.env.FCM_API_KEY);
 	var regTokens = [renter.fcm_token];
+	 
+	sender.send(message, { registrationTokens: regTokens }, callback);
+}
+
+//send rental request
+function chatInitiated(rental, renter, lender, callback){
+
+	var renter_name = renter.display_name;
+	var owner_name = lender.display_name;
+	//var item_name = rental.item.title;
+	//var estimated_profit = rental.estimated_profit;
+	//var return_date = rental.booked_end_date;
+	var rental_request = 	renter_name +
+							' sent you a message!';
+
+	var message = new gcm.Message({
+	    collapseKey: 'demo',
+	    priority: 'high',
+	    contentAvailable: true,
+	    data: {
+	    	notificationType:'chat_started'
+	    },
+	    notification: {
+	        title: 'New Message!',
+	        icon: 'ic_launcher',
+	        body: rental_request,
+	        click_action:'CHAT_MESSAGE'
+	    }
+	});
+
+	console.log(lender.uid);
+	console.log(lender.fcm_token);
+
+	// Set up the sender with you API key, prepare your recipients' registration tokens. 
+	var sender = new gcm.Sender(process.env.FCM_API_KEY);
+	var regTokens = [lender.fcm_token];
 	 
 	sender.send(message, { registrationTokens: regTokens }, callback);
 }

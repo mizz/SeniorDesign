@@ -94,14 +94,7 @@ public class HomeActivity extends BaseActivity
         browseList = (ListView) findViewById(R.id.category_list);
         //((TextView) findViewById(R.id.toolbar_title)).setText("Title!");
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -182,6 +175,37 @@ public class HomeActivity extends BaseActivity
                 default:
                     break;
             }
+
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_home, fragment).commit();
+        }
+         /*if (getIntent().getExtras() != null) {
+            if(getIntent().getExtras().get("returnDate").toString().contentEquals("chat_started")){
+                Fragment fragment = null;
+                Class fragmentClass = null;
+                FragmentManager manager = getSupportFragmentManager();
+                fragmentClass = ChatListFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager.beginTransaction().replace(R.id.content_home, fragment, "ChatListFragment").commit();
+            }
+
+        }*/
+    //chat notification - open chat list
+        if(getIntent().hasExtra("notificationType")){
+            Class fragmentClass = null;
+            Fragment fragment = null;
+
+            fragmentClass = ChatListFragment.class;
+
 
             try {
                 fragment = (Fragment) fragmentClass.newInstance();

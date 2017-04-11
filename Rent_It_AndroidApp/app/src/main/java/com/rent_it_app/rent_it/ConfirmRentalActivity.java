@@ -42,7 +42,7 @@ public class ConfirmRentalActivity extends BaseActivity{
     private Button btnCancel,btnAccept;
     private BroadcastReceiver broadcastReceiver;
     private Context context;
-    private TextView itemName, renterName, estimatedProfit, returnDate;
+    private TextView itemName, renterName, estimatedProfit, returnDate, notes;
     private Bundle myData;
     private String str, rental_id;
     Rental myRental;
@@ -64,6 +64,7 @@ public class ConfirmRentalActivity extends BaseActivity{
         renterName = (TextView)findViewById(R.id.tvRenter);
         estimatedProfit = (TextView)findViewById(R.id.tvProfit);
         returnDate = (TextView)findViewById(R.id.tvReturnDate);
+        notes = (TextView)findViewById(R.id.notes);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -105,6 +106,7 @@ public class ConfirmRentalActivity extends BaseActivity{
             Double profit = Double.parseDouble(str);
             estimatedProfit.setText("$ "+String.format("%.2f", profit));
 
+
         }else{
             itemName.setText("---");
             renterName.setText("---");
@@ -129,7 +131,8 @@ public class ConfirmRentalActivity extends BaseActivity{
                 int statusCode = response.code();
                 myRental = response.body();
                 Log.d("Testing", "" + myRental.getId());
-
+                if(!myRental.getNotes().contentEquals(""))
+                    notes.setText(myRental.getNotes());
 
             }
 
