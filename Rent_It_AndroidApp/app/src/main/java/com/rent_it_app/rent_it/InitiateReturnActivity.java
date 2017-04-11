@@ -355,7 +355,7 @@ public class InitiateReturnActivity extends BaseActivity{
                                     // at the time of checkout.
                                     paymentMethodNonce = result.getPaymentMethodNonce();
 
-                                    savePaymentMethodToken();
+                                    //savePaymentMethodToken();
 
                                     Log.d("paymentMethodNonce: ", paymentMethodNonce.getNonce());
                                 }
@@ -445,6 +445,7 @@ public class InitiateReturnActivity extends BaseActivity{
                 int statusCode = response.code();
 
                 // success
+                Log.d("retrofit.call.enqueue", statusCode+"");
             }
 
             @Override

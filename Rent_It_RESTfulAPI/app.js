@@ -636,7 +636,7 @@ app.put('/api/bt/add_payment_method/:rental_id', function(req,res){
 						throw err;
 					} else{
 						console.log(rental);
-						res.send(rental);
+						res.send({'result': result.success});
 					}
 				});
 			});
@@ -661,7 +661,7 @@ app.post('/api/bt/complete_payment/:rental_id', function(req,res){
 					throw err;
 				}else{
 					console.log(result);
-					res.send(result.success);
+					res.send({'result': result.success});
 				}
 			});
 		}

@@ -12,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.rent_it_app.rent_it.json_models.BraintreeEndpoint;
+import com.rent_it_app.rent_it.json_models.GenericResult;
 import com.rent_it_app.rent_it.json_models.Rental;
 import com.rent_it_app.rent_it.json_models.RentalEndpoint;
+import com.rent_it_app.rent_it.json_models.TransactionAmount;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -45,6 +48,7 @@ public class ConfirmReturnActivity extends BaseActivity{
     Gson gson;
     Retrofit retrofit;
     RentalEndpoint rentalEndpoint;
+    BraintreeEndpoint braintreeEndpoint;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,7 @@ public class ConfirmReturnActivity extends BaseActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
+        braintreeEndpoint = retrofit.create(BraintreeEndpoint.class);
 
         //myData = getIntent().getExtras();
 
@@ -174,6 +179,35 @@ public class ConfirmReturnActivity extends BaseActivity{
 
                     @Override
                     public void onFailure(Call<Rental> call, Throwable t) {
+                        Log.d("retrofit.call.enqueue", t.toString());
+                        Log.d("Testing ", "fail");
+                    }
+
+                });
+
+                /*<----- Finish charging now that the lender has confirmed return of item ----->*/
+                TransactionAmount transactionAmount = new TransactionAmount();
+                transactionAmount.setChargeAmount(roundTwoDecimals(myRental.getTotal()));
+                Call<GenericResult> call2 = braintreeEndpoint.processTransaction(myRental.getRentalId(),transactionAmount);
+                call2.enqueue(new Callback<GenericResult>() {
+                    @Override
+                    public void onResponse(Call<GenericResult> call, Response<GenericResult> response) {
+                        int statusCode = response.code();
+
+                        Log.d("retrofit.call.enqueue", "" + statusCode);
+                        Log.d("processTransaction:", response.body().getResult());
+
+                        if(response.body().getResult().equals("true")){
+                            Toast.makeText(ConfirmReturnActivity.this, "Successfully Charged!", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(ConfirmReturnActivity.this, "Failed to Charge!", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<GenericResult> call, Throwable t) {
                         Log.d("retrofit.call.enqueue", t.toString());
                         Log.d("Testing ", "fail");
                     }
