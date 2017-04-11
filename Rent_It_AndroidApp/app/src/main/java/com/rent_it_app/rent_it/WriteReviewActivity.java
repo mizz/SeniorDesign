@@ -33,8 +33,9 @@ public class WriteReviewActivity extends BaseActivity{
     private Button btnSubmit;
     private EditText title,description, ownerDescription;
     private RatingBar itemRating, ownerRating;
-    private String tempItem, tempOwner;
+    private String tempItem, tempOwner, rental_id;
     FirebaseUser user;
+    Review myReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +44,15 @@ public class WriteReviewActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        /*toolbar.setNavigationIcon(R.drawable.white_back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //startActivity(new Intent(getApplicationContext(), HomeActivity.class).putExtra("fragment_name", "ChatListFragment"));
                 //startActivity(new Intent(this, ChatListFragment.class));
             }
-        });
-        WriteReviewActivity.this.getSupportActionBar().setTitle("Review");
+        });*/
+        WriteReviewActivity.this.getSupportActionBar().setTitle("Rate Your Experience");
 
         btnSubmit = (Button) findViewById(R.id.submit_button);
         title = (EditText) findViewById(R.id.title);
@@ -75,20 +76,52 @@ public class WriteReviewActivity extends BaseActivity{
 
         reviewEndpoint = retrofit.create(ReviewEndpoint.class);
 
+        /*if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                rental_id= null;
+            } else {
+                rental_id= extras.getString("RENTAL_ID");
+            }
+        } else {
+            rental_id= (String) savedInstanceState.getSerializable("RENTAL_ID");
+        }*/
+
+        rental_id = "7d8cd335-b2b5-4a8e-aadc-084e77ec2396";
+
+        Log.d("rental id", rental_id);
+
+        Call<Review> call = reviewEndpoint.getReviewByRentalId(rental_id);
+        call.enqueue(new Callback<Review>() {
+            @Override
+            public void onResponse(Call<Review> call, Response<Review> response) {
+                int statusCode = response.code();
+                Log.d("getReview", "" + response.raw());
+                myReview = response.body();
+
+                //Toast.makeText(ReturnConfirmationSentActivity.this, "Sucessfully Submitted Review", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Review> call, Throwable t) {
+                Log.d("getReview", t.toString());
+            }
+
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
 
-                Review new_review = new Review();
-                new_review.setTitle(title.getText().toString());
-                new_review.setItemComment(description.getText().toString());
-                new_review.setOwnerComment(ownerDescription.getText().toString());
-                new_review.setItemRating(itemRating.getNumStars());
-                new_review.setOwnerRating(ownerRating.getNumStars());
-                new_review.setRenter(user.getUid());
 
-                Call<Review> call = reviewEndpoint.addReview(new_review);
+                myReview.setTitle(title.getText().toString());
+                myReview.setItemComment(description.getText().toString());
+                myReview.setOwnerComment(ownerDescription.getText().toString());
+                myReview.setItemRating(itemRating.getNumStars());
+                myReview.setOwnerRating(ownerRating.getNumStars());
+
+                Call<Review> call = reviewEndpoint.updateReview(rental_id,myReview);
                 call.enqueue(new Callback<Review>() {
                     @Override
                     public void onResponse(Call<Review> call, Response<Review> response) {

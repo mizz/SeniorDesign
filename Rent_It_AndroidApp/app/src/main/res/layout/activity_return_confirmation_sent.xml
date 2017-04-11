@@ -14,6 +14,16 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
     <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,8 +59,7 @@
         android:text="Return Confirmation Sent!"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:id="@+id/textView2" />
 
    <!-- <View
@@ -119,8 +128,6 @@
         android:text="Tell us about the renter..."
         android:textSize="18sp"
         android:gravity="center"
-
-        android:textStyle="bold"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="0dp" />
 
@@ -190,5 +197,8 @@
 
 
     </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

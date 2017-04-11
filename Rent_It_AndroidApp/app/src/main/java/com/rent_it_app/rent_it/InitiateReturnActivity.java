@@ -243,26 +243,7 @@ public class InitiateReturnActivity extends BaseActivity{
                     }
                 });*/
 
-                /* <----- Set up server with proper paymentMethodToken to use when charging ----> */
-                RentalPaymentMethodNonce rpmn = new RentalPaymentMethodNonce();
-                rpmn.setPaymentMethodNonce(paymentMethodNonce.getNonce());
-                rpmn.setUser(myUser.getUid());
-
-                // Send Transaction to server via Retrofit
-                Call<RentalPaymentMethodNonce> call2 = braintreeEndpoint.addPaymentMethodToken(thisRental.getRentalId(), rpmn);
-                call2.enqueue(new Callback<RentalPaymentMethodNonce>() {
-                    @Override
-                    public void onResponse(Call<RentalPaymentMethodNonce> call,Response<RentalPaymentMethodNonce> response) {
-                        int statusCode = response.code();
-
-                        // success
-                    }
-
-                    @Override
-                    public void onFailure(Call<RentalPaymentMethodNonce> call,Throwable t) {
-                        Log.d("retrofit.call.enqueue", "failed");
-                    }
-                });
+                savePaymentMethodToken();
 
                 //send notification to owner
                 /*Call<ResponseBody> call = braintreeEndpoint.startRentalNotification(thisRental.getRentalId());
@@ -345,8 +326,19 @@ public class InitiateReturnActivity extends BaseActivity{
                                 int name = result.getPaymentMethodType().getLocalizedName();*/
 
 
+                                Log.d("user_id: ", myUser.getUid());
+                                Log.d("rental_id: ", thisRental.getRentalId());
+
                                 paymentMethodDescription = result.getPaymentMethodType().getCanonicalName()+" "+result.getPaymentMethodNonce().getDescription();
                                 txtPaymentMethod.setText(paymentMethodDescription);
+                                Log.d("getPaymentMethodType()", ".getCanonicalName():"+result.getPaymentMethodType().getCanonicalName());
+                                Log.d("getPaymentMethodType()", ".name():"+result.getPaymentMethodType().name());
+                                Log.d("getPaymentMethodType()", ".toString():"+result.getPaymentMethodType().toString());
+                                Log.d("getPaymentMethodNonce()", ".getDescription():"+result.getPaymentMethodNonce().getDescription());
+
+                                //icon.setImageResource(result.getPaymentMethodType().getDrawable());
+                                //icon.setImageResource(result.getPaymentMethodType().getVaultedDrawable());
+                                imgPayment.setImageResource(result.getPaymentMethodType().getDrawable());
 
                                 //icon.setImageResource(result.getPaymentMethodType().getDrawable());
                                 //icon.setImageResource(result.getPaymentMethodType().getVaultedDrawable());
@@ -362,6 +354,8 @@ public class InitiateReturnActivity extends BaseActivity{
                                     // Use the payment method show in your UI and charge the user
                                     // at the time of checkout.
                                     paymentMethodNonce = result.getPaymentMethodNonce();
+
+                                    savePaymentMethodToken();
 
                                     Log.d("paymentMethodNonce: ", paymentMethodNonce.getNonce());
                                 }
@@ -435,6 +429,30 @@ public class InitiateReturnActivity extends BaseActivity{
                 error.printStackTrace();
             }
         }
+    }
+
+    public void savePaymentMethodToken(){
+        /* <----- Set up server with proper paymentMethodToken to use when charging ----> */
+        RentalPaymentMethodNonce rpmn = new RentalPaymentMethodNonce();
+        rpmn.setPaymentMethodNonce(paymentMethodNonce.getNonce());
+        rpmn.setUser(myUser.getUid());
+
+        // Send Transaction to server via Retrofit
+        Call<RentalPaymentMethodNonce> call2 = braintreeEndpoint.addPaymentMethodToken(thisRental.getRentalId(), rpmn);
+        call2.enqueue(new Callback<RentalPaymentMethodNonce>() {
+            @Override
+            public void onResponse(Call<RentalPaymentMethodNonce> call,Response<RentalPaymentMethodNonce> response) {
+                int statusCode = response.code();
+
+                // success
+            }
+
+            @Override
+            public void onFailure(Call<RentalPaymentMethodNonce> call,Throwable t) {
+                Log.d("retrofit.call.enqueue", "failed");
+            }
+        });
+
     }
 
     public void onBraintreeSubmit(View v) {

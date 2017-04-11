@@ -29,7 +29,8 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="Trade Confirmed!"
-        android:textColor="#FFD400"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="sans-serif-condensed"
         android:textSize="35sp"
         android:id="@+id/textView2" />
 

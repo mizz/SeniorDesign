@@ -32,7 +32,8 @@
         <activity android:name=".RequestSentActivity"></activity>
         <activity android:name=".InitiateReturnActivity"></activity>
         <activity android:name=".TradeConfirmationSentActivity"></activity>
-        <activity android:name=".ReturnConfirmationSentActivity"></activity>
+        <activity android:name=".ReturnConfirmationSentActivity"
+            ></activity><!--android:windowSoftInputMode="adjustPan"-->
         <activity android:name=".TradeConfirmedActivity">
             <intent-filter>
                 <action android:name="START_RENTAL" />

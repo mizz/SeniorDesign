@@ -38,7 +38,7 @@ public class ConfirmReturnActivity extends BaseActivity{
     private Double diff;
     private Long days,hours,diff2;
     private Context context;
-    private TextView itemName, renterName, profit, rentalPeriod;
+    private TextView itemName, renterName, profit, rentalPeriod,notes;
     private Bundle myData;
     private String str, rental_id;
     Rental myRental;
@@ -58,6 +58,7 @@ public class ConfirmReturnActivity extends BaseActivity{
         renterName = (TextView)findViewById(R.id.tvRenter);
         profit = (TextView)findViewById(R.id.tvProfit);
         rentalPeriod = (TextView)findViewById(R.id.tvRentalPeriod);
+        notes = (TextView)findViewById(R.id.tvNotes);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -129,6 +130,7 @@ public class ConfirmReturnActivity extends BaseActivity{
                 diff2 = hours - (24*days);
                 rentalPeriod.setText(days+" days "+diff2+" hours");
                 profit.setText("$ "+roundTwoDecimals(myRental.getRentalFee()));
+                notes.setText(myRental.getNotes());
 
             }
 

@@ -126,13 +126,24 @@
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notes (optional)"
+                android:text="Notes"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
-            <EditText
+            <TextView
+                android:id="@+id/tvNotes"
+                android:textColor="@color/colorLabel"
+                android:layout_width="match_parent"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="---"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"/>
+
+            <!--<EditText
                 android:id="@+id/issue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,7 +155,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:padding="5dp"/>
+                android:padding="5dp"/>-->
 
            <!-- Disclaimer-->
             <TextView

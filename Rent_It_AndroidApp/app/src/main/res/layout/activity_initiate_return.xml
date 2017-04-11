@@ -321,7 +321,7 @@
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Payment Policy"
+                        android:text="Charges"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:gravity="left"
@@ -332,7 +332,7 @@
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You will not be charged until returning the item. The final charges is calculated based on acutal rental period."
+                        android:text="If the owner does not confirm the item return within an hour, additional rental fee will apply"
                         android:textSize="15sp"
                         android:gravity="left"
                         android:layout_marginRight="0dp"
@@ -457,7 +457,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="Choose Payment Method" />
+                android:text="Change Payment Method" />
 
             <!--Image-->
             <!--<TextView
@@ -498,6 +498,7 @@
                 android:layout_height="wrap_content"
                 android:text="Notes (optional)"
                 android:textStyle="bold"
+                android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
