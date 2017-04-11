@@ -385,7 +385,7 @@ app.post('/api/reviews',function(req,res){
 });
 
 //update review
-app.put('/api/review/:rentald',function(req,res){
+app.put('/api/review/:rental_id',function(req,res){
 	var rental_id = req.params.rental_id;
 	var review = req.body;
 	Review.updateReview(rental_id, review, {}, function(err,review){
@@ -1139,7 +1139,7 @@ function sendReturnConfirmation(rental, renter, lender, callback){
 	        estimatedProfit:estimated_profit
 	    },
 	    notification: {
-	        title: 'Rental Started!',
+	        title: 'Payment Confirmed!',
 	        icon: 'ic_launcher',
 	        body: rental_request,
 	        click_action:'RETURN_CONFIRM'

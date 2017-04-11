@@ -1,5 +1,6 @@
 package com.rent_it_app.rent_it;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class WriteReviewActivity extends BaseActivity{
     private String tempItem, tempOwner, rental_id;
     FirebaseUser user;
     Review myReview;
+    Integer renter_rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class WriteReviewActivity extends BaseActivity{
                 //startActivity(new Intent(this, ChatListFragment.class));
             }
         });*/
-        WriteReviewActivity.this.getSupportActionBar().setTitle("Rate Your Experience");
+        WriteReviewActivity.this.getSupportActionBar().setTitle("RATE YOUR EXPERIENCE");
 
         btnSubmit = (Button) findViewById(R.id.submit_button);
         title = (EditText) findViewById(R.id.title);
@@ -98,7 +100,7 @@ public class WriteReviewActivity extends BaseActivity{
                 int statusCode = response.code();
                 Log.d("getReview", "" + response.raw());
                 myReview = response.body();
-
+                renter_rating = myReview.getRenterRating();
                 //Toast.makeText(ReturnConfirmationSentActivity.this, "Sucessfully Submitted Review", Toast.LENGTH_LONG).show();
             }
 
@@ -120,6 +122,7 @@ public class WriteReviewActivity extends BaseActivity{
                 myReview.setOwnerComment(ownerDescription.getText().toString());
                 myReview.setItemRating(itemRating.getNumStars());
                 myReview.setOwnerRating(ownerRating.getNumStars());
+                myReview.setRenterRating(renter_rating);
 
                 Call<Review> call = reviewEndpoint.updateReview(rental_id,myReview);
                 call.enqueue(new Callback<Review>() {
@@ -127,11 +130,13 @@ public class WriteReviewActivity extends BaseActivity{
                     public void onResponse(Call<Review> call, Response<Review> response) {
                         int statusCode = response.code();
 
-                        Log.d("retrofit.call.enqueue", "" + statusCode);
+                        Log.d("retrofit.call.enqueue", "" + response.raw());
 
-                        //Log.d("photo_dest!=null?", photo_destination.toString());
+                        Log.d("photo_dest!=null?", ""+response.body());
 
                         Toast.makeText(WriteReviewActivity.this, "Sucessfully Submitted Review", Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(WriteReviewActivity.this, HomeActivity.class);
+                        WriteReviewActivity.this.startActivity(myIntent);
                     }
 
                     @Override

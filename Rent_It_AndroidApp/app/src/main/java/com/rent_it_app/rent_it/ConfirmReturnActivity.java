@@ -135,7 +135,8 @@ public class ConfirmReturnActivity extends BaseActivity{
                 diff2 = hours - (24*days);
                 rentalPeriod.setText(days+" days "+diff2+" hours");
                 profit.setText("$ "+roundTwoDecimals(myRental.getRentalFee()));
-                notes.setText(myRental.getNotes());
+                if (!myRental.getNotes().contentEquals(""))
+                    notes.setText(myRental.getNotes());
 
             }
 

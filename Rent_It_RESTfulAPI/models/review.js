@@ -99,15 +99,15 @@ module.exports.addReview = function(review, callback){
 }
 
 //Update Review
-module.exports.updateReview = function(rentalid, review, options, callback){
-	var query = {rental_id: rentalid};
+module.exports.updateReview = function(rental_id, review, options, callback){
+	var query = {rental_id: rental_id};
 	var update = {
 		item_rating: review.item_rating,
 		title:review.title,
 		item_comment:review.item_comment,
 		owner_rating:review.owner_rating,
 		owner_comment:review.owner_comment,
-		notes:review.renter_rating,
+		renter_rating:review.renter_rating,
 		renter_comment: review.renter_comment
 	}
 	Review.findOneAndUpdate(query, update, options, callback);

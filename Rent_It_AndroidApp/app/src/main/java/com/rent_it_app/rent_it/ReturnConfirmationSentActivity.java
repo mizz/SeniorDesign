@@ -32,7 +32,7 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
     private RatingBar renterRating;
     private EditText renterComment;
     private String rental_id, comment;
-    private Integer rating;
+    private Integer rating,owner_rating,item_rating;
     Retrofit retrofit;
     ReviewEndpoint reviewEndpoint;
     Gson gson;
@@ -50,7 +50,7 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("RETURN CONFIRMED");
+        this.getSupportActionBar().setTitle("RATE YOUR EXPERIENCE");
 
 
         if (savedInstanceState == null) {
@@ -82,7 +82,8 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
                 int statusCode = response.code();
                 Log.d("getReview", "" + response.raw());
                 myReview = response.body();
-
+                item_rating = myReview.getItemRating();
+                owner_rating = myReview.getOwnerRating();
                 //Toast.makeText(ReturnConfirmationSentActivity.this, "Sucessfully Submitted Review", Toast.LENGTH_LONG).show();
             }
 
@@ -107,16 +108,18 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
             if(comment.trim().equals("")){
                 renterComment.requestFocus();
                 renterComment.setError("Comment is required!");
-                Toast.makeText(ReturnConfirmationSentActivity.this, "Comment Empty", Toast.LENGTH_LONG).show();
+                //Toast.makeText(ReturnConfirmationSentActivity.this, "Comment Empty", Toast.LENGTH_LONG).show();
             }else if(rating == 0){
                 renterComment.requestFocus();
                 renterComment.setError("Rating is also required!");
-                Toast.makeText(ReturnConfirmationSentActivity.this, "rating 0", Toast.LENGTH_LONG).show();
+                //Toast.makeText(ReturnConfirmationSentActivity.this, "rating 0", Toast.LENGTH_LONG).show();
             }else {
-                Toast.makeText(ReturnConfirmationSentActivity.this, "update review", Toast.LENGTH_LONG).show();
+                //Toast.makeText(ReturnConfirmationSentActivity.this, "update review", Toast.LENGTH_LONG).show();
 
                 myReview.setRenterRating(rating);
                 myReview.setRenterComment(comment);
+                myReview.setOwnerRating(owner_rating);
+                myReview.setItemRating(item_rating);
 
                 Call<Review> call = reviewEndpoint.updateReview(rental_id, myReview);
                 call.enqueue(new Callback<Review>() {

@@ -49,6 +49,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
+
+
             <!--<TextView
                 android:id="@+id/returnDate"
                 android:textColor="@color/colorLabel"
@@ -401,8 +403,6 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/greyButton" />
 
-
-
             <!--Notes-->
             <TextView
                 android:id="@+id/label123"
@@ -451,13 +451,19 @@
                 android:id="@+id/braintree_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
+                android:background="@drawable/buttonshape3"
                 android:textColor="@color/colorLabel"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
                 android:text="Change Payment Method" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/greyButton" />
 
             <!--Image-->
             <!--<TextView
@@ -520,10 +526,13 @@
                 android:id="@+id/request_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="Initiate Return"
                 android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorAccent"
+                android:textColor="@color/colorLabel"
                 android:layout_gravity="center_horizontal"/>
             <!--android:onClick="listItem"-->
 

@@ -24,124 +24,255 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/imgItem"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:tint="@color/greyButton"
+                android:src="@drawable/ic_dashboard" />
 
-            <!--Item-->
-            <TextView
-                android:id="@+id/label1"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Item"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvItem"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="---------"
+                <!--Item-->
+                <TextView
+                    android:id="@+id/label1"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Item"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/tvItem"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="---"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"/>
+                android:background="@color/greyButton" />
 
-            <!--Renter -->
-            <TextView
-                android:id="@+id/label23"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Renter"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvRenter"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="------"
+            <ImageView
+                android:id="@+id/imgRenter"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:tint="@color/greyButton"
+                android:src="@drawable/ic_account" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <!--Renter -->
+                <TextView
+                    android:id="@+id/label23"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Renter"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvRenter"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="------"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"/>
+                android:background="@color/greyButton" />
 
-            <!--Return Date-->
-            <TextView
-                android:id="@+id/label11"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Rental Period"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvRentalPeriod"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="---"
+            <ImageView
+                android:id="@+id/imgPeriod"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:tint="@color/greyButton"
+                android:src="@drawable/ic_period" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <!--Return Date-->
+                <TextView
+                    android:id="@+id/label11"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rental Period"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvRentalPeriod"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="---"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"/>
+                android:background="@color/greyButton" />
 
-            <!--Estimated Sales-->
-            <TextView
-                android:id="@+id/label12"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Profit"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvProfit"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="---"
+            <ImageView
+                android:id="@+id/imgProfit"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:tint="@color/greyButton"
+                android:src="@drawable/ic_money" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <!--Estimated Sales-->
+                <TextView
+                    android:id="@+id/label12"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Profit"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvProfit"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="---"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"/>
+                android:background="@color/greyButton" />
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <!--Notes-->
-            <TextView
-                android:id="@+id/label2"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Notes"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+            <ImageView
+                android:id="@+id/imgNotes"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:tint="@color/greyButton"
+                android:src="@drawable/ic_notes" />
 
-            <TextView
-                android:id="@+id/tvNotes"
-                android:textColor="@color/colorLabel"
-                android:layout_width="match_parent"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="---"
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <!--Notes-->
+                <TextView
+                    android:id="@+id/label2"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Notes"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvNotes"
+                    android:textColor="@color/colorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="---"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"/>
+                android:background="@color/greyButton" />
 
             <!--<EditText
                 android:id="@+id/issue"
@@ -158,7 +289,7 @@
                 android:padding="5dp"/>-->
 
            <!-- Disclaimer-->
-            <TextView
+            <!--<TextView
                 android:id="@+id/disclaimer"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
@@ -168,7 +299,55 @@
                 android:text="*Click confirm if you recieved the item. You can file a claim in the next step*"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"/>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginTop="0dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:src="@drawable/claim"
+                    android:id="@+id/imageView2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title32"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Damage Claim Policy"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/title2"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="If you need to file a claim, you have 24 hours to submit a claim. Claim form is located under 'My Claims' in menu."
+                        android:textSize="15sp"
+                        android:gravity="left"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

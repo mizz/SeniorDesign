@@ -35,7 +35,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="Just a sec..."
-            android:textColor="#FFD400"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="30sp" />
         <TextView
             android:layout_width="match_parent"

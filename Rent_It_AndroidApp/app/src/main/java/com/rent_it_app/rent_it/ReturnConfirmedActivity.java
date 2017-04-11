@@ -27,7 +27,7 @@ public class ReturnConfirmedActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("RETURN CONFIRMED");
+        this.getSupportActionBar().setTitle("RETURN CONFIRMATION");
 
         if (getIntent().getExtras() != null) {
             rental_id = getIntent().getExtras().get("rentalId").toString();
