@@ -20,7 +20,7 @@ android:layout_height="match_parent"
         android:id="@+id/browselist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="#9E9E9E"
+        android:divider="@color/bt_very_light_gray"
         android:dividerHeight="1dp"
         tools:listitem="@layout/listing_item" >
     </ListView>

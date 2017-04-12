@@ -4,9 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +35,6 @@ import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Category;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
-import com.rent_it_app.rent_it.views.AvailabeItemFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +62,7 @@ public class BrowseActivity extends BaseActivity{
     private BrowseAdapter brwsAdapter;
     private ArrayList<File> photoList;
     private ListView blist;
+    private Typeface ralewayRegular,latoRegular,latoThin,latoLight,aaargh,josefinsans_regular;
     Retrofit retrofit;
     ItemEndpoint itemEndpoint;
     Gson gson;
@@ -101,6 +105,11 @@ public class BrowseActivity extends BaseActivity{
         s3 = new AmazonS3Client(credentialsProvider);
         transferUtility = new TransferUtility(s3, getApplicationContext());
 
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        //latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        //latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
         /*Intent intent = getIntent();
         String value = intent.getStringExtra("key");*/
         myCategory = (Category) getIntent().getSerializableExtra(Config.EXTRA_DATA);
@@ -120,7 +129,11 @@ public class BrowseActivity extends BaseActivity{
                 //startActivity(new Intent(this, ChatListFragment.class));
             }
         });
-        this.getSupportActionBar().setTitle(category_name);
+
+        SpannableString s = new SpannableString(category_name.toUpperCase());
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -324,7 +337,14 @@ public class BrowseActivity extends BaseActivity{
             TextView city = (TextView) ll.findViewById(R.id.txtCity);
             TextView rate = (TextView) ll.findViewById(R.id.txtRate);
             ImageView photo = (ImageView) ll.findViewById(R.id.photo);
-            title.setText(c.getTitle());
+            String s = c.getTitle();
+            if (s.length() > 20) {
+                s = s.substring(0, 20) + "...";
+            }
+            title.setTypeface(ralewayRegular);//done
+            rate.setTypeface(ralewayRegular);//done
+            city.setTypeface(josefinsans_regular);//done
+            title.setText(s);
             city.setText(c.getCity());
             rate.setText("$" + c.getRate() + " /day");
             File outputDir = getApplicationContext().getCacheDir(); // context being the Activity pointer
@@ -332,7 +352,9 @@ public class BrowseActivity extends BaseActivity{
             if(percentageHash.size() > pos && percentageHash.get(pos) >= 100) {
                 Log.d("adp.getView", "percentage: " + percentageHash.get(pos));
                 Bitmap myBitmap = BitmapFactory.decodeFile(fileHash.get(pos).getAbsolutePath());
-                photo.setImageBitmap(myBitmap/*Bitmap.createScaledBitmap(myBitmap, 200, 150, false)*/);
+                if(myBitmap != null) {
+                    photo.setImageBitmap(/*myBitmap*/Bitmap.createScaledBitmap(myBitmap, 100, 100, false));
+                }
             }
 
             /*try {
