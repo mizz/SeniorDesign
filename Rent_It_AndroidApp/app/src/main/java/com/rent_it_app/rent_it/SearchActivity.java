@@ -6,9 +6,13 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +62,8 @@ public class SearchActivity extends BaseActivity {
     private ArrayList<Item> brwsList;
     private SearchAdapter srchAdapter;
     private ArrayList<File> photoList;
+
+    private Typeface ralewayRegular,latoRegular,latoThin,latoLight,aaargh,josefinsans_regular;
     private ListView blist;
     Retrofit retrofit;
     ItemEndpoint itemEndpoint;
@@ -101,6 +107,12 @@ public class SearchActivity extends BaseActivity {
         s3 = new AmazonS3Client(credentialsProvider);
         transferUtility = new TransferUtility(s3, getApplicationContext());
 
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        //latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        //latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+
         /*Intent intent = getIntent();
         String value = intent.getStringExtra("key");*/
         myTag = (String) getIntent().getSerializableExtra(Config.EXTRA_DATA);
@@ -121,7 +133,11 @@ public class SearchActivity extends BaseActivity {
                 //startActivity(new Intent(this, ChatListFragment.class));
             }
         });
-        this.getSupportActionBar().setTitle(myTag);
+        //this.getSupportActionBar().setTitle(myTag);
+        SpannableString s = new SpannableString(myTag.toUpperCase());
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -325,7 +341,14 @@ public class SearchActivity extends BaseActivity {
             TextView city = (TextView) ll.findViewById(R.id.txtCity);
             TextView rate = (TextView) ll.findViewById(R.id.txtRate);
             ImageView photo = (ImageView) ll.findViewById(R.id.photo);
-            title.setText(c.getTitle());
+            title.setTypeface(ralewayRegular);
+            rate.setTypeface(ralewayRegular);
+            city.setTypeface(josefinsans_regular);
+            String s = c.getTitle();
+            if (s.length() > 20) {
+                s = s.substring(0, 20) + "...";
+            }
+            title.setText(s);
             city.setText(c.getCity());
             rate.setText("$" + c.getRate() + " /day");
             File outputDir = getApplicationContext().getCacheDir(); // context being the Activity pointer
@@ -333,7 +356,9 @@ public class SearchActivity extends BaseActivity {
             if(percentageHash.size() > pos && percentageHash.get(pos) >= 100) {
                 Log.d("adp.getView", "percentage: " + percentageHash.get(pos));
                 Bitmap myBitmap = BitmapFactory.decodeFile(fileHash.get(pos).getAbsolutePath());
-                photo.setImageBitmap(myBitmap/*Bitmap.createScaledBitmap(myBitmap, 200, 150, false)*/);
+                if(myBitmap != null) {
+                    photo.setImageBitmap(/*myBitmap*/Bitmap.createScaledBitmap(myBitmap, 100, 100, false));
+                }
             }
 
             /*try {

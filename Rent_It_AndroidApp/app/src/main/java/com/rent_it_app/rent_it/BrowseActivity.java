@@ -341,9 +341,9 @@ public class BrowseActivity extends BaseActivity{
             if (s.length() > 20) {
                 s = s.substring(0, 20) + "...";
             }
-            title.setTypeface(ralewayRegular);//done
-            rate.setTypeface(ralewayRegular);//done
-            city.setTypeface(josefinsans_regular);//done
+            title.setTypeface(ralewayRegular);
+            rate.setTypeface(ralewayRegular);
+            city.setTypeface(josefinsans_regular);
             title.setText(s);
             city.setText(c.getCity());
             rate.setText("$" + c.getRate() + " /day");

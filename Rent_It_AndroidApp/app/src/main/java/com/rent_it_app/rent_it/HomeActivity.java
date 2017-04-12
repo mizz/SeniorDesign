@@ -1,12 +1,16 @@
 package com.rent_it_app.rent_it;
 
 import android.app.SearchManager;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -74,6 +78,7 @@ public class HomeActivity extends BaseActivity
     private static final String TAG = HomeActivity.class.getName();
     public ListView browseList;
     private ArrayList<Category> cateList;
+    private Typeface ralewayRegular;
     Retrofit retrofit;
     CategoryEndpoint categoryEndpoint;
     UserEndpoint userEndpoint;
@@ -89,9 +94,14 @@ public class HomeActivity extends BaseActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("FIND ITEM");
+        //getSupportActionBar().setTitle("FIND ITEM");
+        SpannableString s = new SpannableString("FIND ITEM");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
 
         browseList = (ListView) findViewById(R.id.category_list);
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
         //((TextView) findViewById(R.id.toolbar_title)).setText("Title!");
 
 
@@ -276,6 +286,7 @@ public class HomeActivity extends BaseActivity
 
             Category c = getItem(pos);
             TextView lbl = (TextView) v;
+            lbl.setTypeface(ralewayRegular);
             lbl.setText(c.getName());
 
             String picture = c.getImage();

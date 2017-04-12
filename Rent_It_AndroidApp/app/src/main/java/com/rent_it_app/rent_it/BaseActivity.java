@@ -5,6 +5,7 @@ package com.rent_it_app.rent_it;
  */
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
@@ -96,6 +97,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     {
 
     }
+
+
 
     /*InputFilter filter = new InputFilter() {
         public CharSequence filter(CharSequence source, int start, int end,
