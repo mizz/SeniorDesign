@@ -81,6 +81,8 @@ public class SendRequestActivity extends BaseActivity{
     private String paymentMethodDescription;
     Gson gson;
     private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+    private TextView lblReturn,lblCharg,lblPayment,lblNotes,lblPolicy1,lblPolicy2,lblText1,lblText2;
+    private TextView lblRate,lblDays,lblRental,lblService,lblTax,lblTotal;
 
 
     CognitoCachingCredentialsProvider credentialsProvider;
@@ -131,6 +133,44 @@ public class SendRequestActivity extends BaseActivity{
         thisRental = (Rental) getIntent().getSerializableExtra(Config.THIS_RENTAL);
         dailyRate = thisRental.getItem().getRate();
         rate.setText("$ "+dailyRate);
+
+        //font
+        rate.setTypeface(ralewayRegular);
+        numDays.setTypeface(ralewayRegular);
+        rentalFee.setTypeface(ralewayRegular);
+        fee.setTypeface(ralewayRegular);
+        taxAmount.setTypeface(ralewayRegular);
+        estimateTotal.setTypeface(ralewayRegular);
+        txtPaymentMethod.setTypeface(latoRegular);
+
+        lblCharg = (TextView)findViewById(R.id.lblCharge);
+        lblCharg.setTypeface(ralewayRegular);
+        lblNotes = (TextView)findViewById(R.id.lblNotes);
+        lblNotes.setTypeface(ralewayRegular);
+        lblPayment = (TextView)findViewById(R.id.lblPayment);
+        lblPayment.setTypeface(ralewayRegular);
+        lblReturn = (TextView)findViewById(R.id.lblReturn);
+        lblReturn.setTypeface(ralewayRegular);
+        lblPolicy1 = (TextView)findViewById(R.id.lblPolicy1);
+        lblPolicy1.setTypeface(latoRegular);
+        lblPolicy2 = (TextView)findViewById(R.id.lblPolicy2);
+        lblPolicy2.setTypeface(latoRegular);
+        lblText1 = (TextView)findViewById(R.id.lblText1);
+        lblText1.setTypeface(latoLight);
+        lblText2 = (TextView)findViewById(R.id.lblText2);
+        lblText2.setTypeface(latoLight);
+        lblRate = (TextView)findViewById(R.id.lblRate);
+        lblRate.setTypeface(josefinsans_regular);
+        lblDays = (TextView)findViewById(R.id.lblDays);
+        lblDays.setTypeface(josefinsans_regular);
+        lblRental = (TextView)findViewById(R.id.lblRental);
+        lblRental.setTypeface(josefinsans_regular);
+        lblService = (TextView)findViewById(R.id.lblService);
+        lblService.setTypeface(josefinsans_regular);
+        lblTax = (TextView)findViewById(R.id.lblTax);
+        lblTax.setTypeface(josefinsans_regular);
+        lblTotal = (TextView)findViewById(R.id.lblTotal);
+        lblTotal.setTypeface(ralewayRegular);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -195,7 +235,7 @@ public class SendRequestActivity extends BaseActivity{
         });
 
 
-
+        btnRequest.setTypeface(ralewayRegular);
         btnRequest.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)
@@ -369,6 +409,7 @@ public class SendRequestActivity extends BaseActivity{
 
 
         Button brainTreeButton = (Button) findViewById(R.id.braintree_button);
+        brainTreeButton.setTypeface(ralewayRegular);
         brainTreeButton.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)

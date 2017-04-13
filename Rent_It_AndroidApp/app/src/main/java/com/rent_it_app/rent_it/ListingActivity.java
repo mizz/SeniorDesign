@@ -159,7 +159,7 @@ public class ListingActivity extends BaseActivity{
         txtDescription = (TextView)findViewById(R.id.description);
         txtDescription.setTypeface(latoLight);
         txtCondition = (TextView)findViewById(R.id.condition);
-        txtCondition.setTypeface(latoRegular);
+        txtCondition.setTypeface(josefinsans_regular);
         txtCity = (TextView)findViewById(R.id.city);
         txtCity.setTypeface(josefinsans_regular);
         txtRate = (TextView)findViewById(R.id.rate);
@@ -181,8 +181,8 @@ public class ListingActivity extends BaseActivity{
         myPhoto = (ImageView) findViewById(R.id.photo);
         lblReviews = (TextView)findViewById(R.id.lblReviews);
         lblOwner = (TextView)findViewById(R.id.lblOwner);
-        lblReviews.setTypeface(latoRegular);
-        lblOwner.setTypeface(latoRegular);
+        lblReviews.setTypeface(josefinsans_regular);
+        lblOwner.setTypeface(josefinsans_regular);
         startChat.setTypeface(latoRegular);
         readMore.setTypeface(latoRegular);
         ownerReviewB.setTypeface(latoRegular);

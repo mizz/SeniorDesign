@@ -5,18 +5,23 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.location.Location;
 import android.location.LocationListener;
@@ -60,6 +65,11 @@ public class AccountFragment extends Fragment implements LocationListener{
     UserEndpoint userEndpoint;
     User myInfo;
     LocationManager locationManager;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+    private TextView lblName,lblEmail,myLocation,myPhone;
+    private ImageView profile;
+
+
     //private PaymentMethodNonce recentPaymentMethod;
     private final int REQUEST_PERMISSION = 1000;
 
@@ -77,12 +87,35 @@ public class AccountFragment extends Fragment implements LocationListener{
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("PROFILE");
+        SpannableString s = new SpannableString("PROFILE");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_regular.ttf");
+
 
         myDisplayName = (TextView)view.findViewById(R.id.nick_name);
-        myName = (TextView)view.findViewById(R.id.name);
+        myDisplayName.setTypeface(ralewayRegular);
+        profile = (ImageView) view.findViewById(R.id.profile);
+        /*myName = (TextView)view.findViewById(R.id.name);
+        myName.setTypeface(ralewayRegular);*/
         myEmail = (TextView)view.findViewById(R.id.email);
-        locationText = (TextView)view.findViewById(R.id.locationText);
+        myEmail.setTypeface(josefinsans_regular);
+        myLocation = (TextView)view.findViewById(R.id.location);
+        myLocation.setTypeface(aaargh);
+        myPhone = (TextView)view.findViewById(R.id.phone);
+        myPhone.setTypeface(josefinsans_regular);
+        //locationText = (TextView)view.findViewById(R.id.locationText);
+       /* lblEmail = (TextView)view.findViewById(R.id.email_title);
+        lblEmail.setTypeface(ralewayRegular);
+        lblName = (TextView)view.findViewById(R.id.name_title);
+        lblName.setTypeface(ralewayRegular);*/
+
 
         myUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -109,8 +142,15 @@ public class AccountFragment extends Fragment implements LocationListener{
                 Log.d("response.raw()",""+response.raw());
                 myInfo = response.body();
                 myDisplayName.setText(myInfo.getDisplayName());
-                myName.setText(myInfo.getFirstName()+ " "+myInfo.getLastName());
-                myEmail.setText(myInfo.getEmail());
+                //myName.setText(myInfo.getFirstName()+ " "+myInfo.getLastName());
+                //myEmail.setText(myInfo.getEmail());
+                if(myInfo.getDisplayName().contentEquals("Mimi")){
+                    myEmail.setText("mimi@gmail.com");
+                    profile.setImageResource(R.drawable.female);
+                }else{
+                    myEmail.setText(myInfo.getEmail());
+                    profile.setImageResource(R.drawable.placeholder);
+                }
                 Log.d("retrofit.call.enqueue", ""+statusCode);
 
 
@@ -187,6 +227,7 @@ public class AccountFragment extends Fragment implements LocationListener{
         });*/
 
         Button locationButton = (Button) view.findViewById(R.id.getLocationBtn);
+        locationButton.setTypeface(latoRegular);
         locationButton.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)

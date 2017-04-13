@@ -114,7 +114,6 @@ public class FileClaimFragment extends Fragment {
     public String[] nameArray;
     private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
 
-
     File photo_destination;
     String imgS3Name;
 
@@ -194,6 +193,8 @@ public class FileClaimFragment extends Fragment {
         btnNew.setTypeface(ralewayRegular);
         btnHistory.setTypeface(ralewayRegular);
 
+
+
         //Spinner - Item
 
         final ArrayAdapter<CharSequence> owner_adapter = ArrayAdapter.createFromResource(
@@ -229,7 +230,9 @@ public class FileClaimFragment extends Fragment {
         });
 
         owner = (RadioButton)view.findViewById(R.id.owner);
+        owner.setTypeface(josefinsans_regular);
         renter = (RadioButton)view.findViewById(R.id.renter);
+        owner.setTypeface(aaargh);
         btnDatePicker.setTypeface(latoRegular);
         btnDatePicker.setOnClickListener(new OnClickListener() {
             @Override

@@ -13,18 +13,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:background="@color/windowBackground"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
 
             <ImageView
                 android:contentDescription="@string/app_name"
-                android:layout_width="121dp"
+                android:layout_width="match_parent"
                 android:layout_height="121dp"
-                android:layout_marginTop="40dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/placeholder"
+                android:background="@drawable/dark_bg"
+                android:id="@+id/profile_bg" />
+
+            <ImageView
+                android:contentDescription="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/female"
+                android:layout_gravity="center"
                 android:id="@+id/profile" />
 
             <TextView
@@ -33,23 +42,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="#000"
+                android:layout_below="@+id/profile"
                 android:layout_marginTop="10dp"
                 android:textSize="25sp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <TextView
-            android:text="name"
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@drawable/dark_bg"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+            <ImageView
+                android:contentDescription="@string/app_name"
+                android:layout_width="121dp"
+                android:layout_height="121dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/female"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/profile" />
+
+            <TextView
+                android:id="@+id/nick_name"
+                android:text="Mimi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:layout_marginTop="10dp"
+                android:textSize="25sp"/>
+
+        </LinearLayout>-->
+
+       <!-- <TextView
+            android:text="FULL NAME"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:textColor="#A0522D"
+            android:textColor="#fff"
             android:textSize="20sp"
-            android:id="@+id/name_title" />
+            android:id="@+id/name_title" />-->
 
-        <LinearLayout
+       <!-- <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -60,11 +99,12 @@
                     android:layout_height="26dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="20dp"
+                    android:tint="@color/colorPrimary"
                     android:src="@drawable/ic_account" />
 
                 <TextView
                     android:id="@+id/name"
-                    android:text="Mizumi Malhan"
+                    android:text="Full Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -72,19 +112,21 @@
                     android:layout_marginTop="5dp"
                     android:textSize="20sp" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <TextView
-            android:text="email"
+        <!--<TextView
+            android:text="EMAIL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:textColor="#A0522D"
+            android:textColor="#fff"
             android:textSize="20sp"
-            android:id="@+id/email_title" />
+            android:id="@+id/email_title" />-->
 
+
+        <!--Email-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,12 +137,13 @@
             android:layout_height="24dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_send"
+            android:src="@drawable/ic_email"
+            android:tint="@color/colorPrimary"
             android:id="@+id/ic_email" />
 
             <TextView
                 android:id="@+id/email"
-                android:text="mmalhan@oakland.edu"
+                android:text="Email@gmail.com"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -110,6 +153,66 @@
 
 
         </LinearLayout>
+
+        <!--Phone-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_phone"
+                android:tint="@color/colorPrimary"
+                android:id="@+id/ic_phone" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:text="248-534-8839"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+
+        <!--Location-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_location"
+                android:tint="@color/colorPrimary"
+                android:id="@+id/ic_location" />
+
+            <TextView
+                android:id="@+id/location"
+                android:text="Rochester, MI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
 
         <!--<Button
         android:id="@+id/braintree_button"
@@ -129,11 +232,13 @@
             android:id="@+id/getLocationBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show my location"
+            android:text="Edit Profile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="40dp"
             android:background="@color/colorAccent"/>
 
-        <TextView
+        <!--<TextView
             android:id="@+id/locationText"
             android:text="lat, long"
             android:layout_width="wrap_content"
@@ -141,7 +246,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:textSize="20sp" />
+            android:textSize="20sp" />-->
 
 
     </LinearLayout>

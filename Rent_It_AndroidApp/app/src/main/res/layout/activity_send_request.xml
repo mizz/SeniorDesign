@@ -29,7 +29,7 @@
 
             <!--Return Date-->
             <TextView
-                android:id="@+id/label1"
+                android:id="@+id/lblReturn"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/label12"
+                android:id="@+id/lblCharge"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label8"
+                            android:id="@+id/lblRate"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -124,7 +124,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label6"
+                            android:id="@+id/lblDays"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -153,7 +153,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/label17"
+                        android:id="@+id/lblRental"
                         android:textColor="@color/colorLabel"
                         android:layout_width="0dp"
                         android:layout_weight="3"
@@ -182,7 +182,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label5"
+                            android:id="@+id/lblService"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -211,7 +211,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label4"
+                            android:id="@+id/lblTax"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -247,7 +247,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label3"
+                            android:id="@+id/lblTotal"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -304,7 +304,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/title31"
+                        android:id="@+id/lblPolicy1"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -315,7 +315,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <TextView
-                        android:id="@+id/title3"
+                        android:id="@+id/lblText1"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -358,7 +358,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/title33"
+                        android:id="@+id/lblPolicy2"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -369,7 +369,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <TextView
-                        android:id="@+id/title"
+                        android:id="@+id/lblText2"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -392,7 +392,7 @@
 
             <!--Payment Method-->
             <TextView
-                android:id="@+id/label123"
+                android:id="@+id/lblPayment"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -438,13 +438,13 @@
                 android:id="@+id/braintree_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
+                android:background="@drawable/buttonshape3"
                 android:textColor="@color/colorLabel"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="Choose Payment Method" />
+                android:text="Select Payment Method" />
 
             <!--Image-->
             <!--<TextView
@@ -480,7 +480,7 @@
 
             <!--Notes-->
             <TextView
-                android:id="@+id/label2"
+                android:id="@+id/lblNotes"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -513,7 +513,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Start Rental"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorAccent"
                 android:layout_gravity="center_horizontal"/>
             <!--android:onClick="listItem"-->

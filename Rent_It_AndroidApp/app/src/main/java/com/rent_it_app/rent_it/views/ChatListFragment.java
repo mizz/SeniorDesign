@@ -232,11 +232,11 @@ public class ChatListFragment extends Fragment {
             LinearLayout ll = (LinearLayout) v;
 
             TextView lbl = (TextView) ll.findViewById(R.id.itemName);
-            lbl.setTypeface(latoLight);
+            lbl.setTypeface(ralewayRegular);
             TextView lblTime = (TextView) ll.findViewById(R.id.time);
             lblTime.setTypeface(ralewayRegular);
             TextView lblFrom = (TextView) ll.findViewById(R.id.from);
-            lblFrom.setTypeface(aaargh);
+            lblFrom.setTypeface(josefinsans_regular);
             //lbl.setText(c.getUsername());
             lbl.setText(c.getItem_name());
             lblTime.setText(DateUtils.getRelativeDateTimeString(getActivity(), c

@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -103,6 +104,8 @@ public class HomeActivity extends BaseActivity
         s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
+        this.getSupportActionBar().setElevation(0);
+
 
         browseList = (ListView) findViewById(R.id.category_list);
         ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");

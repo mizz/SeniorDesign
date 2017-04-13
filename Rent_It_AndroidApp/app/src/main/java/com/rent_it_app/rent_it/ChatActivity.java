@@ -13,7 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -123,7 +126,7 @@ public class ChatActivity extends BaseActivity {
                 //startActivity(new Intent(this, ChatListFragment.class));
             }
         });
-
+/*
         if(myUser.getUid().contentEquals(myConversation.getRenter())) {
             buddyId = myConversation.getOwner();
             Log.d("Test","owner: "+myConversation.getOwner());
@@ -155,7 +158,21 @@ public class ChatActivity extends BaseActivity {
                 buddyName = "";
             }
 
-        });
+        });*/
+
+
+        if(myUser.getUid().contentEquals(myConversation.getRenter())) {
+            SpannableString s = new SpannableString(myConversation.getRenterName());
+            s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            this.getSupportActionBar().setTitle(s);
+        }else{
+            SpannableString s = new SpannableString(myConversation.getOwnerName());
+            s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            this.getSupportActionBar().setTitle(s);
+        }
+
 
 
     }
