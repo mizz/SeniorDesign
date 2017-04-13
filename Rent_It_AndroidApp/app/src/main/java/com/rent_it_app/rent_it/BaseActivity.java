@@ -5,18 +5,23 @@ package com.rent_it_app.rent_it;
  */
 
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.rent_it_app.rent_it.utils.TouchEffect;
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final TouchEffect TOUCH = new TouchEffect();
+    //protected Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
 
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
@@ -98,7 +103,15 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    /*@Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+    }*/
 
     /*InputFilter filter = new InputFilter() {
         public CharSequence filter(CharSequence source, int start, int end,

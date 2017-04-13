@@ -1,10 +1,14 @@
 package com.rent_it_app.rent_it.views;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +58,7 @@ public class ChatListFragment extends Fragment {
     // Todo: delete once switch to use Conversation instead of ChatMessage class
     public static ChatUser user;
     public static FirebaseUser myUser;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
 
     public ListView list;
 
@@ -70,10 +75,20 @@ public class ChatListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("CHAT LIST");
+        SpannableString s = new SpannableString("CHAT LIST");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
 
         list = (ListView) view.findViewById(R.id.list);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_regular.ttf");
+
 
 
         return view;
@@ -217,8 +232,11 @@ public class ChatListFragment extends Fragment {
             LinearLayout ll = (LinearLayout) v;
 
             TextView lbl = (TextView) ll.findViewById(R.id.itemName);
+            lbl.setTypeface(latoLight);
             TextView lblTime = (TextView) ll.findViewById(R.id.time);
+            lblTime.setTypeface(ralewayRegular);
             TextView lblFrom = (TextView) ll.findViewById(R.id.from);
+            lblFrom.setTypeface(aaargh);
             //lbl.setText(c.getUsername());
             lbl.setText(c.getItem_name());
             lblTime.setText(DateUtils.getRelativeDateTimeString(getActivity(), c

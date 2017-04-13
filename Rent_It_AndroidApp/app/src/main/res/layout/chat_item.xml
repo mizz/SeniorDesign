@@ -34,7 +34,7 @@
                 android:orientation="horizontal"
                 android:text="Username"
                 android:textStyle="bold"
-                android:textColor="#3b3b3b"
+                android:textColor="#000"
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/time"

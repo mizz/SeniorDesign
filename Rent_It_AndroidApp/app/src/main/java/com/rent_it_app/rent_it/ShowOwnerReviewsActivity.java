@@ -1,7 +1,11 @@
 package com.rent_it_app.rent_it;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +45,8 @@ public class ShowOwnerReviewsActivity extends BaseActivity{
     private String ownerId;
     public static String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS zzz";
     private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +55,17 @@ public class ShowOwnerReviewsActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("Reviews");
+        SpannableString s = new SpannableString("OWNER REVIEWS");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
+        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ownerId = (String) getIntent().getSerializableExtra("OWNER_ID");
         Log.d("owner id","owner id: "+ ownerId);
@@ -63,6 +79,13 @@ public class ShowOwnerReviewsActivity extends BaseActivity{
                 .build();
 
         reviewEndpoint = retrofit.create(ReviewEndpoint.class);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
 
         Call<ArrayList<Review>> call = reviewEndpoint.getReviewsByOwnerId(ownerId);
         call.enqueue(new Callback<ArrayList<Review>>() {
@@ -130,6 +153,10 @@ public class ShowOwnerReviewsActivity extends BaseActivity{
             TextView comment = (TextView)ll.findViewById(R.id.rComment);
             RatingBar ownerRating = (RatingBar) ll.findViewById(R.id.rRating);
             title.setVisibility(View.GONE);
+
+            reviewer.setTypeface(josefinsans_regular);
+            date.setTypeface(latoRegular);
+            comment.setTypeface(latoLight);
             //Log.d("reviewer ",""+c.getRenter());
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS zzz");
 

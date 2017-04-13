@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,8 +18,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.DigitsKeyListener;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,11 +99,12 @@ public class FileClaimFragment extends Fragment {
     private EditText txtDate;
     private String myIssue, myItem, myReason, myRental, mDate;
     private String mRole = "Owner";
-    private TextView myStatusText;
+    private TextView lblRole,lblItem,lblDate,lblReason,lblIssue,lblImage;
     private FirebaseAuth mAuth;
     private RadioGroup rg;
     private RadioButton owner, renter;
     private String userId;
+    private Button btnNew,btnHistory;
     private int mYear, mMonth, mDay, mHour, mMinute, myRole;
     Button btnDatePicker;
     Gson gson;
@@ -107,6 +112,8 @@ public class FileClaimFragment extends Fragment {
     CognitoSyncManager syncClient;
     Calendar myCalendar = Calendar.getInstance();
     public String[] nameArray;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
     File photo_destination;
     String imgS3Name;
@@ -123,7 +130,10 @@ public class FileClaimFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_file_claim, container, false);
         //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("FILE CLAIM");
+        SpannableString s = new SpannableString("FILE CLAIM");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
 
 
         retrofit = new Retrofit.Builder()
@@ -135,6 +145,13 @@ public class FileClaimFragment extends Fragment {
         itemEndpoint = retrofit.create(ItemEndpoint.class);
 
         gson = new Gson();
+
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_regular.ttf");
+
 
         // Initialize the Amazon Cognito credentials provider
         credentialsProvider = new CognitoCachingCredentialsProvider(
@@ -156,7 +173,26 @@ public class FileClaimFragment extends Fragment {
 
         txtDate = (EditText)view.findViewById(R.id.in_date);
         btnDatePicker=(Button)view.findViewById(R.id.btn_date);
+        btnDatePicker.setTypeface(latoRegular);
         rg = (RadioGroup)view.findViewById(R.id.radio_item);
+
+        lblRole = (TextView)view.findViewById(R.id.lblRole);
+        lblItem = (TextView)view.findViewById(R.id.lblItem);
+        lblDate = (TextView)view.findViewById(R.id.lblDate);
+        lblImage = (TextView)view.findViewById(R.id.lblImage);
+        lblIssue = (TextView)view.findViewById(R.id.lblIssue);
+        lblReason = (TextView)view.findViewById(R.id.lblReason);
+        lblRole.setTypeface(ralewayRegular);
+        lblItem.setTypeface(ralewayRegular);
+        lblDate.setTypeface(ralewayRegular);
+        lblImage.setTypeface(ralewayRegular);
+        lblIssue.setTypeface(ralewayRegular);
+        lblReason.setTypeface(ralewayRegular);
+
+        btnNew = (Button)view.findViewById(R.id.btnNew);
+        btnHistory = (Button)view.findViewById(R.id.btnHistory);
+        btnNew.setTypeface(ralewayRegular);
+        btnHistory.setTypeface(ralewayRegular);
 
         //Spinner - Item
 
@@ -194,7 +230,7 @@ public class FileClaimFragment extends Fragment {
 
         owner = (RadioButton)view.findViewById(R.id.owner);
         renter = (RadioButton)view.findViewById(R.id.renter);
-
+        btnDatePicker.setTypeface(latoRegular);
         btnDatePicker.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,6 +258,7 @@ public class FileClaimFragment extends Fragment {
         });
 
         final Button submitButton = (Button) view.findViewById(R.id.submit_button);
+        submitButton.setTypeface(latoRegular);
 
 
         //getuid

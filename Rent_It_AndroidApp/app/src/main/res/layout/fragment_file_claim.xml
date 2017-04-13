@@ -22,6 +22,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnNew"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="New"
@@ -30,6 +31,7 @@
                 android:textColor="#FFFFFF"
                 android:layout_weight="1" />
             <Button
+                android:id="@+id/btnHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="History"
@@ -41,11 +43,12 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_question"
+            android:id="@+id/lblRole"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="I am an/a"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp" />
 
@@ -73,11 +76,12 @@
 
         <!--Item-->
         <TextView
-            android:id="@+id/label6"
+            android:id="@+id/lblItem"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select the Item"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -91,11 +95,12 @@
 
         <!--Initial Meeting Date-->
         <TextView
-            android:id="@+id/label0"
+            android:id="@+id/lblDate"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Initial Meeting Date"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp" />
 
@@ -131,11 +136,12 @@
 
         <!--Item-->
         <TextView
-            android:id="@+id/label7"
+            android:id="@+id/lblReason"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select the reason"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -147,13 +153,14 @@
             android:layout_marginRight="10dp"
             android:spinnerMode="dialog"/>
 
-        <!--Description-->
+        <!--Issue-->
         <TextView
-            android:id="@+id/label2"
+            android:id="@+id/lblIssue"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Issue"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -173,11 +180,12 @@
 
         <!--Image-->
         <TextView
-            android:id="@+id/label10"
+            android:id="@+id/lblImage"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_image"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -186,11 +194,11 @@
             android:id="@+id/image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_bg"
-            android:textColor="@color/colorLabel"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonshape2"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_gravity="center"
             android:text="Select Photo" />
 
         <ImageView
@@ -204,12 +212,14 @@
             android:padding="5dp"/>
 
         <Button
+            android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Submit Claim"
-            android:id="@+id/submit_button"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center_horizontal"/>
 

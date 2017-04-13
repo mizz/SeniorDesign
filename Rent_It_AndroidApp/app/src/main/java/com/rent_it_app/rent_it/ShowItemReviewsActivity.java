@@ -1,7 +1,11 @@
 package com.rent_it_app.rent_it;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +50,9 @@ public class ShowItemReviewsActivity extends BaseActivity{
     private String itemId;
     public static String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS zzz";
     private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
+    private String myTitle, myDescription, myCondition, myCategory, myZipcode, myTags, myValue, myRate, myCity;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +61,18 @@ public class ShowItemReviewsActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("Reviews");
+        SpannableString s = new SpannableString("ITEM REVIEWS");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
+        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //this.getSupportActionBar().setTitle("Reviews");
 
         itemId = (String) getIntent().getSerializableExtra("ITEM_ID");
         Log.d("item id","item id: "+ itemId);
@@ -68,6 +86,14 @@ public class ShowItemReviewsActivity extends BaseActivity{
                 .build();
 
         reviewEndpoint = retrofit.create(ReviewEndpoint.class);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
+
 
         Call<ArrayList<Review>> call = reviewEndpoint.getReviewsByItemId(itemId);
         call.enqueue(new Callback<ArrayList<Review>>() {
@@ -135,6 +161,11 @@ public class ShowItemReviewsActivity extends BaseActivity{
             TextView comment = (TextView)ll.findViewById(R.id.rComment);
             RatingBar itemRating = (RatingBar) ll.findViewById(R.id.rRating);
             title.setText(c.getTitle());
+
+            title.setTypeface(ralewayRegular);
+            reviewer.setTypeface(josefinsans_regular);
+            date.setTypeface(latoRegular);
+            comment.setTypeface(latoLight);
             //Log.d("reviewer ",""+c.getRenter());
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS zzz");
 

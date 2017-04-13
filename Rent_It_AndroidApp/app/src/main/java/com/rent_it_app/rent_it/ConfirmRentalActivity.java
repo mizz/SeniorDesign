@@ -86,6 +86,8 @@ public class ConfirmRentalActivity extends BaseActivity{
         Log.d("myData: ", itemName);*/
         //}
         //Log.d("Testing", "opened ConfirmRentalActivity");
+        Intent checkingIntent = getIntent();
+        Bundle checkingExtras = getIntent().getExtras();
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
                 Object value = getIntent().getExtras().get(key);
@@ -131,8 +133,8 @@ public class ConfirmRentalActivity extends BaseActivity{
                 int statusCode = response.code();
                 myRental = response.body();
                 Log.d("Testing", "" + myRental.getId());
-                if(!myRental.getNotes().contentEquals(""))
-                    notes.setText(myRental.getNotes());
+                /*if(!myRental.getNotes().contentEquals(""))
+                    notes.setText(myRental.getNotes());*/
 
             }
 

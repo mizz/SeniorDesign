@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,8 +16,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.DigitsKeyListener;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,12 +86,15 @@ public class ListItemFragment extends Fragment {
     private EditText txtTitle, txtDescription, txtCondition, txtZipcode;
     private EditText txtTags, txtValue, txtRate, txtCity;
     private String myTitle, myDescription, myCondition, myCategory, myZipcode, myTags, myValue, myRate, myCity;
-    private TextView myStatusText;
+    private TextView lblTitle,lblDescription,lblCondition,lblCategory,lblZipcode,lblTags,lblRate,lblValue,lblCity,lblImage;
     private FirebaseAuth mAuth;
     private String userId;
     Gson gson;
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
+
 
     File photo_destination;
     String imgS3Name;
@@ -104,7 +111,10 @@ public class ListItemFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_item, container, false);
         //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("LIST ITEM");
+        SpannableString s = new SpannableString("LIST ITEM");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
 
         /*retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.REST_API_BASE_URL))
@@ -118,6 +128,12 @@ public class ListItemFragment extends Fragment {
         itemEndpoint = retrofit.create(ItemEndpoint.class);
 
         gson = new Gson();
+
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_regular.ttf");
 
         // Initialize the Amazon Cognito credentials provider
         /*credentialsProvider = new CognitoCachingCredentialsProvider(
@@ -146,6 +162,29 @@ public class ListItemFragment extends Fragment {
         txtCity = (EditText)view.findViewById(R.id.city);
         txtTags = (EditText)view.findViewById(R.id.tags);
         txtValue = (EditText)view.findViewById(R.id.value);
+
+        lblTitle = (TextView) view.findViewById(R.id.lblTitle);
+        lblDescription = (TextView) view.findViewById(R.id.lblDescription);
+        lblCategory = (TextView) view.findViewById(R.id.lblCategory);
+        lblCondition = (TextView) view.findViewById(R.id.lblCondition);
+        lblZipcode = (TextView) view.findViewById(R.id.lblZipcode);
+        lblCity = (TextView) view.findViewById(R.id.lblCity);
+        lblTags = (TextView) view.findViewById(R.id.lblTags);
+        lblValue = (TextView) view.findViewById(R.id.lblValue);
+        lblRate = (TextView) view.findViewById(R.id.lblRate);
+        lblImage = (TextView) view.findViewById(R.id.lblImage);
+        lblTitle.setTypeface(ralewayRegular);
+        lblDescription.setTypeface(ralewayRegular);
+        lblCategory.setTypeface(ralewayRegular);
+        lblCondition.setTypeface(ralewayRegular);
+        lblZipcode.setTypeface(ralewayRegular);
+        lblCity.setTypeface(ralewayRegular);
+        lblTags.setTypeface(ralewayRegular);
+        lblValue.setTypeface(ralewayRegular);
+        lblRate.setTypeface(ralewayRegular);
+        lblImage.setTypeface(ralewayRegular);
+
+
         //edit.setFilters(new InputFilter[] { filter });
         txtValue.setFilters(new InputFilter[] {
                 //https://gist.github.com/gaara87/3607765
@@ -212,9 +251,8 @@ public class ListItemFragment extends Fragment {
 
         });
 
-
-
         final Button listButton = (Button) view.findViewById(R.id.list_button);
+        listButton.setTypeface(latoRegular);
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(), R.array.category_array, android.R.layout.simple_spinner_item);
@@ -394,6 +432,7 @@ public class ListItemFragment extends Fragment {
         });
         //Button - Image
         Button imageButton = (Button) view.findViewById(R.id.image_button);
+        imageButton.setTypeface(latoRegular);
         imageButton.setOnClickListener(new OnClickListener()
         {
             @Override

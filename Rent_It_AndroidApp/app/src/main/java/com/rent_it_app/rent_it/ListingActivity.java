@@ -4,11 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.media.Rating;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -73,13 +77,14 @@ public class ListingActivity extends BaseActivity{
     private Review rList;
     private Calendar c;
     Gson gson;
-    private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate;
+    private TextView txtTitle, txtDescription, txtCondition, txtCity, txtRate,lblReviews,lblOwner;
     private TextView rTitle, rReviewer, rComment, oName;
     private Button readMore,startChat,ownerReviewB;
     private RatingBar itemRating, ownerRating, overallRating;
     //private ProgressDialog progress;
     private Handler mHandler = new Handler();
     private ImageView myPhoto;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
 
     private CognitoCachingCredentialsProvider credentialsProvider;
     private CognitoSyncManager syncClient;
@@ -127,31 +132,46 @@ public class ListingActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("");
+        SpannableString s = new SpannableString("ITEM DETAIL");
         toolbar.setNavigationIcon(R.drawable.white_back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                /*startActivity(new Intent(getApplicationContext(), HomeActivity.class)
-                        .putExtra("fragment_name", "ChatListFragment"));*/
-                //startActivity(new Intent(ListingActivity.this, BrowseActivity.class));
+
             }
         });
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
+
         //this.getSupportActionBar().setTitle("EDIT LISTING");
 
         myItem = (Item) getIntent().getSerializableExtra(Config.MORE_DATA);
-
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
         //Define
         txtTitle = (TextView) findViewById(R.id.title);
+        txtTitle.setTypeface(ralewayRegular);
         txtDescription = (TextView)findViewById(R.id.description);
+        txtDescription.setTypeface(latoLight);
         txtCondition = (TextView)findViewById(R.id.condition);
+        txtCondition.setTypeface(latoRegular);
         txtCity = (TextView)findViewById(R.id.city);
+        txtCity.setTypeface(josefinsans_regular);
         txtRate = (TextView)findViewById(R.id.rate);
+        txtRate.setTypeface(ralewayRegular);
         rTitle = (TextView)findViewById(R.id.rTitle);
+        rTitle.setTypeface(ralewayRegular);
         rReviewer = (TextView)findViewById(R.id.rReviewer);
+        rReviewer.setTypeface(josefinsans_regular);
         oName = (TextView)findViewById(R.id.ownerName);
+        oName.setTypeface(ralewayRegular);
         rComment = (TextView)findViewById(R.id.rComment);
+        rComment.setTypeface(latoLight);
         readMore = (Button)findViewById(R.id.readMoreButton);
         startChat = (Button) findViewById(R.id.contact_button);
         ownerReviewB = (Button) findViewById(R.id.ownerReview);
@@ -159,12 +179,15 @@ public class ListingActivity extends BaseActivity{
         overallRating = (RatingBar) findViewById(R.id.overallRating);
         ownerRating = (RatingBar) findViewById(R.id.ownerRating);
         myPhoto = (ImageView) findViewById(R.id.photo);
-
+        lblReviews = (TextView)findViewById(R.id.lblReviews);
+        lblOwner = (TextView)findViewById(R.id.lblOwner);
+        lblReviews.setTypeface(latoRegular);
+        lblOwner.setTypeface(latoRegular);
+        startChat.setTypeface(latoRegular);
+        readMore.setTypeface(latoRegular);
+        ownerReviewB.setTypeface(latoRegular);
 
         //progress = ProgressDialog.show(this, "dialog title","dialog message", true);
-
-
-
         //progress.show();
         //populate fields
         txtTitle.setText(myItem.getTitle());
@@ -187,7 +210,7 @@ public class ListingActivity extends BaseActivity{
                     if(state == TransferState.COMPLETED) {
                         //myPhoto.setImageResource(R.drawable.bg);
                         Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                        myPhoto.setImageBitmap(Bitmap.createScaledBitmap(myBitmap, 900, 600, false));
+                        myPhoto.setImageBitmap(Bitmap.createScaledBitmap(myBitmap, 1050, 600, false));
                     }
                 }
 

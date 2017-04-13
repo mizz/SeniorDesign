@@ -63,6 +63,8 @@ public class ActiveRentalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_active_rental, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("RENTAL");
 
+
+
         gson = new Gson();
         tv1 = (TextView)view.findViewById(R.id.textView1);
         list = (ListView) view.findViewById(R.id.list);

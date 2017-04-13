@@ -3,8 +3,12 @@ package com.rent_it_app.rent_it;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -76,6 +80,8 @@ public class SendRequestActivity extends BaseActivity{
     public static FirebaseUser myUser;
     private String paymentMethodDescription;
     Gson gson;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
@@ -88,7 +94,25 @@ public class SendRequestActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("START RENTAL");
+        SpannableString s = new SpannableString("START RENTAL");
+        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
 
         txtDate = (EditText)findViewById(R.id.in_date);
         btnDatePicker=(Button)findViewById(R.id.btn_date);
@@ -308,6 +332,7 @@ public class SendRequestActivity extends BaseActivity{
 
                                 //icon.setImageResource(result.getPaymentMethodType().getDrawable());
                                 //icon.setImageResource(result.getPaymentMethodType().getVaultedDrawable());
+                                imgPayment.setImageResource(result.getPaymentMethodType().getDrawable());
 
                                 if (result.getPaymentMethodType() == PaymentMethodType.ANDROID_PAY) {
 

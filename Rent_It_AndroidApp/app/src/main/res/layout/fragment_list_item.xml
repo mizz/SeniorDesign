@@ -17,11 +17,12 @@
 
         <!--Title-->
         <TextView
-            android:id="@+id/fli_tv_title"
+            android:id="@+id/lblTitle"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_title"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp" />
 
@@ -38,11 +39,12 @@
 
         <!--Description-->
         <TextView
-            android:id="@+id/label2"
+            android:id="@+id/lblDescription"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_description"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -62,11 +64,12 @@
 
         <!--Condition-->
         <TextView
-            android:id="@+id/label3"
+            android:id="@+id/lblCondition"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_condition"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -86,11 +89,12 @@
 
         <!--City-->
         <TextView
-            android:id="@+id/label4"
+            android:id="@+id/lblCity"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_city"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -106,11 +110,12 @@
 
         <!--Zipcode-->
         <TextView
-            android:id="@+id/label5"
+            android:id="@+id/lblZipcode"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_location"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -127,11 +132,12 @@
 
         <!--Category-->
         <TextView
-            android:id="@+id/label6"
+            android:id="@+id/lblCategory"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_category"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -149,11 +155,12 @@
 
         <!--Tags-->
         <TextView
-            android:id="@+id/label7"
+            android:id="@+id/lblTags"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_tags"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -176,11 +183,12 @@
 
         <!--Value-->
         <TextView
-            android:id="@+id/label8"
+            android:id="@+id/lblValue"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_value"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -212,11 +220,12 @@
 
         <!--Daily Rate-->
         <TextView
-            android:id="@+id/label9"
+            android:id="@+id/lblRate"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_rate"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -247,11 +256,12 @@
 
         <!--Image-->
         <TextView
-            android:id="@+id/label10"
+            android:id="@+id/lblImage"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_image"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
@@ -260,11 +270,11 @@
             android:id="@+id/image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_bg"
-            android:textColor="@color/colorLabel"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonshape2"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_gravity="center"
             android:text="Select Photo" />
 
         <ImageView
@@ -283,8 +293,10 @@
             android:layout_marginTop="30dp"
             android:text="List It!"
             android:id="@+id/list_button"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@color/colorAccent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_gravity="center_horizontal"/>
             <!--android:onClick="listItem"-->
 

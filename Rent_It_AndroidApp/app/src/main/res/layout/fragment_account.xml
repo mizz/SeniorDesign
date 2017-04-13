@@ -24,7 +24,7 @@
                 android:layout_height="121dp"
                 android:layout_marginTop="40dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/sample"
+                android:src="@drawable/placeholder"
                 android:id="@+id/profile" />
 
             <TextView
@@ -111,7 +111,7 @@
 
         </LinearLayout>
 
-        <Button
+        <!--<Button
         android:id="@+id/braintree_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,7 +123,25 @@
             android:id="@+id/FCM_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FCM"/>
+            android:text="FCM"/>-->
+
+        <Button
+            android:id="@+id/getLocationBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show my location"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/locationText"
+            android:text="lat, long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp" />
 
 
     </LinearLayout>

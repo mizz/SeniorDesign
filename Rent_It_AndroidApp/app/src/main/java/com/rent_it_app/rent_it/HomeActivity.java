@@ -1,9 +1,13 @@
 package com.rent_it_app.rent_it;
 
+import android.*;
 import android.app.SearchManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
@@ -78,7 +82,7 @@ public class HomeActivity extends BaseActivity
     private static final String TAG = HomeActivity.class.getName();
     public ListView browseList;
     private ArrayList<Category> cateList;
-    private Typeface ralewayRegular;
+    public Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
     Retrofit retrofit;
     CategoryEndpoint categoryEndpoint;
     UserEndpoint userEndpoint;
@@ -89,7 +93,7 @@ public class HomeActivity extends BaseActivity
     Fragment searchFragment = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -102,8 +106,10 @@ public class HomeActivity extends BaseActivity
 
         browseList = (ListView) findViewById(R.id.category_list);
         ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
-        //((TextView) findViewById(R.id.toolbar_title)).setText("Title!");
-
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -117,6 +123,8 @@ public class HomeActivity extends BaseActivity
         View header=navigationView.getHeaderView(0);
         displayName = (TextView)header.findViewById(R.id.display_name);
         email = (TextView)header.findViewById(R.id.email);
+        displayName.setTypeface(josefinsans_regular);
+        email.setTypeface(aaargh);
 
         //Added from Main Activity
         //myStatusText = (TextView)findViewById(R.id.greetingMessage);
@@ -154,7 +162,8 @@ public class HomeActivity extends BaseActivity
                         @Override
                         public void onItemClick(AdapterView<?> arg0,
                                                 View arg1, int pos, long arg3) {
-                            //startActivity(new Intent(this, BrowseActivity.class).putExtra(Config.EXTRA_DATA, cateList.get(pos)));
+
+
                             Intent myIntent = new Intent(HomeActivity.this, BrowseActivity.class);
                             myIntent.putExtra(Config.EXTRA_DATA, cateList.get(pos));
                             HomeActivity.this.startActivity(myIntent);

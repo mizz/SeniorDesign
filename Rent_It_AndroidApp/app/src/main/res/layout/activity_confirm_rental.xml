@@ -149,14 +149,14 @@
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rental Period"
+                        android:text="Return Date"
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"/>
 
                     <TextView
-                        android:id="@+id/tvRentalPeriod"
+                        android:id="@+id/tvReturnDate"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_weight="3"
