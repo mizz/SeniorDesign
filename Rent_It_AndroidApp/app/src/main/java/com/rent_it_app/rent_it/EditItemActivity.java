@@ -1,6 +1,5 @@
 package com.rent_it_app.rent_it;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -12,12 +11,10 @@ import android.text.TextUtils;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -33,16 +30,13 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.util.StringUtils;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
-import com.rent_it_app.rent_it.views.AvailabeItemFragment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -111,7 +105,7 @@ public class EditItemActivity extends BaseActivity{
         transferUtility = new TransferUtility(s3, getApplicationContext());
 
         //Define
-        spnCategory = (Spinner) findViewById(R.id.spinner1);
+        spnCategory = (Spinner) findViewById(R.id.rentalItemSpinner);
         txtTitle = (EditText) findViewById(R.id.title);
         txtDescription = (EditText) findViewById(R.id.description);
         txtCondition = (EditText) findViewById(R.id.condition);

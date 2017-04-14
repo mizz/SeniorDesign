@@ -3,12 +3,10 @@ package com.rent_it_app.rent_it.views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -18,21 +16,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.DigitsKeyListener;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -52,10 +45,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.rent_it_app.rent_it.Constants;
-import com.rent_it_app.rent_it.EditItemActivity;
 import com.rent_it_app.rent_it.HomeActivity;
 import com.rent_it_app.rent_it.R;
-import com.rent_it_app.rent_it.firebase.Config;
 import com.rent_it_app.rent_it.json_models.Claim;
 import com.rent_it_app.rent_it.json_models.ClaimEndpoint;
 import com.rent_it_app.rent_it.json_models.Item;
@@ -67,13 +58,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -87,7 +74,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class FileClaimFragment extends Fragment {
 
-    private Spinner spinner1,spinner2;
+    private Spinner rentalItemSpinner,spinner2;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
     private ImageView ivImage;
@@ -167,7 +154,7 @@ public class FileClaimFragment extends Fragment {
                 credentialsProvider);
 
         //Define
-        spinner1 = (Spinner) view.findViewById(R.id.spinner1);
+        rentalItemSpinner = (Spinner) view.findViewById(R.id.rentalItemSpinner);
         spinner2 = (Spinner) view.findViewById(R.id.spinner2);
         txtIssue = (EditText)view.findViewById(R.id.issue);
 
@@ -281,13 +268,13 @@ public class FileClaimFragment extends Fragment {
                 iList = response.body();
 
                 //Log.d("claim",""+nameArray);
-                ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(getActivity(),
-                        android.R.layout.simple_spinner_item, iList);
+                RentalItemAdapter itemAdapter = new RentalItemAdapter(getActivity(),
+                        R.layout.spinner_rows, iList);
                 // Create custom adapter object ( see below CustomAdapter.java )
                 //ArrayAdapter adapter = new CustomAdapter(getActivity(), R.layout.spinner_rows, iList,null);
 
-                itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner1.setAdapter(itemAdapter);
+                //itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                rentalItemSpinner.setAdapter(itemAdapter);
 
                 Log.d("retrofit.call.enqueue", ""+statusCode);
             }
@@ -311,7 +298,7 @@ public class FileClaimFragment extends Fragment {
                 myIssue = txtIssue.getText().toString();
                 mDate = txtDate.getText().toString();
                 myRental = "temp_rental_id";
-                myItem = ((Item)spinner1.getSelectedItem()).getId();
+                myItem = ((Item)rentalItemSpinner.getSelectedItem()).getId();
                 Log.d("myRental:getID():", myItem);
                 myReason = spinner2.getSelectedItem().toString();
 
@@ -337,7 +324,7 @@ public class FileClaimFragment extends Fragment {
                     txtIssue.requestFocus();
                     txtIssue.setError("Title is required!");
                 }else {
-                    //Toast.makeText(getActivity(), spinner1.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), rentalItemSpinner.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
                     //post Item
                     imgS3Name = UUID.randomUUID().toString() + ".jpg";
 
@@ -547,6 +534,42 @@ public class FileClaimFragment extends Fragment {
         cursor.moveToFirst();
         int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
         return cursor.getString(idx);
+    }
+
+    public class RentalItemAdapter extends ArrayAdapter<Item>{
+
+        private List<Item> items;
+        private Context context;
+
+        public RentalItemAdapter(Context context, int resource, List<Item> items) {
+            super(context, resource, items);
+            this.items = items;
+            this.context = context;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater=(LayoutInflater) context.getSystemService(  Context.LAYOUT_INFLATER_SERVICE );
+            View row=inflater.inflate(R.layout.spinner_rows, parent, false);
+
+            TextView lblSpinnerItem = (TextView)row.findViewById(R.id.lblSpinnerItem);
+            TextView lblSpinnerUser = (TextView)row.findViewById(R.id.lblSpinnerUser);
+
+            lblSpinnerItem.setText(items.get(position).getTitle());
+            lblSpinnerUser.setText(items.get(position).getUid());
+
+            return row;
+        }
     }
 
 

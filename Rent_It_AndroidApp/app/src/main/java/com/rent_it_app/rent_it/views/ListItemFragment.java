@@ -154,7 +154,7 @@ public class ListItemFragment extends Fragment {
                 credentialsProvider);
 
         //Define
-        spinner1 = (Spinner) view.findViewById(R.id.spinner1);
+        spinner1 = (Spinner) view.findViewById(R.id.rentalItemSpinner);
         txtTitle = (EditText)view.findViewById(R.id.title);
         txtDescription = (EditText)view.findViewById(R.id.description);
         txtCondition = (EditText)view.findViewById(R.id.condition);
