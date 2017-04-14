@@ -519,6 +519,25 @@ app.get('/api/rentals/contacted/renter/:renter',function(req,res){
 });
 
 //get active rentals by renter
+app.get('/api/rentals/claim/owner/:owner',function(req,res){
+	Rental.getRentalsItemsForClaim(req.params.owner, function(err,rentalsItems){
+		if(err){
+			throw err;
+		}else{
+			User.getUserByUid(rentalsItems.renter, function(err, renter){
+						if(err){
+							throw err;
+						}else{
+							rentalsItems.renter = renter.display_name;
+							
+						}
+					});
+			res.json(rentalsItems);
+		}
+	});
+});
+
+//get renting or lent item with owner id
 app.get('/api/rentals/active/renter/:renter',function(req,res){
 	Rental.getActiveRentalsItems(req.params.renter, function(err,rentalsItems){
 		if(err){

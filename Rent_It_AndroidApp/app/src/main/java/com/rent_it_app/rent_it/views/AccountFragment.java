@@ -107,7 +107,7 @@ public class AccountFragment extends Fragment implements LocationListener{
         myEmail = (TextView)view.findViewById(R.id.email);
         myEmail.setTypeface(josefinsans_regular);
         myLocation = (TextView)view.findViewById(R.id.location);
-        myLocation.setTypeface(aaargh);
+        myLocation.setTypeface(josefinsans_regular);
         myPhone = (TextView)view.findViewById(R.id.phone);
         myPhone.setTypeface(josefinsans_regular);
         //locationText = (TextView)view.findViewById(R.id.locationText);

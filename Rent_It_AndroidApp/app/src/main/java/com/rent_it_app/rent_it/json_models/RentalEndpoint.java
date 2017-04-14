@@ -25,6 +25,10 @@ public interface RentalEndpoint {
     @GET("api/rentals/active/renter/{renter}")
     Call<ArrayList<Rental>> getActiveRentalsItems(@Path("renter") String renter);
 
+    @GET("api/rentals/claim/owner/{owner}")
+    Call<ArrayList<Rental>> getRentalsItemsForClaim(@Path("owner") String owner);
+
+
     @GET("api/rental/{renter_id}")
     Call<Rental> getRentalsItemsById(@Path("renter_id") String renter_id);
 

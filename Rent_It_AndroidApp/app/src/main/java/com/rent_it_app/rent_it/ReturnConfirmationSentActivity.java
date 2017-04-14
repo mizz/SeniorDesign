@@ -1,8 +1,12 @@
 package com.rent_it_app.rent_it;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +41,9 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
     ReviewEndpoint reviewEndpoint;
     Gson gson;
     Review myReview;
+    private TextView lblLarge,lblSmall;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,22 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("RATE YOUR EXPERIENCE");
+        SpannableString s = new SpannableString("RATE YOUR EXPERIENCE");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
+
+        lblLarge = (TextView)findViewById(R.id.lblLarge);
+        lblLarge.setTypeface(ralewayRegular);
+        lblSmall = (TextView)findViewById(R.id.lblSmall);
+        lblSmall.setTypeface(latoLight);
 
 
         if (savedInstanceState == null) {
@@ -96,6 +118,7 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
 
 
         btnSubmit = (Button)findViewById(R.id.submit_button);
+        btnSubmit.setTypeface(latoRegular);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -149,6 +172,7 @@ public class ReturnConfirmationSentActivity extends BaseActivity {
         });
 
         btnLater = (Button)findViewById(R.id.later_button);
+        btnLater.setTypeface(latoRegular);
         btnLater.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {

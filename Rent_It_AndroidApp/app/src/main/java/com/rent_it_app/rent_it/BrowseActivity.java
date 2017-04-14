@@ -124,9 +124,6 @@ public class BrowseActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 finish();
-                //startActivity(new Intent(BrowseActivity.this, HomeActivity.class));
-                        //.putExtra("fragment_name", "ChatListFragment"));
-                //startActivity(new Intent(this, ChatListFragment.class));
             }
         });
 

@@ -1,13 +1,18 @@
 package com.rent_it_app.rent_it;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,25 +43,42 @@ public class WriteReviewActivity extends BaseActivity{
     FirebaseUser user;
     Review myReview;
     Integer renter_rating;
+    private TextView lblLarge,lblSmall;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_item_review);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getApplicationContext(), HomeActivity.class).putExtra("fragment_name", "ChatListFragment"));
-                //startActivity(new Intent(this, ChatListFragment.class));
+                finish();
             }
-        });*/
-        WriteReviewActivity.this.getSupportActionBar().setTitle("RATE YOUR EXPERIENCE");
+        });
+        //this.getSupportActionBar().setTitle("RATE YOUR EXPERIENCE");
+        SpannableString s = new SpannableString("RATE YOUR EXPERIENCE");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
+        lblLarge = (TextView)findViewById(R.id.lblLarge);
+        lblLarge.setTypeface(ralewayRegular);
+        lblSmall = (TextView)findViewById(R.id.lblSmall);
+        lblSmall.setTypeface(latoLight);
 
         btnSubmit = (Button) findViewById(R.id.submit_button);
+        btnSubmit.setTypeface(latoRegular);
         title = (EditText) findViewById(R.id.title);
         description = (EditText) findViewById(R.id.description);
         ownerDescription = (EditText) findViewById(R.id.description2);

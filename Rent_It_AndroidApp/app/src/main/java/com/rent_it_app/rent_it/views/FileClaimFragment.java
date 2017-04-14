@@ -51,6 +51,8 @@ import com.rent_it_app.rent_it.json_models.Claim;
 import com.rent_it_app.rent_it.json_models.ClaimEndpoint;
 import com.rent_it_app.rent_it.json_models.Item;
 import com.rent_it_app.rent_it.json_models.ItemEndpoint;
+import com.rent_it_app.rent_it.json_models.Rental;
+import com.rent_it_app.rent_it.json_models.RentalEndpoint;
 import com.rent_it_app.rent_it.utils.Utility;
 
 import java.io.ByteArrayOutputStream;
@@ -80,9 +82,11 @@ public class FileClaimFragment extends Fragment {
     private ImageView ivImage;
     private static final String TAG = HomeActivity.class.getName();
     private ArrayList<Item> iList;
+    private ArrayList<Rental> rList;
     Retrofit retrofit;
     ClaimEndpoint claimEndpoint;
     ItemEndpoint itemEndpoint;
+    RentalEndpoint rentalEndpoint;
     private EditText txtIssue;
     private EditText txtDate;
     private String myIssue, myItem, myReason, myRental, mDate;
@@ -130,6 +134,7 @@ public class FileClaimFragment extends Fragment {
 
         claimEndpoint = retrofit.create(ClaimEndpoint.class);
         itemEndpoint = retrofit.create(ItemEndpoint.class);
+        rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
         gson = new Gson();
 
@@ -258,7 +263,7 @@ public class FileClaimFragment extends Fragment {
         userId = user.getUid().toString();
 
 
-        Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(userId);
+        /*Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(userId);
         call.enqueue(new Callback<ArrayList<Item>>() {
             @Override
             public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
@@ -281,6 +286,34 @@ public class FileClaimFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+                Log.d("retrofit.call.enqueue", "failed");
+            }
+        });*/
+
+        Call<ArrayList<Rental>> call = rentalEndpoint.getRentalsItemsForClaim(userId);
+        call.enqueue(new Callback<ArrayList<Rental>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Rental>> call, Response<ArrayList<Rental>> response) {
+                int statusCode = response.code();
+                //List<Item> items = response.body();
+                Log.d("claim ", ""+response.raw());
+                ArrayList<String> nameArray = new ArrayList<String>();
+                rList = response.body();
+
+                //Log.d("claim",""+nameArray);
+                RentalItemAdapter itemAdapter = new RentalItemAdapter(getActivity(),
+                        R.layout.spinner_rows, rList);
+                // Create custom adapter object ( see below CustomAdapter.java )
+                //ArrayAdapter adapter = new CustomAdapter(getActivity(), R.layout.spinner_rows, iList,null);
+
+                //itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                rentalItemSpinner.setAdapter(itemAdapter);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Rental>> call, Throwable t) {
                 Log.d("retrofit.call.enqueue", "failed");
             }
         });
@@ -536,14 +569,14 @@ public class FileClaimFragment extends Fragment {
         return cursor.getString(idx);
     }
 
-    public class RentalItemAdapter extends ArrayAdapter<Item>{
+    public class RentalItemAdapter extends ArrayAdapter<Rental>{
 
-        private List<Item> items;
+        private List<Rental> rentals;
         private Context context;
 
-        public RentalItemAdapter(Context context, int resource, List<Item> items) {
-            super(context, resource, items);
-            this.items = items;
+        public RentalItemAdapter(Context context, int resource, List<Rental> rentals) {
+            super(context, resource, rentals);
+            this.rentals = rentals;
             this.context = context;
         }
 
@@ -564,9 +597,16 @@ public class FileClaimFragment extends Fragment {
 
             TextView lblSpinnerItem = (TextView)row.findViewById(R.id.lblSpinnerItem);
             TextView lblSpinnerUser = (TextView)row.findViewById(R.id.lblSpinnerUser);
+            lblSpinnerItem.setTypeface(latoRegular);
 
-            lblSpinnerItem.setText(items.get(position).getTitle());
-            lblSpinnerUser.setText(items.get(position).getUid());
+            lblSpinnerUser.setTypeface(latoLight);
+
+            lblSpinnerItem.setText(rentals.get(position).getItem().getTitle());
+            if(rentals.get(position).getRenter().contentEquals("onBNW00rlNg9S1CmBWDHTOu0j3Z2")){
+                lblSpinnerUser.setText("Renter Name: Mimi");
+            }else {
+                lblSpinnerUser.setText("Renter Name: " + rentals.get(position).getRenter());
+            }
 
             return row;
         }

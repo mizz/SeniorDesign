@@ -60,7 +60,7 @@
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp"
-        android:id="@+id/textView2" />
+        android:id="@+id/lblLarge" />
 
    <!-- <View
         android:layout_width="fill_parent"
@@ -121,7 +121,7 @@
         android:background="@color/greyButton" />-->
 
     <TextView
-        android:id="@+id/title3"
+        android:id="@+id/lblSmall"
         android:textColor="@color/colorLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

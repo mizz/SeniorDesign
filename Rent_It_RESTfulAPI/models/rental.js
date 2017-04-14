@@ -117,6 +117,14 @@ module.exports.getActiveRentalsItems = function(renter, callback){
 		  .populate('item')
 		  .exec(callback);
 }
+//
+module.exports.getRentalsItemsForClaim = function(owner, callback){
+	var query = {owner:owner,rental_status: { $gt : 1}};
+	Rental.find(query)
+		  .sort({created_date:-1})
+		  .populate('item')
+		  .exec(callback);
+}
 
 //get by rental id
 module.exports.getRentalWithItemByRentalId = function(rentalid, callback){

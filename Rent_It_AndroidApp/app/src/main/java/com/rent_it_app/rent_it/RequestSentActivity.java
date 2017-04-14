@@ -31,7 +31,7 @@ public class RequestSentActivity extends BaseActivity {
         SpannableString s = new SpannableString("REQUEST SENT TO OWNER");
         s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
+        this.getSupportActionBar().setTitle(s);
 
         ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
         aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");

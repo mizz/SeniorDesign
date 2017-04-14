@@ -239,10 +239,10 @@ public class ConfirmReturnActivity extends BaseActivity{
                         Log.d("processTransaction:", response.body().getResult());
 
                         if(response.body().getResult().equals("true")){
-                            Toast.makeText(ConfirmReturnActivity.this, "Successfully Charged!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(ConfirmReturnActivity.this, "Successfully Charged!", Toast.LENGTH_LONG).show();
                         }
                         else{
-                            Toast.makeText(ConfirmReturnActivity.this, "Failed to Charge!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(ConfirmReturnActivity.this, "Failed to Charge!", Toast.LENGTH_LONG).show();
                         }
 
                     }

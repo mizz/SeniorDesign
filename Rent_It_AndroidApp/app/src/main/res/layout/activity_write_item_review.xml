@@ -28,7 +28,7 @@
 
             <!--Title-->
             <TextView
-                android:id="@+id/title2"
+                android:id="@+id/lblLarge"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
 
             <!--Title-->
             <TextView
-                android:id="@+id/title3"
+                android:id="@+id/lblSmall"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
