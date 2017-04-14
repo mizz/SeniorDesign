@@ -29,9 +29,9 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="Trade Confirmed!"
-        android:textColor="#FFD400"
-        android:textSize="35sp"
-        android:id="@+id/textView2" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:id="@+id/lblLarge" />
 
     <TextView
         android:layout_width="match_parent"
@@ -40,16 +40,16 @@
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:text="We have sent a trade confirmation to the renter."
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
-        android:id="@+id/text" />
+        android:id="@+id/lblSmall" />
     <Button
         android:id="@+id/btn_home"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dip"
+        android:layout_marginTop="20dp"
         android:background="@color/colorAccent"
         android:text="GO TO HOME" />
 

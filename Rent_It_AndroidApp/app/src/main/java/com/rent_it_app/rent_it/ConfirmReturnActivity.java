@@ -3,8 +3,12 @@ package com.rent_it_app.rent_it;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +53,9 @@ public class ConfirmReturnActivity extends BaseActivity{
     Retrofit retrofit;
     RentalEndpoint rentalEndpoint;
     BraintreeEndpoint braintreeEndpoint;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+    private TextView lblItem,lblRenter,lblReturn,lblProfit,lblNotes,policy,text;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +63,45 @@ public class ConfirmReturnActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("CONFIRM RENTAL REQUEST");
+        SpannableString s = new SpannableString("CONFIRM ITEM RETURN");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
 
         itemName = (TextView)findViewById(R.id.tvItem);
         renterName = (TextView)findViewById(R.id.tvRenter);
         profit = (TextView)findViewById(R.id.tvProfit);
         rentalPeriod = (TextView)findViewById(R.id.tvRentalPeriod);
         notes = (TextView)findViewById(R.id.tvNotes);
+
+        itemName.setTypeface(ralewayRegular);
+        renterName.setTypeface(ralewayRegular);
+        profit.setTypeface(ralewayRegular);
+        rentalPeriod.setTypeface(ralewayRegular);
+        notes.setTypeface(ralewayRegular);
+
+        lblItem = (TextView)findViewById(R.id.lblItem);
+        lblRenter = (TextView)findViewById(R.id.lblRenter);
+        lblReturn = (TextView)findViewById(R.id.lblReturn);
+        lblProfit = (TextView)findViewById(R.id.lblProfit);
+        lblNotes = (TextView)findViewById(R.id.lblNotes);
+        lblItem.setTypeface(latoRegular);
+        lblRenter.setTypeface(latoRegular);
+        lblReturn.setTypeface(latoRegular);
+        lblProfit.setTypeface(latoRegular);
+        lblNotes.setTypeface(latoRegular);
+
+        policy = (TextView)findViewById(R.id.policy);
+        policy.setTypeface(latoRegular);
+        text = (TextView)findViewById(R.id.text);
+        text.setTypeface(latoLight);
 
         gson = new Gson();
         retrofit = new Retrofit.Builder()
@@ -150,6 +189,7 @@ public class ConfirmReturnActivity extends BaseActivity{
 
 
         btnAccept = (Button)findViewById(R.id.accept_button);
+        btnAccept.setTypeface(ralewayRegular);
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,6 +265,7 @@ public class ConfirmReturnActivity extends BaseActivity{
         });
 
         btnCancel = (Button)findViewById(R.id.cancel_button);
+        btnCancel.setTypeface(ralewayRegular);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

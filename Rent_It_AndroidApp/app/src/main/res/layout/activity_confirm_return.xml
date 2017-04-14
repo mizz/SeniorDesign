@@ -34,7 +34,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:tint="@color/greyButton"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_dashboard" />
 
                 <LinearLayout
@@ -44,19 +44,19 @@
 
                 <!--Item-->
                 <TextView
-                    android:id="@+id/label1"
+                    android:id="@+id/lblItem"
                     android:textColor="@color/colorLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Item"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/tvItem"
-                    android:textColor="@color/colorLabel"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:tint="@color/greyButton"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_account" />
 
                 <LinearLayout
@@ -94,19 +94,19 @@
 
                 <!--Renter -->
                 <TextView
-                    android:id="@+id/label23"
+                    android:id="@+id/lblRenter"
                     android:textColor="@color/colorLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Renter"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:id="@+id/tvRenter"
-                    android:textColor="@color/colorLabel"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:tint="@color/greyButton"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_period" />
 
                 <LinearLayout
@@ -144,19 +144,19 @@
 
                 <!--Return Date-->
                 <TextView
-                    android:id="@+id/label11"
+                    android:id="@+id/lblReturn"
                     android:textColor="@color/colorLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Rental Period"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:id="@+id/tvRentalPeriod"
-                    android:textColor="@color/colorLabel"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:tint="@color/greyButton"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_money" />
 
                 <LinearLayout
@@ -194,19 +194,19 @@
 
                 <!--Estimated Sales-->
                 <TextView
-                    android:id="@+id/label12"
+                    android:id="@+id/lblProfit"
                     android:textColor="@color/colorLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Profit"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:id="@+id/tvProfit"
-                    android:textColor="@color/colorLabel"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:padding="10dp"
-                android:tint="@color/greyButton"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_notes" />
 
                 <LinearLayout
@@ -244,19 +244,19 @@
 
                 <!--Notes-->
                 <TextView
-                    android:id="@+id/label2"
+                    android:id="@+id/lblNotes"
                     android:textColor="@color/colorLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notes"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:id="@+id/tvNotes"
-                    android:textColor="@color/colorLabel"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -323,7 +323,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/title32"
+                        android:id="@+id/policy"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -334,7 +334,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <TextView
-                        android:id="@+id/title2"
+                        android:id="@+id/text"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -352,6 +352,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button

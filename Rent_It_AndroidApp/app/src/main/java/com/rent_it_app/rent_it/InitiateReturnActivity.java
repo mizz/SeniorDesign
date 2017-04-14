@@ -3,8 +3,12 @@ package com.rent_it_app.rent_it;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -82,6 +86,10 @@ public class InitiateReturnActivity extends BaseActivity{
     private String paymentMethodDescription;
     Gson gson;
 
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+    private TextView lblReturn,lblCharg,lblPayment,lblNotes,lblPolicy1,lblPolicy2,lblText1,lblText2;
+    private TextView lblRate,lblDays,lblRental,lblService,lblTax,lblTotal,lblPeriod;
+
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
     File photo_destination;
@@ -93,12 +101,30 @@ public class InitiateReturnActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("RETURN ITEM");
+        SpannableString s = new SpannableString("RETURN ITEM");
+        toolbar.setNavigationIcon(R.drawable.white_back_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
 
         txtDate = (EditText)findViewById(R.id.in_date);
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnRequest=(Button) findViewById(R.id.request_button);
-        numDays = (TextView)findViewById(R.id.days);
+        //numDays = (TextView)findViewById(R.id.days);
         rate = (TextView)findViewById(R.id.dailyRate);
         estimateTotal =(TextView)findViewById(R.id.total);
         fee = (TextView)findViewById(R.id.searviceCharge);
@@ -155,7 +181,43 @@ public class InitiateReturnActivity extends BaseActivity{
 
        /* c = Calendar.getInstance();
         Log.d("NOW 1: ",c.toString());*/
+        //font
+        rate.setTypeface(ralewayRegular);
+        //numDays.setTypeface(ralewayRegular);
+        rentalFee.setTypeface(ralewayRegular);
+        fee.setTypeface(ralewayRegular);
+        taxAmount.setTypeface(ralewayRegular);
+        estimateTotal.setTypeface(ralewayRegular);
+        txtPaymentMethod.setTypeface(latoRegular);
 
+        lblPeriod = (TextView)findViewById(R.id.lblPeriod);
+        lblPeriod.setTypeface(ralewayRegular);
+        lblCharg = (TextView)findViewById(R.id.lblCharge);
+        lblCharg.setTypeface(ralewayRegular);
+        lblNotes = (TextView)findViewById(R.id.lblNotes);
+        lblNotes.setTypeface(ralewayRegular);
+        lblPayment = (TextView)findViewById(R.id.lblPayment);
+        lblPayment.setTypeface(ralewayRegular);
+        /*lblReturn = (TextView)findViewById(R.id.lblReturn);
+        lblReturn.setTypeface(ralewayRegular);*/
+        lblPolicy1 = (TextView)findViewById(R.id.lblPolicy1);
+        lblPolicy1.setTypeface(latoRegular);
+        lblPolicy2 = (TextView)findViewById(R.id.lblPolicy2);
+        lblPolicy2.setTypeface(latoRegular);
+        lblText1 = (TextView)findViewById(R.id.lblText1);
+        lblText1.setTypeface(latoLight);
+        lblText2 = (TextView)findViewById(R.id.lblText2);
+        lblText2.setTypeface(latoLight);
+        lblRate = (TextView)findViewById(R.id.lblRate);
+        lblRate.setTypeface(josefinsans_regular);
+        lblRental = (TextView)findViewById(R.id.lblRental);
+        lblRental.setTypeface(josefinsans_regular);
+        lblService = (TextView)findViewById(R.id.lblService);
+        lblService.setTypeface(josefinsans_regular);
+        lblTax = (TextView)findViewById(R.id.lblTax);
+        lblTax.setTypeface(josefinsans_regular);
+        lblTotal = (TextView)findViewById(R.id.lblTotal);
+        lblTotal.setTypeface(ralewayRegular);
 
 
         gson = new Gson();

@@ -29,7 +29,7 @@
 
             <!--Started Date-->
             <TextView
-                android:id="@+id/label1"
+                android:id="@+id/lblPeriod"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
 
             </LinearLayout>-->
             <TextView
-                android:id="@+id/label12"
+                android:id="@+id/lblCharge"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label8"
+                            android:id="@+id/lblRate"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -173,7 +173,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label11"
+                            android:id="@+id/lblRental"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -203,7 +203,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label5"
+                            android:id="@+id/lblService"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -232,7 +232,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label4"
+                            android:id="@+id/lblTax"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -268,7 +268,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/label3"
+                            android:id="@+id/lblTotal"
                             android:textColor="@color/colorLabel"
                             android:layout_width="0dp"
                             android:layout_weight="3"
@@ -310,8 +310,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="7"
@@ -319,7 +317,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/title31"
+                        android:id="@+id/lblPolicy1"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -330,7 +328,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <TextView
-                        android:id="@+id/title3"
+                        android:id="@+id/lblText1"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -372,7 +370,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/title33"
+                        android:id="@+id/lblPolicy2"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -383,7 +381,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <TextView
-                        android:id="@+id/title"
+                        android:id="@+id/lblText2"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -403,9 +401,9 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/greyButton" />
 
-            <!--Notes-->
+            <!--Payment-->
             <TextView
-                android:id="@+id/label123"
+                android:id="@+id/lblPayment"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -498,7 +496,7 @@
 
             <!--Notes-->
             <TextView
-                android:id="@+id/label2"
+                android:id="@+id/lblNotes"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -536,10 +534,6 @@
                 android:layout_gravity="center_horizontal"/>
             <!--android:onClick="listItem"-->
 
-
-
-
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

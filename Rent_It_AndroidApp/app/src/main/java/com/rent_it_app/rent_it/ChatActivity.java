@@ -169,7 +169,7 @@ public class ChatActivity extends BaseActivity {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             this.getSupportActionBar().setTitle(s);
         }else{
-            SpannableString s = new SpannableString(myConversation.getRenter());
+            SpannableString s = new SpannableString(myConversation.getRenterName());
             s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             this.getSupportActionBar().setTitle(s);

@@ -35,7 +35,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="10dp"
-                    android:tint="@color/greyButton"
+                    android:tint="@color/colorPrimary"
                     android:src="@drawable/ic_dashboard" />
 
                 <LinearLayout
@@ -45,19 +45,19 @@
 
                     <!--Item-->
                     <TextView
-                        android:id="@+id/label1"
+                        android:id="@+id/lblItem"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Item"
                         android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp" />
 
                     <TextView
                         android:id="@+id/tvItem"
-                        android:textColor="@color/colorLabel"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_width="match_parent"
                         android:layout_weight="3"
                         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="10dp"
-                    android:tint="@color/greyButton"
+                    android:tint="@color/colorPrimary"
                     android:src="@drawable/ic_account" />
 
                 <LinearLayout
@@ -95,19 +95,19 @@
 
                     <!--Renter -->
                     <TextView
-                        android:id="@+id/label23"
+                        android:id="@+id/lblRenter"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Renter"
                         android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"/>
 
                     <TextView
                         android:id="@+id/tvRenter"
-                        android:textColor="@color/colorLabel"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_width="match_parent"
                         android:layout_weight="3"
                         android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="10dp"
-                    android:tint="@color/greyButton"
+                    android:tint="@color/colorPrimary"
                     android:src="@drawable/ic_period" />
 
                 <LinearLayout
@@ -145,19 +145,19 @@
 
                     <!--Return Date-->
                     <TextView
-                        android:id="@+id/label11"
+                        android:id="@+id/lblReturn"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Return Date"
                         android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"/>
 
                     <TextView
                         android:id="@+id/tvReturnDate"
-                        android:textColor="@color/colorLabel"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_width="match_parent"
                         android:layout_weight="3"
                         android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="10dp"
-                    android:tint="@color/greyButton"
+                    android:tint="@color/colorPrimary"
                     android:src="@drawable/ic_money" />
 
                 <LinearLayout
@@ -195,19 +195,19 @@
 
                     <!--Estimated Sales-->
                     <TextView
-                        android:id="@+id/label12"
+                        android:id="@+id/lblProfit"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Profit"
                         android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"/>
 
                     <TextView
                         android:id="@+id/tvProfit"
-                        android:textColor="@color/colorLabel"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_width="match_parent"
                         android:layout_weight="3"
                         android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="10dp"
-                    android:tint="@color/greyButton"
+                    android:tint="@color/colorPrimary"
                     android:src="@drawable/ic_notes" />
 
                 <LinearLayout
@@ -245,19 +245,19 @@
 
                     <!--Notes-->
                     <TextView
-                        android:id="@+id/label2"
+                        android:id="@+id/lblNotes"
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Notes"
                         android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"/>
 
                     <TextView
                         android:id="@+id/tvNotes"
-                        android:textColor="@color/colorLabel"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_width="match_parent"
                         android:layout_weight="3"
                         android:layout_height="wrap_content"
@@ -275,34 +275,58 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/greyButton" />
 
-           <!-- Disclaimer-->
-            <!--<TextView
-                android:id="@+id/disclaimer"
-                android:textColor="@color/colorLabel"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="3"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="* Clicking Trade button will start the rental clock"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"/>-->
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginTop="0dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:src="@drawable/card"
+                    android:id="@+id/imageView2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/policy"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Payment Policy"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:textColor="@color/colorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="You will recive the profit ..."
+                        android:textSize="15sp"
+                        android:gravity="left"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/accept_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="TRADE"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/colorAccent"
-                    android:layout_gravity="center_horizontal"/>
 
                 <Button
                     android:id="@+id/cancel_button"
@@ -311,16 +335,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="CANCEL"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="#d3d3d3"
+                    android:layout_gravity="center_horizontal"/>
+                <Button
+                    android:id="@+id/accept_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="TRADE"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorAccent"
                     android:layout_gravity="center_horizontal"/>
 
 
             </LinearLayout>
-
-
-
 
         </LinearLayout>
     </ScrollView>

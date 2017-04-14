@@ -27,7 +27,7 @@
 
             <!--Title-->
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/lblTitle"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
 
             <!--Visibility-->
             <TextView
-                android:id="@+id/label_0"
+                android:id="@+id/lblVisibility"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
 
             <!--Description-->
             <TextView
-                android:id="@+id/label2"
+                android:id="@+id/lblDescription"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
 
             <!--Condition-->
             <TextView
-                android:id="@+id/label3"
+                android:id="@+id/lblCondition"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
 
             <!--City-->
             <TextView
-                android:id="@+id/label4"
+                android:id="@+id/lblCity"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
 
             <!--Zipcode-->
             <TextView
-                android:id="@+id/label5"
+                android:id="@+id/lblZipcode"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
 
             <!--Category-->
             <TextView
-                android:id="@+id/label6"
+                android:id="@+id/lblCategory"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
 
             <!--Tags-->
             <TextView
-                android:id="@+id/label7"
+                android:id="@+id/lblTags"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
 
             <!--Value-->
             <TextView
-                android:id="@+id/label8"
+                android:id="@+id/lblValue"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -254,7 +254,7 @@
 
             <!--Daily Rate-->
             <TextView
-                android:id="@+id/label9"
+                android:id="@+id/lblRate"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -289,7 +289,7 @@
 
             <!--Image-->
             <TextView
-                android:id="@+id/label10"
+                android:id="@+id/lblImage"
                 android:textColor="@color/colorLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -3,9 +3,13 @@ package com.rent_it_app.rent_it;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,6 +75,11 @@ public class EditItemActivity extends BaseActivity{
     private AmazonS3 s3;
     private TransferUtility transferUtility;
     private File imageFile;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+    private TextView lblTitle,lblDescription,lblCondition,lblCategory,lblZipcode,lblTags,lblRate;
+    private TextView lblValue,lblCity,lblImage,lblVisibility;
+    private Button btnListed,btnHidden;
+
     //private String[] arrayTag;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +88,10 @@ public class EditItemActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("EDIT LISTING");
+        SpannableString s = new SpannableString("EDIT LISTING");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
 
         myItem = (Item) getIntent().getSerializableExtra(Config.EXTRA_DATA);
 
@@ -111,6 +123,32 @@ public class EditItemActivity extends BaseActivity{
         preview = (ImageView) findViewById(R.id.preview);
         rg = (RadioGroup)findViewById(R.id.radio_group);
 
+        lblTitle = (TextView) findViewById(R.id.lblTitle);
+        lblDescription = (TextView) findViewById(R.id.lblDescription);
+        lblCategory = (TextView) findViewById(R.id.lblCategory);
+        lblCondition = (TextView) findViewById(R.id.lblCondition);
+        lblZipcode = (TextView) findViewById(R.id.lblZipcode);
+        lblCity = (TextView) findViewById(R.id.lblCity);
+        lblTags = (TextView) findViewById(R.id.lblTags);
+        lblValue = (TextView) findViewById(R.id.lblValue);
+        lblRate = (TextView) findViewById(R.id.lblRate);
+        lblImage = (TextView) findViewById(R.id.lblImage);
+        lblVisibility = (TextView) findViewById(R.id.lblVisibility);
+        lblVisibility.setTypeface(ralewayRegular);
+        btnListed = (Button)findViewById(R.id.listed);
+        btnListed.setTypeface(josefinsans_regular);
+        btnHidden = (Button)findViewById(R.id.listed);
+        btnHidden.setTypeface(josefinsans_regular);
+        lblTitle.setTypeface(ralewayRegular);
+        lblDescription.setTypeface(ralewayRegular);
+        lblCategory.setTypeface(ralewayRegular);
+        lblCondition.setTypeface(ralewayRegular);
+        lblZipcode.setTypeface(ralewayRegular);
+        lblCity.setTypeface(ralewayRegular);
+        lblTags.setTypeface(ralewayRegular);
+        lblValue.setTypeface(ralewayRegular);
+        lblRate.setTypeface(ralewayRegular);
+        lblImage.setTypeface(ralewayRegular);
 
 
         //populate fields
@@ -219,7 +257,7 @@ public class EditItemActivity extends BaseActivity{
 
         itemEndpoint = retrofit.create(ItemEndpoint.class);
         final Button listButton = (Button) findViewById(R.id.list_button);
-
+        listButton.setTypeface(latoRegular);
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

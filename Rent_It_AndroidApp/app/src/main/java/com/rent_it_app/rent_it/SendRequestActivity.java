@@ -84,7 +84,6 @@ public class SendRequestActivity extends BaseActivity{
     private TextView lblReturn,lblCharg,lblPayment,lblNotes,lblPolicy1,lblPolicy2,lblText1,lblText2;
     private TextView lblRate,lblDays,lblRental,lblService,lblTax,lblTotal;
 
-
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
     File photo_destination;

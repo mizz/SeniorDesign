@@ -2,11 +2,15 @@ package com.rent_it_app.rent_it.views;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,18 +57,26 @@ public class ReturnItemFragment extends Fragment {
     RentalEndpoint rentalEndpoint;
     TextView tv1;
     Gson gson;
-    private Button btnRent;
+    private Button btnRent,btnReturn;
     private ArrayList<Rental> iList;
     private ListView list;
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
+    private Typeface ralewayRegular;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_return_item, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("TRADE ITEM");
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("TRADE ITEM");
+        SpannableString s = new SpannableString("TRADE ITEM");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
+
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
 
         gson = new Gson();
         tv1 = (TextView)view.findViewById(R.id.textView1);
@@ -78,7 +90,11 @@ public class ReturnItemFragment extends Fragment {
         //itemEndpoint = retrofit.create(ItemEndpoint.class);
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
+        btnReturn = (Button)view.findViewById(R.id.btnReturn);
+        btnReturn.setTypeface(ralewayRegular);
+
         btnRent = (Button)view.findViewById(R.id.btnRent);
+        btnRent.setTypeface(ralewayRegular);
         btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,6 +240,7 @@ public class ReturnItemFragment extends Fragment {
 
             TextView lbl = (TextView) v;
             lbl.setText(c.getItem().getTitle());
+            lbl.setTypeface(ralewayRegular);
 
             /*lbl.setCompoundDrawablesWithIntrinsicBounds(
                     c.isOnline() ? R.drawable.ic_online
