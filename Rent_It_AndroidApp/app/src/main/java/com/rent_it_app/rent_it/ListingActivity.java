@@ -132,7 +132,7 @@ public class ListingActivity extends BaseActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        SpannableString s = new SpannableString("ITEM DETAIL");
+
         toolbar.setNavigationIcon(R.drawable.white_back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,9 +141,10 @@ public class ListingActivity extends BaseActivity{
 
             }
         });
+        SpannableString s = new SpannableString("ITEM DETAIL");
         s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        this.getSupportActionBar().setTitle(s/*category_name.toUpperCase()*/);
+        this.getSupportActionBar().setTitle(s);
 
         //this.getSupportActionBar().setTitle("EDIT LISTING");
 
@@ -210,7 +211,7 @@ public class ListingActivity extends BaseActivity{
                     if(state == TransferState.COMPLETED) {
                         //myPhoto.setImageResource(R.drawable.bg);
                         Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                        myPhoto.setImageBitmap(Bitmap.createScaledBitmap(myBitmap, 1050, 600, false));
+                        myPhoto.setImageBitmap(Bitmap.createScaledBitmap(myBitmap, 1080, 600, false));
                     }
                 }
 
@@ -374,7 +375,7 @@ public class ListingActivity extends BaseActivity{
                          ", I'm interested in renting your "
                                   + myItem.getTitle() + ".";
                 defaultFirstMsg.setMsg(defaultMsg);
-                 c = Calendar.getInstance();
+
 
                 convo = new Conversation();
                 convo.setRenter(myUser.getUid());
@@ -385,6 +386,7 @@ public class ListingActivity extends BaseActivity{
                 convo.setItem_name(myItem.getTitle());
                 convo.setRental_id(rental_id);
                 convo.setLastMsgDate(msgDate);
+                c = Calendar.getInstance();
                 convo.setLast_active(c.getTimeInMillis());
                 ArrayList<Chat> chatMsgs = new ArrayList<Chat>();
                 chatMsgs.add(defaultFirstMsg);

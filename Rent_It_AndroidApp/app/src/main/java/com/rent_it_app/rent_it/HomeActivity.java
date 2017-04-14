@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,6 +81,7 @@ public class HomeActivity extends BaseActivity
 
     private String userId;
     private TextView displayName, email;
+    private ImageView photo;
     private static final String TAG = HomeActivity.class.getName();
     public ListView browseList;
     private ArrayList<Category> cateList;
@@ -249,7 +251,13 @@ public class HomeActivity extends BaseActivity
                 Log.d("response.raw()",""+response.raw());
                 myInfo = response.body();
                 displayName.setText(myInfo.getDisplayName());
-                email.setText(myInfo.getEmail());
+                if(myInfo.getDisplayName().contentEquals("Mimi")){
+                    email.setText("mimi@gmail.com");
+                }else if(myInfo.getDisplayName().contentEquals("Mimi")){
+                    email.setText("edward@gmail.com");
+                }else {
+                    email.setText(myInfo.getEmail());
+                }
                 Log.d("retrofit.call.enqueue", ""+statusCode);
 
 

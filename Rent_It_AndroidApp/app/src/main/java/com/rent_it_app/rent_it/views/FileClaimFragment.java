@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -171,19 +172,19 @@ public class FileClaimFragment extends Fragment {
         txtIssue = (EditText)view.findViewById(R.id.issue);
 
         txtDate = (EditText)view.findViewById(R.id.in_date);
-        btnDatePicker=(Button)view.findViewById(R.id.btn_date);
-        btnDatePicker.setTypeface(latoRegular);
+        /*btnDatePicker=(Button)view.findViewById(R.id.btn_date);
+        btnDatePicker.setTypeface(latoRegular);*/
         rg = (RadioGroup)view.findViewById(R.id.radio_item);
 
         lblRole = (TextView)view.findViewById(R.id.lblRole);
         lblItem = (TextView)view.findViewById(R.id.lblItem);
-        lblDate = (TextView)view.findViewById(R.id.lblDate);
+        //lblDate = (TextView)view.findViewById(R.id.lblDate);
         lblImage = (TextView)view.findViewById(R.id.lblImage);
         lblIssue = (TextView)view.findViewById(R.id.lblIssue);
         lblReason = (TextView)view.findViewById(R.id.lblReason);
         lblRole.setTypeface(ralewayRegular);
         lblItem.setTypeface(ralewayRegular);
-        lblDate.setTypeface(ralewayRegular);
+        //lblDate.setTypeface(ralewayRegular);
         lblImage.setTypeface(ralewayRegular);
         lblIssue.setTypeface(ralewayRegular);
         lblReason.setTypeface(ralewayRegular);
@@ -232,8 +233,8 @@ public class FileClaimFragment extends Fragment {
         owner = (RadioButton)view.findViewById(R.id.owner);
         owner.setTypeface(josefinsans_regular);
         renter = (RadioButton)view.findViewById(R.id.renter);
-        owner.setTypeface(aaargh);
-        btnDatePicker.setTypeface(latoRegular);
+        renter.setTypeface(josefinsans_regular);
+        /*btnDatePicker.setTypeface(latoRegular);
         btnDatePicker.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,7 +259,7 @@ public class FileClaimFragment extends Fragment {
                 datePickerDialog.show();
 
             }
-        });
+        });*/
 
         final Button submitButton = (Button) view.findViewById(R.id.submit_button);
         submitButton.setTypeface(latoRegular);
@@ -282,6 +283,9 @@ public class FileClaimFragment extends Fragment {
                 //Log.d("claim",""+nameArray);
                 ArrayAdapter<Item> itemAdapter = new ArrayAdapter<Item>(getActivity(),
                         android.R.layout.simple_spinner_item, iList);
+                // Create custom adapter object ( see below CustomAdapter.java )
+                //ArrayAdapter adapter = new CustomAdapter(getActivity(), R.layout.spinner_rows, iList,null);
+
                 itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner1.setAdapter(itemAdapter);
 
@@ -395,6 +399,7 @@ public class FileClaimFragment extends Fragment {
         });
         //Button - Image
         Button imageButton = (Button) view.findViewById(R.id.image_button);
+        imageButton.setTypeface(ralewayRegular);
         imageButton.setOnClickListener(new OnClickListener()
         {
             @Override
@@ -543,5 +548,6 @@ public class FileClaimFragment extends Fragment {
         int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
         return cursor.getString(idx);
     }
+
 
 }

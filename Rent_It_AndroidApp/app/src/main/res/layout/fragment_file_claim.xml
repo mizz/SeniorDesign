@@ -80,7 +80,7 @@
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select the Item"
+            android:text="Which rental is this for?"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
@@ -94,7 +94,7 @@
             android:spinnerMode="dialog"/>
 
         <!--Initial Meeting Date-->
-        <TextView
+        <!--<TextView
             android:id="@+id/lblDate"
             android:textColor="@color/colorLabel"
             android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                 android:background="@color/colorAccent"
                 android:id="@+id/btn_date" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
 
 

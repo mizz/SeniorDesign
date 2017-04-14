@@ -47,6 +47,8 @@ import com.rent_it_app.rent_it.json_models.User;
 import com.rent_it_app.rent_it.json_models.UserEndpoint;
 import com.rent_it_app.rent_it.views.ChatListFragment;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -162,12 +164,12 @@ public class ChatActivity extends BaseActivity {
 
 
         if(myUser.getUid().contentEquals(myConversation.getRenter())) {
-            SpannableString s = new SpannableString(myConversation.getRenterName());
+            SpannableString s = new SpannableString(myConversation.getOwnerName());
             s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             this.getSupportActionBar().setTitle(s);
         }else{
-            SpannableString s = new SpannableString(myConversation.getOwnerName());
+            SpannableString s = new SpannableString(myConversation.getRenter());
             s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             this.getSupportActionBar().setTitle(s);
@@ -247,6 +249,34 @@ public class ChatActivity extends BaseActivity {
                                                                                               public void onComplete(@NonNull Task<Void> task) {
                                                                                                   adp.swapMsgs(msgList);
                                                                                                   //adp.notifyDataSetChanged();
+
+                                                                                                  Date lastMsgDate = DateTime.now().toDate();
+                                                                                                  FirebaseDatabase.getInstance()
+                                                                                                          .getReference("conversations")
+                                                                                                          .child(rental_id).child("lastMsgDate").setValue(lastMsgDate)
+                                                                                                          .addOnCompleteListener(new
+                                                                                                                                         OnCompleteListener<Void>() {
+                                                                                                                                             @Override
+                                                                                                                                             public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                                                 Log.d("lastMsgDate: update", "yeah");
+                                                                                                                                                 //adp.swapMsgs(msgList);
+                                                                                                                                                 //adp.notifyDataSetChanged();
+                                                                                                                                             }
+                                                                                                                                         });
+
+                                                                                                  Calendar c = Calendar.getInstance();
+                                                                                                  FirebaseDatabase.getInstance()
+                                                                                                          .getReference("conversations")
+                                                                                                          .child(rental_id).child("last_active").setValue(c.getTimeInMillis())
+                                                                                                          .addOnCompleteListener(new
+                                                                                                                                         OnCompleteListener<Void>() {
+                                                                                                                                             @Override
+                                                                                                                                             public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                                                 Log.d("last_active: update", "yeah");
+                                                                                                                                                 //adp.swapMsgs(msgList);
+                                                                                                                                                 //adp.notifyDataSetChanged();
+                                                                                                                                             }
+                                                                                                                                         });
                                                                                               }
                                                                                           });
 

@@ -17,12 +17,11 @@
             android:id="@+id/tab_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
             android:background="@color/greyButton"
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnActive"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="ACTIVE"
@@ -30,7 +29,9 @@
                 android:textColor="#fff"
                 android:minHeight="30dp"
                 android:layout_weight="1" />
+
             <Button
+                android:id="@+id/btnHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="HISTORY"

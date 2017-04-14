@@ -2,15 +2,20 @@ package com.rent_it_app.rent_it.views;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -55,13 +60,19 @@ public class ActiveRentalFragment extends Fragment {
     private ListView list;
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
+    private Button btnActive,btnHistory;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_active_rental, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("RENTAL");
+        SpannableString s = new SpannableString("RENTAL");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
 
 
 
@@ -76,17 +87,16 @@ public class ActiveRentalFragment extends Fragment {
 
         rentalEndpoint = retrofit.create(RentalEndpoint.class);
 
-        /*credentialsProvider = new CognitoCachingCredentialsProvider(
-                getContext(),  // getApplicationContext(),
-                Constants.COGNITO_POOL_ID, // Identity Pool ID
-                Regions.US_WEST_2 // Region
-        );
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_regular.ttf");
 
-        // Initialize the Cognito Sync client
-        syncClient = new CognitoSyncManager(
-                getContext(),
-                Regions.US_WEST_2, // Region
-                credentialsProvider);*/
+        btnActive = (Button)view.findViewById(R.id.btnActive);
+        btnActive.setTypeface(latoRegular);
+        btnHistory = (Button)view.findViewById(R.id.btnHistory);
+        btnHistory.setTypeface(ralewayRegular);
 
         return view;
     }
@@ -186,7 +196,7 @@ public class ActiveRentalFragment extends Fragment {
 
             TextView lbl = (TextView) v;
             lbl.setText(c.getItem().getTitle());
-
+            lbl.setTypeface(ralewayRegular);
             /*lbl.setCompoundDrawablesWithIntrinsicBounds(
                     c.isOnline() ? R.drawable.ic_online
                             : R.drawable.ic_offline, 0, R.drawable.arrow, 0);*/

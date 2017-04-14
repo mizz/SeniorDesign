@@ -24,33 +24,32 @@
         android:id="@+id/imageView" />
 
     <TextView
+        android:id="@+id/lblLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="Trade Confirmed!"
         android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="35sp"
-        android:id="@+id/textView2" />
+        android:textSize="30sp" />
 
     <TextView
+        android:id="@+id/lblSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:text="Your rental request was accepted. The rental clock has started!"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:id="@+id/text" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp" />
     <Button
         android:id="@+id/btn_home"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dip"
+        android:layout_marginTop="20dip"
         android:background="@color/colorAccent"
         android:text="GO TO HOME" />
 

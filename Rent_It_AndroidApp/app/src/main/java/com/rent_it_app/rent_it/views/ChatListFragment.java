@@ -158,8 +158,9 @@ public class ChatListFragment extends Fragment {
                             //Log.d("Test2", "conversation.getItem_name(): "+ conversation.getItem_name());
                             //adp.notifyDataSetChanged();
                         }
-                        Collections.reverse(cList);
+                        //Collections.reverse(cList);
                     }
+                    Collections.reverse(cList);
                     //ListView list = (ListView) view.findViewById(R.id.list);
                     list.setAdapter(new ChatListAdapter());
                     list.setOnItemClickListener(new OnItemClickListener() {
@@ -243,9 +244,9 @@ public class ChatListFragment extends Fragment {
                             .getLastMsgDate().getTime(), DateUtils.SECOND_IN_MILLIS,
                     DateUtils.DAY_IN_MILLIS, 0));
             if(myUser.getUid().contentEquals(c.getRenter())) {
-                lblFrom.setText(c.getRenterName());
-            }else{
                 lblFrom.setText(c.getOwnerName());
+            }else{
+                lblFrom.setText(c.getRenterName());
             }
             /*lbl.setCompoundDrawablesWithIntrinsicBounds(
                     c.isOnline() ? R.drawable.ic_online

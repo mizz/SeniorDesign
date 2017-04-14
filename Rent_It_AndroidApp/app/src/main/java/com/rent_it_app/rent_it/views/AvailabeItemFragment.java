@@ -2,15 +2,20 @@ package com.rent_it_app.rent_it.views;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,13 +59,19 @@ public class AvailabeItemFragment extends Fragment {
     private ListView list;
     CognitoCachingCredentialsProvider credentialsProvider;
     CognitoSyncManager syncClient;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
+    private Button btnAvailable,btnLent;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_available_item, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("INVENTORY");
+        SpannableString s = new SpannableString("INVENTORY");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
 
         gson = new Gson();
         tv1 = (TextView)view.findViewById(R.id.textView1);
@@ -73,17 +84,16 @@ public class AvailabeItemFragment extends Fragment {
 
         itemEndpoint = retrofit.create(ItemEndpoint.class);
 
-        /*credentialsProvider = new CognitoCachingCredentialsProvider(
-                getContext(),  // getApplicationContext(),
-                Constants.COGNITO_POOL_ID, // Identity Pool ID
-                Regions.US_WEST_2 // Region
-        );
+        ralewayRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getActivity().getAssets(),  "fonts/lato_regular.ttf");
 
-        // Initialize the Cognito Sync client
-        syncClient = new CognitoSyncManager(
-                getContext(),
-                Regions.US_WEST_2, // Region
-                credentialsProvider);*/
+        btnAvailable = (Button)view.findViewById(R.id.btnAvailable);
+        btnAvailable.setTypeface(latoRegular);
+        btnLent = (Button)view.findViewById(R.id.btnLent);
+        btnLent.setTypeface(ralewayRegular);
 
         return view;
     }
@@ -110,8 +120,6 @@ public class AvailabeItemFragment extends Fragment {
 
         iList = new ArrayList<Item>();
         FirebaseUser myUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
 
         Call<ArrayList<Item>> call = itemEndpoint.getItemsByUid(myUser.getUid());
         call.enqueue(new Callback<ArrayList<Item>>() {
@@ -184,6 +192,7 @@ public class AvailabeItemFragment extends Fragment {
 
             TextView lbl = (TextView) v;
             lbl.setText(c.getTitle());
+            lbl.setTypeface(ralewayRegular);
 
             /*lbl.setCompoundDrawablesWithIntrinsicBounds(
                     c.isOnline() ? R.drawable.ic_online
