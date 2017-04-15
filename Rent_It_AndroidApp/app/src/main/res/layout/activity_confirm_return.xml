@@ -338,7 +338,7 @@
                         android:textColor="@color/colorLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="If you need to file a claim, you have 24 hours to submit a claim. Claim form is located under 'My Claims' in menu."
+                        android:text="If you need to file a claim, you have 24 hours to submit one. The claim form is located under 'My Claims' in the sidebar menu."
                         android:textSize="15sp"
                         android:gravity="left"
                         android:layout_marginRight="10dp"

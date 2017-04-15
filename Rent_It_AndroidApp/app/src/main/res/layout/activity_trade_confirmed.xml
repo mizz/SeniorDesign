@@ -40,7 +40,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="Your rental request was accepted. The rental clock has started!"
+        android:text="Your rental request was accepted. The rental period has started now and will end when you return the item!"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp" />
     <Button
