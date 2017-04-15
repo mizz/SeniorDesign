@@ -87,7 +87,8 @@ public class KeywordsFragment extends Fragment {
         keywordList.add("electronics");
         keywordList.add("projector");
         keywordList.add("Apple");
-        keywordList.add("watch");
+        keywordList.add("tennis");
+        keywordList.add("tent");
 
         keywordAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, keywordList);
 

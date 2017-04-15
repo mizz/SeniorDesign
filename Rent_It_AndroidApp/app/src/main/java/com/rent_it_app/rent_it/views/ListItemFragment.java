@@ -417,7 +417,9 @@ public class ListItemFragment extends Fragment {
                                         photo_destination
                                 );
                             }
-                            Toast.makeText(getActivity(), "Sucessfully Created New Listing", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Successfully Created New Listing", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -562,7 +564,9 @@ public class ListItemFragment extends Fragment {
 
         photo_destination = new File(getRealPathFromURI(getContext(), getImageUri(getContext(), bm)));
 
-        ivImage.setImageBitmap(bm);
+        Bitmap resized = Bitmap.createScaledBitmap(bm, 900, 600, true);
+
+        ivImage.setImageBitmap(resized);
         Log.d("PATH",""+ photo_destination);
     }
 

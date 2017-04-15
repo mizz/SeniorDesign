@@ -75,7 +75,7 @@ public class WriteReviewActivity extends BaseActivity{
         lblLarge = (TextView)findViewById(R.id.lblLarge);
         lblLarge.setTypeface(ralewayRegular);
         lblSmall = (TextView)findViewById(R.id.lblSmall);
-        lblSmall.setTypeface(latoLight);
+        lblSmall.setTypeface(ralewayRegular);
 
         btnSubmit = (Button) findViewById(R.id.submit_button);
         btnSubmit.setTypeface(latoRegular);

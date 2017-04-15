@@ -116,13 +116,14 @@ public class ChatListFragment extends Fragment {
 
     private void loadChatList()
     {
-        final ProgressDialog dia = ProgressDialog.show(getActivity(), null, "Loading...");
+        //final ProgressDialog dia = ProgressDialog.show(getActivity(), null, "Loading...");
 
         // Pull the users list once no sync required.
         //mFirebaseDatabaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
         mFirebaseDatabaseReference.child("conversations").orderByChild("last_active").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {dia.dismiss();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //dia.dismiss();
 
                 myUser = FirebaseAuth.getInstance().getCurrentUser();
                 if(myUser != null) {

@@ -329,9 +329,9 @@ public class FileClaimFragment extends Fragment {
                 Log.d("radio",""+rg.getCheckedRadioButtonId());
                 //Define
                 myIssue = txtIssue.getText().toString();
-                mDate = txtDate.getText().toString();
+                //mDate = txtDate.getText().toString();
                 myRental = "temp_rental_id";
-                myItem = ((Item)rentalItemSpinner.getSelectedItem()).getId();
+                myItem = ((Rental)rentalItemSpinner.getSelectedItem()).getId();
                 Log.d("myRental:getID():", myItem);
                 myReason = spinner2.getSelectedItem().toString();
 
@@ -405,6 +405,8 @@ public class FileClaimFragment extends Fragment {
                                 );
                             }
                             Toast.makeText(getActivity(), "Sucessfully Submitted Claim", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override

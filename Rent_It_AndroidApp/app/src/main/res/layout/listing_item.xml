@@ -45,7 +45,7 @@
                 android:stepSize="0.1"
                 android:layout_marginTop="2dp"
                 android:isIndicator="true"
-                android:rating="4.5" />
+                android:rating="5" />
 
             <!--<TextView
                 android:id="@+id/txtCity"
@@ -88,8 +88,7 @@
                 android:textSize="20sp" />-->
             <TextView
                 android:id="@+id/txtCity"
-                android:layout_width="0dp"
-                android:layout_weight=".50"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="15dp"
                 android:text="City"
@@ -99,8 +98,7 @@
 
             <TextView
                 android:id="@+id/txtRate"
-                android:layout_width="0dp"
-                android:layout_weight=".50"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
                 android:text="Daily Rate"

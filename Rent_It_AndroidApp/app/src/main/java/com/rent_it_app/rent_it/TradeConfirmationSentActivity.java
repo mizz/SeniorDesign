@@ -1,8 +1,12 @@
 package com.rent_it_app.rent_it;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +19,8 @@ public class TradeConfirmationSentActivity extends BaseActivity {
 
     private Button btnHome;
     private TextView tvText;
+    private TextView lblLarge,lblSmall;
+    private Typeface ralewayRegular,aaargh,josefinsans_regular,latoLight,latoRegular;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +31,24 @@ public class TradeConfirmationSentActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("TRADE CONFIRMED");
+        SpannableString s = new SpannableString("TRADE CONFIRMED");
+        s.setSpan(new TypefaceSpan("fonts/raleway_regular.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.getSupportActionBar().setTitle(s);
 
-        /*if (getIntent().getExtras() != null) {
-            String notificationType = getIntent().getExtras().get("notificationType").toString();
-            if (notificationType.contentEquals("START_RENTAL")){
-                tvText.setText("Your rental request was accepted. The rental clock has started!");
-            }
-        }*/
+        ralewayRegular = Typeface.createFromAsset(getAssets(),  "fonts/raleway_regular.ttf");
+        aaargh = Typeface.createFromAsset(getAssets(),  "fonts/aaargh.ttf");
+        josefinsans_regular = Typeface.createFromAsset(getAssets(),  "fonts/josefinsans_regular.ttf");
+        latoLight = Typeface.createFromAsset(getAssets(),  "fonts/lato_light.ttf");
+        latoRegular = Typeface.createFromAsset(getAssets(),  "fonts/lato_regular.ttf");
+
+        lblLarge = (TextView)findViewById(R.id.lblLarge);
+        lblLarge.setTypeface(ralewayRegular);
+        lblSmall = (TextView)findViewById(R.id.lblSmall);
+        lblSmall.setTypeface(latoLight);
 
         btnHome = (Button)findViewById(R.id.btn_home);
+        btnHome.setTypeface(ralewayRegular);
         btnHome.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {

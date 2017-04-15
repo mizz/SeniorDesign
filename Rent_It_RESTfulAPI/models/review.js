@@ -72,8 +72,8 @@ module.exports.getReviewsByItemId = function(item, callback){
 
 //Get Reviews by Owner Id
 module.exports.getReviewsByOwnerId = function(owner, callback){
-	Review.find()
-		.where('owner').equals(owner)
+	var query = {owner:owner,owner_rating: {$ne: 0}};
+	Review.find(query)
 		.populate('reviewer_info')
 		.exec(callback);
 }

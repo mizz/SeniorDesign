@@ -166,6 +166,7 @@
             android:layout_marginTop="5dp"
             android:text="REMIND ME LATER"
             android:layout_marginBottom="0dp"
+            android:layout_marginLeft="5dp"
             android:background="@color/greyButton"
             android:layout_gravity="center_horizontal"/>
 
@@ -177,6 +178,7 @@
             android:layout_marginTop="5dp"
             android:text="WRITE A REVIEW"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="0dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center_horizontal"/>
